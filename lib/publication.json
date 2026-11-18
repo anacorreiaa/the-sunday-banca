@@ -1,0 +1,22 @@
+{
+  "name": "The Sunday Magazine",
+  "author": "The Sunday Magazine",
+  "substackUrl": "https://thesundaymagazine.substack.com",
+  "subscribeUrl": "https://thesundaymagazine.substack.com/subscribe",
+  "allowedHosts": ["thesundaymagazine.substack.com"],
+  "description": "Uma newsletter para mulheres curiosas, todo domingo.",
+  "tagline": "Para mulheres curiosas",
+  "locale": "pt-BR",
+  "wordmark": { "src": "assets/wordmark.svg", "alt": "The Sunday Magazine", "width": 917, "height": 273 },
+  "tagLabels": { "the sunday tips": "The Sunday Tips" },
+  "suggestions": {
+    "heading": "Sobre o que devemos escrever no próximo domingo?",
+    "label": "Sua sugestão",
+    "placeholder": "Algo que você está tentando entender, algo que te deixa curiosa, ou um assunto sobre o qual quer a nossa opinião.",
+    "button": "Enviar ↗",
+    "sending": "Enviando…",
+    "success": "Recebido. Obrigada por nos dar algo em que pensar.",
+    "error": "Não conseguimos enviar agora. Sua mensagem continua aqui, tente de novo em instantes.",
+    "closed": "As sugestões ainda não estão abertas."
+  }
+}
