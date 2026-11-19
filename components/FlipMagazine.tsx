@@ -72,25 +72,25 @@ export default function FlipMagazine() {
         <p className="mp-cover-kicker">Edição especial</p>
         <p className="mp-cover-title">Quem somos</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="mp-cover-art" src="assets/scene/cappuccino.webp" alt="" />
+        <img className="mp-cover-art" src="assets/drawn/cup-blue.webp" alt="" />
         <p className="mp-cover-foot">Arraste o canto para folhear →</p>
       </div>
     </div>,
-    <div className="mag-page" key="intro">
+    <div className="mag-page mp--papel" key="intro">
       <div className="mp-inner">
         <p className="mp-kicker">{about.kicker}</p>
         {about.intro.map((t) => <p key={t} className="mp-body">{t}</p>)}
       </div>
     </div>,
-    <div className="mag-page" key="why">
+    <div className="mag-page mp--manteiga" key="why">
       <div className="mp-inner">
         <h3 className="mp-h">{about.why.title}</h3>
         <p className="mp-body mp-body--lead">{about.why.text}</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="mp-spot" src="assets/scene/toaster.webp" alt="" />
+        <img className="mp-spot" src="assets/drawn/toaster.webp" alt="" />
       </div>
     </div>,
-    <div className="mag-page" key="table">
+    <div className="mag-page mp--oliva" key="table">
       <div className="mp-inner">
         <h3 className="mp-h">{about.table.title}</h3>
         <p className="mp-body">{about.table.lead}</p>
@@ -101,7 +101,7 @@ export default function FlipMagazine() {
         </dl>
       </div>
     </div>,
-    <div className="mag-page" key="how">
+    <div className="mag-page mp--linho" key="how">
       <div className="mp-inner">
         <h3 className="mp-h">{about.how.title}</h3>
         <p className="mp-body">{about.how.lead}</p>
@@ -114,7 +114,7 @@ export default function FlipMagazine() {
         <p className="mp-sign">{about.signoff}</p>
       </div>
     </div>,
-    <div className="mag-page" key="contents">
+    <div className="mag-page mp--papel" key="contents">
       <div className="mp-inner">
         <h3 className="mp-h">Nesta revista</h3>
         <ol className="mp-toc">
@@ -128,10 +128,10 @@ export default function FlipMagazine() {
       </div>
     </div>,
   );
-  for (const e of list) {
+  list.forEach((e, idx) => {
     const sub = cleanSubtitle(e.article.subtitle);
     pages.push(
-      <div className="mag-page" key={e.article.postId}>
+      <div className={`mag-page ${idx % 2 ? 'mp--linho' : 'mp--papel'}`} key={e.article.postId}>
         <div className="mp-inner mp-ed">
           <p className="mp-ed-line"><span>{e.meta.label}</span><span>{e.meta.dateShort}</span></p>
           {e.meta.photo && (
@@ -145,11 +145,11 @@ export default function FlipMagazine() {
         </div>
       </div>,
     );
-  }
+  });
   // Keep an even number of pages before the back cover so the back lands on the right.
   if ((pages.length + 1) % 2 === 1) {
     pages.push(
-      <div className="mag-page" key="question">
+      <div className="mag-page mp--cereja" key="question">
         <div className="mp-inner mp-question">
           <p className="mp-kicker">The Sunday Question</p>
           <p className="mp-body mp-body--lead">E você, sobre o que quer conversar no próximo domingo?</p>

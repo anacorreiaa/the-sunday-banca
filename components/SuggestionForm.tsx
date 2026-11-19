@@ -35,8 +35,13 @@ export default function SuggestionForm({ copy, enabled }: { copy: Copy; enabled:
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!enabled || state === 'sending') return;
+    if (state === 'sending') return;
     const text = message.trim();
+    if (!enabled) {
+      setErrorText('As sugestões abrem em breve. Guarde essa ideia para nós!');
+      setState('error');
+      return;
+    }
     if (!text) {
       setErrorText('Escreva sua sugestão antes de enviar.');
       setState('error');
@@ -80,17 +85,16 @@ export default function SuggestionForm({ copy, enabled }: { copy: Copy; enabled:
         <textarea
           id="suggest-input"
           name="message"
-          rows={3}
+          rows={5}
           maxLength={MAX}
           placeholder={copy.placeholder}
           value={message}
-          disabled={!enabled}
           onChange={(e) => {
             setMessage(e.target.value);
             if (state !== 'sending') setState('idle');
           }}
         />
-        <button type="submit" className="suggest-send" disabled={!enabled || state === 'sending'}>
+        <button type="submit" className="suggest-send" disabled={state === 'sending'}>
           {state === 'sending' ? copy.sending : copy.button}
         </button>
       </div>
@@ -100,8 +104,8 @@ export default function SuggestionForm({ copy, enabled }: { copy: Copy; enabled:
           <input ref={hpRef} type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
-      <p id="suggest-status" className={`suggest-status suggest-status--${enabled ? state : 'closed'}`} role="status" aria-live="polite">
-        {!enabled ? copy.closed : state === 'success' ? copy.success : state === 'error' ? errorText : ''}
+      <p id="suggest-status" className={`suggest-status suggest-status--${state}`} role="status" aria-live="polite">
+        {state === 'success' ? copy.success : state === 'error' ? errorText : ''}
       </p>
     </form>
   );

@@ -6,15 +6,15 @@ import publication from '@/lib/publication.json';
 // Positions are percentages of the hero; sizes are % of hero width (desktop) / (mobile).
 type Item = { src: string; alt: string; x: number; y: number; w: number; r: number; mx: number; my: number; mw: number; mr: number };
 const ITEMS: Item[] = [
-  { src: 'magazines', alt: 'Três revistas The Sunday Magazine', x: 4, y: 7, w: 20, r: -6, mx: 2, my: 5, mw: 34, mr: -8 },
-  { src: 'cappuccino', alt: 'Cappuccino em xícara azul', x: 29, y: 6, w: 13, r: 3, mx: 62, my: 4, mw: 30, mr: 6 },
-  { src: 'toaster', alt: 'Torradeira com torrada quente', x: 53, y: 3, w: 13, r: 5, mx: 38, my: 14, mw: 26, mr: 4 },
-  { src: 'vase-green', alt: 'Arranjo de flores verdes em vaso de pedra', x: 78, y: 5, w: 16, r: 6, mx: 68, my: 22, mw: 28, mr: 8 },
-  { src: 'boat', alt: 'Veleiro com vela xadrez azul e branca', x: 4, y: 54, w: 15, r: -4, mx: -2, my: 64, mw: 30, mr: -6 },
-  { src: 'puzzles', alt: 'Livros de sudoku e caça-palavras', x: 23, y: 63, w: 15, r: -7, mx: 26, my: 74, mw: 30, mr: -8 },
-  { src: 'berries', alt: 'Tigela de frutas vermelhas e mirtilos', x: 42, y: 68, w: 13, r: 0, mx: 54, my: 66, mw: 26, mr: 2 },
-  { src: 'cards', alt: 'Cartas de baralho', x: 60, y: 66, w: 15, r: 6, mx: 66, my: 84, mw: 30, mr: 7 },
-  { src: 'pajama-yellow', alt: 'Pijama listrado amarelo e branco', x: 82, y: 48, w: 11, r: 8, mx: 4, my: 36, mw: 18, mr: -6 },
+  { src: 'magazines', alt: 'Três revistas The Sunday Magazine', x: 3, y: 4, w: 18, r: -2, mx: 1.5, my: 1.4, mw: 40, mr: 0 },
+  { src: 'cup-blue', alt: 'Xícara de café azul', x: 27, y: 6, w: 14, r: 0, mx: 60, my: 4.6, mw: 31, mr: 0 },
+  { src: 'toaster', alt: 'Torradeira com torrada quente', x: 47, y: 2, w: 11, r: 0, mx: 38, my: 11, mw: 26, mr: 0 },
+  { src: 'vase', alt: 'Arranjo de flores verdes em vaso branco', x: 74, y: 3, w: 15, r: 0, mx: 64, my: 23, mw: 36, mr: 0 },
+  { src: 'pajama', alt: 'Pijama listrado amarelo e branco', x: 88, y: 40, w: 9, r: 2, mx: 2, my: 37, mw: 23, mr: 0 },
+  { src: 'boat', alt: 'Veleiro com vela xadrez azul e branca', x: 5, y: 50, w: 13, r: -2, mx: 2, my: 69, mw: 31, mr: 0 },
+  { src: 'puzzles', alt: 'Livros de sudoku e caça-palavras', x: 23, y: 60, w: 15, r: -3, mx: 27.5, my: 71, mw: 34, mr: 0 },
+  { src: 'berries', alt: 'Tigela de frutas vermelhas e mirtilos', x: 44, y: 64, w: 12, r: 0, mx: 56, my: 61, mw: 27, mr: 0 },
+  { src: 'cards', alt: 'Cartas de baralho', x: 63, y: 60, w: 15, r: 3, mx: 65, my: 77, mw: 33, mr: 0 },
 ];
 
 export default function Hero() {
@@ -73,12 +73,12 @@ export default function Hero() {
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={`assets/scene/${it.src}.webp`} alt="" draggable={false} />
+            <img src={`assets/drawn/${it.src}.webp`} alt="" draggable={false} />
           </button>
         ))}
         <h1 className="hero-logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="assets/wordmark-dark.svg" alt={publication.wordmark.alt} width={publication.wordmark.width} height={publication.wordmark.height} />
+          <img src="assets/wordmark.svg" alt={publication.wordmark.alt} width={publication.wordmark.width} height={publication.wordmark.height} />
         </h1>
       </div>
       <p className="hero-hint" aria-hidden="true">role para mergulhar ↓</p>

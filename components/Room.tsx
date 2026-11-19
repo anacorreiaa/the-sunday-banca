@@ -42,8 +42,7 @@ export default function Room() {
   return (
     <section className="room" aria-labelledby="room-heading">
       <div className="room-head">
-        <p className="eyebrow">The Sunday Talks</p>
-        <h2 id="room-heading">Puxe uma poltrona.</h2>
+        <h2 id="room-heading">The Sunday Talks</h2>
         <p className="room-lead">Na estante, as nossas edições, entre os livros da casa. Toque em uma lombada para abrir. Nas poltronas, em breve, o nosso podcast.</p>
       </div>
       <div className="room-scroller" ref={scrollerRef}>
