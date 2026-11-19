@@ -1,0 +1,49 @@
+{
+ "kicker": "Pull up a chair,",
+ "intro": [
+  "Há um tipo de conhecimento que não cabe em currículo nenhum. Saber receber bem. Entender para onde vai o próprio dinheiro. Discordar sem perder a elegância. Olhar para uma pintura sem pressa. Escolher um vinho, um livro, a palavra certa.",
+  "É o repertório que as mulheres que admiramos parecem ter, e que ninguém nunca nos entregou pronto. Ele se constrói aos poucos: numa conversa longa, numa viagem, num livro emprestado, em volta de uma mesa."
+ ],
+ "why": {
+  "title": "Why Sunday?",
+  "text": "O domingo é o tempo que reservamos para nós: ler, cozinhar, receber, conversar, descobrir. É o dia da mesa longa, em que uma boa conversa vale mais do que muitas aulas. Cada edição é um almoço de domingo: generoso, sem pressa, e com algo novo para levar para a semana."
+ },
+ "table": {
+  "title": "What’s on the table",
+  "lead": "Nossas pautas nascem de três grandes assuntos:",
+  "items": [
+   [
+    "I. The Human Being",
+    "comportamento, saúde, comunicação, amizades e relacionamentos."
+   ],
+   [
+    "II. The World",
+    "finanças, cultura, hospitalidade, etiqueta e os costumes da vida adulta."
+   ],
+   [
+    "III. Discoveries",
+    "arte, literatura, música, gastronomia, comunidades, viagens e hobbies."
+   ]
+  ]
+ },
+ "how": {
+  "title": "How we write",
+  "lead": "Seja qual for o assunto, toda edição parte de uma pergunta e segue o mesmo caminho:",
+  "items": [
+   [
+    "Descobrir",
+    "uma história ou curiosidade que mostra algo comum sob uma nova perspectiva."
+   ],
+   [
+    "Compreender",
+    "o que a história, a ciência e a cultura revelam por trás dela."
+   ],
+   [
+    "Experimentar",
+    "o The Sunday Guide, para levar a descoberta para a vida real."
+   ]
+  ],
+  "close": "E, no final, sempre uma pergunta, a The Sunday Question, para a conversa continuar."
+ },
+ "signoff": "Sente-se, a mesa está posta."
+}

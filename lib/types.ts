@@ -8,6 +8,7 @@ export type Article = {
   isPaid: boolean;
   tags: string[];
   coverImage: string | null;
+  excerpt?: string | null;
 };
 
 export type CoverStyle = 'overlay' | 'split' | 'title';

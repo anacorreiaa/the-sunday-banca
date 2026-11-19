@@ -4,13 +4,16 @@
 
 - **Edições novas** aparecem sozinhas: o site consulta o Substack no máximo uma vez por hora, quando alguém visita a página. Se o Substack estiver fora do ar, ele usa a última cópia salva em `data/archive-snapshot.json`.
 - **"Mais populares"** usa o ranking do próprio Substack (`sort=top`). Ele não representa visualizações exatas. Edições que ainda não estão no ranking entram no fim, das mais novas para as mais antigas.
-- **Capas:** a cada deploy, o passo `prebuild` baixa as capas de compartilhamento das edições novas e salva em WebP de 720 px. Até o próximo deploy, uma edição nova usa a capa direto do Substack.
+- **Capas:** todas as capas são desenhadas pelo site no mesmo modelo (The Sunday em Pinyon Script, número ou série, data, foto do post e título). A cada deploy, o passo `prebuild` salva a foto de capa das edições novas em `public/assets/photos`. Até lá, a edição nova usa a foto direto do Substack.
+- **Cores das capas:** Edições numeradas em Azul Ardósia, The Sunday Tips em Caramelo, The Sunday Curiosities em Tijolo (`lib/editions.ts`).
+- **Estante da sala:** as edições mais recentes viram lombadas nos espaços vazios da estante (`components/Room.tsx`, até 21 lombadas). Todas continuam na banca com filtros, no fim da página.
+- **Revista Quem somos:** o texto vem do About do Substack, guardado em `lib/about.json`. Se mudar o About, atualize esse arquivo.
 
 Para guardar de vez as capas e os dados de uma edição nova, rode isto num computador com internet e faça commit:
 
 ```bash
 npm run sync:archive   # atualiza data/archive-snapshot.json e data/popular-snapshot.json
-npm run sync:covers    # baixa capas que faltam para public/assets/covers + data/cover-manifest.json
+npm run sync:covers    # baixa as fotos de capa que faltam para public/assets/photos + data/photos.json
 ```
 
 Se preferir não usar o terminal: na Vercel, abra o projeto → Deployments → ⋯ → **Redeploy**.
@@ -38,3 +41,4 @@ Os endereços usados (`/api/v1/archive` e `/api/v1/press_kit/asset/...`) não s�
 - Cores e visual: `app/globals.css` (paleta do Guia Visual v3 no topo)
 - Logo: `public/assets/wordmark.svg` (Pinyon Script + DM Sans, gerado por `scripts/tools/make_wordmark.py`)
 - Madeira: `public/assets/worn-wood.webp` (textura original, gerada por `scripts/tools/make_wood.py`)
+- Ilustrações da abertura, xícara, personagens e sala: `public/assets/scene/` (geradas no Canva, recortadas e otimizadas)

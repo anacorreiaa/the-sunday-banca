@@ -3,9 +3,8 @@ import 'server-only';
 import publication from './publication.json';
 import archiveSnapshot from '../data/archive-snapshot.json';
 import popularSnapshot from '../data/popular-snapshot.json';
-import coverManifest from '../data/cover-manifest.json';
 import { fetchWholeArchive, fetchRankedIds, mergeArticles } from './archive-core.mjs';
-import type { Article, CoverVariant } from './types';
+import type { Article } from './types';
 
 const REVALIDATE_SECONDS = 3600;
 const TIMEOUT_MS = 8000;
@@ -68,24 +67,3 @@ export async function loadArchive(): Promise<ArchiveResult> {
   return { articles, popularIds, source, popularSource, snapshotSavedAt: archiveSnapshot.savedAt };
 }
 
-/** Local optimized covers per post, keyed by postId. New posts fall back to Substack's own press-kit URL. */
-export function coversFor(articles: Article[]): Record<string, CoverVariant[]> {
-  const out: Record<string, CoverVariant[]> = {};
-  for (const c of coverManifest.covers) {
-    (out[c.postId] ||= []).push({ style: c.style as CoverVariant['style'], ratio: c.ratio as CoverVariant['ratio'], src: c.path, width: c.width, height: c.height });
-  }
-  for (const a of articles) {
-    if (out[a.postId] || !a.postId) continue;
-    out[a.postId] = (['overlay', 'split', 'title'] as const).flatMap((style) =>
-      (['grid', 'stories'] as const).map((ratio) => ({
-        style,
-        ratio,
-        src: `${publication.substackUrl}/api/v1/press_kit/asset/${a.postId}/${style}/composed?aspectRatio=${ratio}`,
-        width: 1080,
-        height: ratio === 'grid' ? 1350 : 1920,
-        remote: true,
-      })),
-    );
-  }
-  return out;
-}

@@ -1,15 +1,14 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { Article, CoverVariant } from '@/lib/types';
-import { assignCovers, balanceRows, capacityFor } from '@/lib/magazines.mjs';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import type { Article } from '@/lib/types';
+import { balanceRows, capacityFor, physical } from '@/lib/magazines.mjs';
 import { orderByPopularity } from '@/lib/archive-core.mjs';
+import Cover from './Cover';
+import { useEditions } from './Editions';
 
 type Props = {
-  articles: Article[];
   popularIds: string[];
-  covers: Record<string, CoverVariant[]>;
-  tagLabels: Record<string, string>;
   locale: string;
 };
 
@@ -23,16 +22,13 @@ const WOOD = { backgroundImage: 'url(assets/worn-wood.webp)', backgroundRepeat: 
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
-export default function Newsstand({ articles, popularIds, covers, tagLabels, locale }: Props) {
+export default function Newsstand({ popularIds, locale }: Props) {
+  const { editions, byId, open: openEdition, label } = useEditions();
+  const articles = useMemo<Article[]>(() => editions.map((e) => e.article), [editions]);
   const [filter, setFilter] = useState<string>(ALL);
   const [sort, setSort] = useState<Sort>('new');
   const [rackWidth, setRackWidth] = useState<number | null>(null);
-  const [open, setOpen] = useState<null | { index: number }>(null);
   const rackRef = useRef<HTMLDivElement>(null);
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const openerRef = useRef<HTMLButtonElement | null>(null);
-
-  const label = useCallback((t: string) => tagLabels[t.toLowerCase()] ?? t, [tagLabels]);
 
   // Filters come from real, visible tags. "Geral" only appears if some post has no tags.
   const filters = useMemo(() => {
@@ -54,7 +50,11 @@ export default function Newsstand({ articles, popularIds, covers, tagLabels, loc
     return ordered.filter((a) => a.tags.includes(filter));
   }, [articles, popularIds, sort, filter]);
 
-  const { items } = useMemo(() => assignCovers(visible, covers), [visible, covers]);
+  // Stable physical variety per edition: tall or standard format, width, lean, page thickness.
+  const items = useMemo(
+    () => visible.map((a) => ({ article: a, ...physical(a.id, [{ ratio: 'grid' }, { ratio: 'stories' }]) })),
+    [visible],
+  );
 
   useIsoLayoutEffect(() => {
     const el = rackRef.current;
@@ -80,36 +80,14 @@ export default function Newsstand({ articles, popularIds, covers, tagLabels, loc
     k += n;
   }
 
-  const fmtDate = useMemo(
-    () => new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Sao_Paulo' }),
-    [locale],
-  );
-
-  const openAt = (index: number, btn: HTMLButtonElement) => {
-    openerRef.current = btn;
-    setOpen({ index });
-  };
-
-  useEffect(() => {
-    const d = dialogRef.current;
-    if (!d) return;
-    if (open && !d.open) d.showModal();
-  }, [open]);
-
-  const close = () => {
-    dialogRef.current?.close();
-  };
-  const onDialogClose = () => {
-    setOpen(null);
-    openerRef.current?.focus();
-  };
-
-  const current = open ? items[open.index] : null;
   const filterName = (tag: string) => (tag === '__general__' ? 'Geral' : label(tag));
 
   return (
-    <section className="archive" aria-labelledby="archive-heading">
-      <h2 id="archive-heading" className="sr-only">Edições</h2>
+    <section className="archive" id="edicoes" aria-labelledby="archive-heading">
+      <div className="archive-head">
+        <p className="eyebrow">A banca</p>
+        <h2 id="archive-heading">Todas as edições.</h2>
+      </div>
       <div className="controls">
         <div className="filters" role="group" aria-label="Filtrar por tema">
           <button type="button" className="chip" aria-pressed={filter === ALL} onClick={() => setFilter(ALL)}>
@@ -146,10 +124,9 @@ export default function Newsstand({ articles, popularIds, covers, tagLabels, loc
             <div className="shelf-row" key={r} style={{ ['--wood-x' as string]: `${(r * 37) % 100}%` }}>
               <ul className="shelf-items" style={{ gap: GAP * fit }}>
                 {row.map((it) => {
-                  const idx = items.indexOf(it);
                   const w = it.weight * unit * fit;
-                  const v = it.cover;
-                  const h = v ? (w * v.height) / v.width : w * 1.25;
+                  const h = w * (it.ratio === 'stories' ? 1.42 : 1.27);
+                  const ed = byId.get(it.article.postId)!;
                   return (
                     <li
                       key={it.article.postId}
@@ -164,18 +141,13 @@ export default function Newsstand({ articles, popularIds, covers, tagLabels, loc
                       <button
                         type="button"
                         className="mag-hit"
-                        onClick={(e) => openAt(idx, e.currentTarget)}
+                        onClick={(e) => openEdition(it.article.postId, e.currentTarget)}
                         aria-haspopup="dialog"
-                        aria-label={`${it.article.title}, ${fmtDate.format(new Date(it.article.date))}`}
+                        aria-label={`${it.article.title}, ${ed.meta.dateLong}`}
                       >
                         <span className="mag-body">
                           <span className="mag-pages" aria-hidden="true" />
-                          {v ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img className="mag-cover" src={v.src} alt="" width={v.width} height={v.height} loading={r < 2 ? 'eager' : 'lazy'} decoding="async" />
-                          ) : (
-                            <span className="mag-cover mag-cover--fallback">{it.article.title}</span>
-                          )}
+                          <Cover article={it.article} meta={ed.meta} eager={r < 1} />
                           <span className="mag-crease" aria-hidden="true" />
                           <span className="mag-sheen" aria-hidden="true" />
                         </span>
@@ -196,37 +168,6 @@ export default function Newsstand({ articles, popularIds, covers, tagLabels, loc
         })}
       </div>
 
-      <dialog ref={dialogRef} className="preview" aria-labelledby="preview-title" onClose={onDialogClose} onClick={(e) => e.target === e.currentTarget && close()}>
-        {current && (
-          <div className="preview-inner">
-            <div className="preview-cover">
-              {current.cover ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={current.cover.src} alt={`Capa de “${current.article.title}”`} width={current.cover.width} height={current.cover.height} />
-              ) : (
-                <div className="mag-cover--fallback">{current.article.title}</div>
-              )}
-            </div>
-            <div className="preview-text">
-              <p className="preview-meta">
-                {current.article.tags.length ? current.article.tags.map(label).join(' · ') : 'Geral'}
-                {current.article.isPaid && <span className="paid"> · Para assinantes pagos</span>}
-              </p>
-              <h3 id="preview-title">{current.article.title}</h3>
-              <p className="preview-date">
-                <time dateTime={current.article.date}>{fmtDate.format(new Date(current.article.date))}</time>
-              </p>
-              {current.article.subtitle && <p className="preview-sub">{current.article.subtitle}</p>}
-              <a className="read" href={current.article.url} target="_blank" rel="noopener">
-                Ler no Substack <span aria-hidden="true">↗</span>
-              </a>
-            </div>
-            <button type="button" className="preview-close" onClick={close} aria-label="Fechar">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-        )}
-      </dialog>
     </section>
   );
 }
