@@ -31,7 +31,7 @@ export default async function Home() {
         {editions.length > 0 && <Room />}
         {editions.length > 0 && <FlipMagazine />}
 
-        <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} />
+        <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={process.env.BOARD_VARIANT === 'a' ? 'a' : 'b'} />
 
         {editions.length > 0 ? (
           <Newsstand popularIds={popularIds} locale={publication.locale} />

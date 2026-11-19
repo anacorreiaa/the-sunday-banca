@@ -107,7 +107,100 @@ function WriteNote({ prompt, index, enabled, copy, spot }: { prompt: string; ind
   );
 }
 
-export default function SuggestionBoard({ copy, enabled }: { copy: Copy; enabled: boolean }) {
+// Version B: the owners' own mood photos taped and pinned around the post-its.
+type Mood = { src: string; s: Spot; kind: 'polaroid' | 'tape' | 'plain' };
+const MOOD: Mood[] = [
+  { src: 'limoes', kind: 'tape', s: { x: 1.5, y: 2, w: 12, r: -3 } },
+  { src: 'revistas', kind: 'polaroid', s: { x: 14.5, y: 1, w: 11, r: 4 } },
+  { src: 'veleiro', kind: 'plain', s: { x: 71.5, y: 1.5, w: 10.5, r: 3 } },
+  { src: 'roupao', kind: 'polaroid', s: { x: 83, y: 2, w: 13, r: -4 } },
+  { src: 'leitura', kind: 'tape', s: { x: 22, y: 33, w: 10, r: 5, z: 2 } },
+  { src: 'quarto', kind: 'plain', s: { x: 46, y: 33, w: 10, r: -3, z: 2 } },
+  { src: 'baguete', kind: 'polaroid', s: { x: 74, y: 31, w: 10, r: 3, z: 2 } },
+  { src: 'cafe', kind: 'tape', s: { x: 15.5, y: 60, w: 10.5, r: -4, z: 2 } },
+  { src: 'bobes', kind: 'polaroid', s: { x: 63.5, y: 61, w: 10, r: 5, z: 2 } },
+  { src: 'books', kind: 'plain', s: { x: 86.5, y: 33, w: 10, r: 4, z: 2 } },
+  { src: 'lago', kind: 'tape', s: { x: 86, y: 63, w: 11, r: -3, z: 2 } },
+  { src: 'sudoku', kind: 'plain', s: { x: 33, y: 66, w: 9.5, r: -5, z: 2 } },
+  { src: 'album', kind: 'polaroid', s: { x: 74.5, y: 66, w: 10, r: -2, z: 3 } },
+  { src: 'papeis', kind: 'plain', s: { x: 42, y: 73, w: 7, r: 3, z: 2 } },
+];
+const PRINT_SPOTS_B: Spot[] = [
+  { x: 26.5, y: 4, w: 10, r: -3, z: 2 },
+  { x: 60, y: 4, w: 10, r: 4, z: 2 },
+  { x: 2, y: 64, w: 11, r: 3, z: 2 },
+  { x: 33.5, y: 36, w: 10.5, r: -2, z: 3 },
+  { x: 59, y: 33, w: 10, r: 3, z: 3 },
+  { x: 22, y: 70, w: 10.5, r: -4, z: 3 },
+];
+const NOTE_SPOTS_B: Spot[] = [
+  { x: 3, y: 31, w: 15.5, r: -2.5, z: 4 },
+  { x: 49, y: 63, w: 15.5, r: 2, z: 4 },
+  { x: 69.5, y: 30, w: 15.5, r: -1.5, z: 4 },
+];
+const STICKERS_B: { src: string; s: Spot }[] = [
+  { src: 'cup-blue', s: { x: 38, y: 24, w: 7, r: 0, z: 5 } },
+  { src: 'berries', s: { x: 13, y: 88, w: 6.5, r: 0, z: 5 } },
+  { src: 'vase', s: { x: 55.5, y: 23, w: 6, r: 0, z: 5 } },
+  { src: 'boat', s: { x: 80, y: 85, w: 6.5, r: 3, z: 5 } },
+  { src: 'pajama', s: { x: 0.5, y: 52, w: 5, r: -6, z: 5 } },
+];
+
+export default function SuggestionBoard({ copy, enabled, variant = 'a' }: { copy: Copy; enabled: boolean; variant?: 'a' | 'b' }) {
+  if (variant === 'b') return <BoardB copy={copy} enabled={enabled} />;
+  return <BoardA copy={copy} enabled={enabled} />;
+}
+
+function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
+  const { editions, open } = useEditions();
+  const prints = editions.filter((e) => e.meta.photo).slice(0, PRINT_SPOTS_B.length);
+  return (
+    <section className="board board--b" id="sugestoes" aria-labelledby="board-heading">
+      <div className="board-cork">
+        <ul className="collage">
+          <li className="bi board-title" style={pos({ x: 37, y: 3, w: 23.5, r: -1, z: 6 })}>
+            <span className="tape tape--l" aria-hidden="true" />
+            <span className="tape tape--r" aria-hidden="true" />
+            <h2 id="board-heading">{copy.heading}</h2>
+            <p>Escreva num post-it.</p>
+          </li>
+          {copy.prompts.map((p, i) => (
+            <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_B[i % NOTE_SPOTS_B.length]} />
+          ))}
+          {prints.map((e, i) => (
+            <li key={e.article.postId} className="bi print" style={pos(PRINT_SPOTS_B[i])}>
+              <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[(i + 2) % PIN_COLORS.length] }} aria-hidden="true" />
+              <button type="button" onClick={(ev) => open(e.article.postId, ev.currentTarget)} aria-haspopup="dialog" aria-label={`${e.article.title}, ${e.meta.dateLong}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={e.meta.photo!} alt="" loading="lazy" />
+                <span className="print-caption">{e.article.title}</span>
+              </button>
+            </li>
+          ))}
+          {MOOD.map((m, i) => (
+            <li key={m.src} className={`bi mood mood--${m.kind}`} style={pos(m.s)} aria-hidden="true">
+              {m.kind === 'tape' && <span className="tape tape--c" />}
+              {m.kind !== 'tape' && <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[(i + 4) % PIN_COLORS.length] }} />}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`assets/mood/${m.src}.webp`} alt="" loading="lazy" />
+            </li>
+          ))}
+          <li className="bi swatch swatch--gingham" style={pos({ x: 13.5, y: 34, w: 6, r: -6, z: 1 })} aria-hidden="true" />
+          <li className="bi handnote" style={pos({ x: 33, y: 89, w: 11, r: 2, z: 5 })} aria-hidden="true">sente-se, a mesa está posta ♡</li>
+          <li className="bi badge" style={pos({ x: 90, y: 87, w: 8, r: -8, z: 5 })} aria-hidden="true"><span>The Sunday</span><b>Talks</b><span>em breve</span></li>
+          {STICKERS_B.map((st) => (
+            <li key={st.src} className="bi sticker-loose" style={pos(st.s)} aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`assets/drawn/${st.src}.webp`} alt="" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function BoardA({ copy, enabled }: { copy: Copy; enabled: boolean }) {
   const { editions, open } = useEditions();
   const prints = editions.filter((e) => e.meta.photo).slice(0, PHOTO_SPOTS.length);
 
@@ -120,7 +213,7 @@ export default function SuggestionBoard({ copy, enabled }: { copy: Copy; enabled
             <span className="tape tape--l" aria-hidden="true" />
             <span className="tape tape--r" aria-hidden="true" />
             <h2 id="board-heading">{copy.heading}</h2>
-            <p>Escreva num post-it. Nas fotos, o que já virou edição.</p>
+            <p>Escreva num post-it.</p>
           </li>
 
           {/* Writable post-its */}

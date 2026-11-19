@@ -683,6 +683,28 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ticket b { display: block; font-family: var(--serif); font-size: 1.7cqw; font-weight: 600; }
 .sticker-loose img { width: 100%; height: auto; display: block; filter: drop-shadow(0 0.6cqw 0.6cqw rgba(40, 25, 10, 0.35)); }
 
+.board--b .board-cork { aspect-ratio: 16 / 12; }
+.board--b .board-title h2 { font-size: 2.3cqw; }
+.board--b .board-title p { font-size: 0.95cqw; }
+.board--b .print-caption { font-size: 1.15cqw; }
+.mood img { display: block; width: 100%; height: auto; }
+.mood--polaroid { background: #fbf8f1; padding: 0.6cqw 0.6cqw 2.2cqw; box-shadow: 0 1.2cqw 1.4cqw -0.9cqw rgba(40, 25, 10, 0.6); }
+.mood--polaroid img { aspect-ratio: 1; object-fit: cover; }
+.mood--tape, .mood--plain { box-shadow: 0 1.2cqw 1.4cqw -0.9cqw rgba(40, 25, 10, 0.6); }
+.mood--plain { border: 0.4cqw solid #fbf8f1; }
+.tape--c { left: 50%; margin-left: -3cqw; transform: rotate(-3deg); z-index: 2; }
+
+@media (max-width: 760px) {
+  .board--b .board-cork { aspect-ratio: auto; }
+  .board--b .board-title h2 { font-size: 30px; }
+  .board--b .board-title p { font-size: 13px; }
+  .board--b .print-caption { font-size: 17px; }
+  .mood { width: 44%; }
+  .mood:nth-of-type(n+20) { display: none; }
+  .mood--polaroid { padding: 6px 6px 22px; }
+  .tape--c { margin-left: -30px; }
+}
+
 @media (max-width: 760px) {
   .board { padding: 28px 10px; background-size: 28px 100%; background: repeating-linear-gradient(90deg, #c9d7de 0 22px, #f4f1ea 22px 44px); }
   .board-cork { aspect-ratio: auto; background-size: cover; border: 10px solid #e8cf9f; container-type: normal; }
