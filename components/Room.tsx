@@ -15,8 +15,8 @@ const SLOTS: [number, number, number, number][] = [
   [77.0, 80.0, 29.8, 10.4],
 ];
 const SPINE_W = 2.05; // % of image width
-const SPINE_COLORS = ['#4E5D68', '#9A6C45', '#7D3D33', '#7D8E95', '#5B2F22', '#B9C6CC', '#E6DFD3'];
-const LIGHT = new Set(['#B9C6CC', '#E6DFD3']);
+const SPINE_COLORS = ['#8E2B2B', '#6E6B3F', '#CFAD64', '#9A6C45', '#E6DFD3', '#5B2F22', '#738691'];
+const LIGHT = new Set(['#CFAD64', '#E6DFD3']);
 
 function place(count: number) {
   const out: { left: number; bottom: number; h: number }[] = [];

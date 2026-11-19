@@ -13,9 +13,10 @@ export type EditionMeta = {
   excerpt: string[];
 };
 
-const ARDOSIA = '#4E5D68';
+// Cover colours, warmed up from the mood board.
+const CEREJA = '#8E2B2B';
+const OLIVA = '#6E6B3F';
 const CARAMELO = '#9A6C45';
-const TIJOLO = '#7D3D33';
 const NOGUEIRA = '#5B2F22';
 const BRANCO = '#FAF8F3';
 
@@ -33,10 +34,10 @@ export function editionMeta(a: Article, photos: Set<string>, excerpts: Record<st
   const num = sub.match(/^\s*(\d{1,3})\s*[-–—·]/);
   const seriesMatch = sub.match(/^\s*(The Sunday [A-Za-zÀ-ú]+)\s*[-–—]/);
   let series = 'Edição';
-  let color = ARDOSIA;
+  let color = CEREJA;
   if (!num) {
     series = seriesMatch ? seriesMatch[1] : a.tags.find((t) => /tips/i.test(t)) ? 'The Sunday Tips' : a.tags[0] || 'The Sunday';
-    color = /tips/i.test(series) ? CARAMELO : /curios/i.test(series) ? TIJOLO : NOGUEIRA;
+    color = /tips/i.test(series) ? OLIVA : /curios/i.test(series) ? CARAMELO : NOGUEIRA;
   }
   const { y, m, d } = parts(a.date);
   const dateShort = `${String(d).padStart(2, '0')} ${MONTHS[m - 1]} ${y}`;

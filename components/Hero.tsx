@@ -9,12 +9,12 @@ const ITEMS: Item[] = [
   { src: 'magazines', alt: 'Três revistas The Sunday Magazine', x: 4, y: 7, w: 20, r: -6, mx: 2, my: 5, mw: 34, mr: -8 },
   { src: 'cappuccino', alt: 'Cappuccino em xícara azul', x: 29, y: 6, w: 13, r: 3, mx: 62, my: 4, mw: 30, mr: 6 },
   { src: 'toaster', alt: 'Torradeira com torrada quente', x: 53, y: 3, w: 13, r: 5, mx: 38, my: 14, mw: 26, mr: 4 },
-  { src: 'hydrangeas', alt: 'Hortênsias azuis em vaso de porcelana', x: 78, y: 5, w: 16, r: 6, mx: 68, my: 22, mw: 28, mr: 8 },
+  { src: 'vase-green', alt: 'Arranjo de flores verdes em vaso de pedra', x: 78, y: 5, w: 16, r: 6, mx: 68, my: 22, mw: 28, mr: 8 },
   { src: 'boat', alt: 'Veleiro com vela xadrez azul e branca', x: 4, y: 54, w: 15, r: -4, mx: -2, my: 64, mw: 30, mr: -6 },
   { src: 'puzzles', alt: 'Livros de sudoku e caça-palavras', x: 23, y: 63, w: 15, r: -7, mx: 26, my: 74, mw: 30, mr: -8 },
   { src: 'berries', alt: 'Tigela de frutas vermelhas e mirtilos', x: 42, y: 68, w: 13, r: 0, mx: 54, my: 66, mw: 26, mr: 2 },
   { src: 'cards', alt: 'Cartas de baralho', x: 60, y: 66, w: 15, r: 6, mx: 66, my: 84, mw: 30, mr: 7 },
-  { src: 'pajama', alt: 'Pijama listrado azul e branco', x: 82, y: 48, w: 11, r: 8, mx: 4, my: 36, mw: 18, mr: -6 },
+  { src: 'pajama-yellow', alt: 'Pijama listrado amarelo e branco', x: 82, y: 48, w: 11, r: 8, mx: 4, my: 36, mw: 18, mr: -6 },
 ];
 
 export default function Hero() {
@@ -78,7 +78,7 @@ export default function Hero() {
         ))}
         <h1 className="hero-logo">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="assets/wordmark-light.svg" alt={publication.wordmark.alt} width={publication.wordmark.width} height={publication.wordmark.height} />
+          <img src="assets/wordmark-dark.svg" alt={publication.wordmark.alt} width={publication.wordmark.width} height={publication.wordmark.height} />
         </h1>
       </div>
       <p className="hero-hint" aria-hidden="true">role para mergulhar ↓</p>
