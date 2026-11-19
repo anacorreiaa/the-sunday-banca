@@ -78,6 +78,8 @@ export default function FlipMagazine() {
     </div>,
     <div className="mag-page mp--papel" key="intro">
       <div className="mp-inner">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="mp-photo" src="assets/mood/safari.webp" alt="" loading="lazy" />
         <p className="mp-kicker">{about.kicker}</p>
         {about.intro.map((t) => <p key={t} className="mp-body">{t}</p>)}
       </div>
@@ -92,6 +94,8 @@ export default function FlipMagazine() {
     </div>,
     <div className="mag-page mp--oliva" key="table">
       <div className="mp-inner">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="mp-photo" src="assets/mood/limoes.webp" alt="" loading="lazy" />
         <h3 className="mp-h">{about.table.title}</h3>
         <p className="mp-body">{about.table.lead}</p>
         <dl className="mp-list">
@@ -149,7 +153,7 @@ export default function FlipMagazine() {
   // Spreads: keep the total even so the last spread is full.
   if ((pages.length + 1) % 2 === 1) {
     pages.push(
-      <div className="mag-page mp--cereja" key="question">
+      <div className="mag-page mp--ardosia" key="question">
         <div className="mp-inner mp-question">
           <p className="mp-kicker">The Sunday Question</p>
           <p className="mp-body mp-body--lead">E você, sobre o que quer conversar no próximo domingo?</p>

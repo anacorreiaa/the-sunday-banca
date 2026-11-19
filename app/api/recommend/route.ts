@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { alreadyDelivered, clientHash, deliver, isConfigured, RATE_LIMIT, recentCount, validate } from '@/lib/recommend';
+import { alreadyDelivered, clientHash, deliver, isConfigured, RATE_LIMIT, recentCount, validate, notifyByEmail } from '@/lib/recommend';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -61,6 +61,7 @@ export async function POST(req: NextRequest) {
     const hash = clientHash(clientIp(req));
     if (hash && (await recentCount(hash)) >= RATE_LIMIT) return json(429, { ok: false, error: 'rate_limited' });
     await deliver(v.id, v.message, hash);
+    await notifyByEmail(v.message);
     return json(200, { ok: true });
   } catch (err) {
     console.error('[recommend] delivery failed:', (err as Error).message);

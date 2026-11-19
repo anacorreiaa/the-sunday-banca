@@ -26,6 +26,9 @@ npm run build
 | `SITE_URL` | Endereço público do site, ex. `https://the-sunday-banca.vercel.app` |
 | `RATE_LIMIT_SECRET` | Opcional. Texto aleatório para o limite de 5 envios por hora |
 | `LAUNCH_READY` | `true` libera o Google para indexar o site |
+| `RESEND_API_KEY` | Opcional. Chave do Resend (resend.com) para receber cada post-it por e-mail |
+| `NOTIFY_EMAIL` | Opcional. E-mail que recebe os post-its (pode ter mais de um, separados por vírgula) |
+| `NOTIFY_FROM` | Opcional. Remetente com domínio verificado no Resend; sem ele, o envio só vai para o e-mail da conta Resend |
 
 Sem `NOTION_API_TOKEN` e `NOTION_DATA_SOURCE_ID` o formulário aparece desativado com "As sugestões ainda não estão abertas". Depois de mudar variáveis, faça **Redeploy**.
 

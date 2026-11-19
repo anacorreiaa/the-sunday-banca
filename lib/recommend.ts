@@ -103,3 +103,28 @@ export async function deliver(id: string, message: string, hash: string | null) 
     },
   });
 }
+
+/** Optional: also email each suggestion (Resend). Needs RESEND_API_KEY and NOTIFY_EMAIL; a failure never loses the suggestion. */
+export async function notifyByEmail(message: string) {
+  const key = process.env.RESEND_API_KEY;
+  const to = process.env.NOTIFY_EMAIL;
+  if (!key || !to) return;
+  const esc = (t: string) => t.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]!);
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: process.env.NOTIFY_FROM || 'The Sunday <onboarding@resend.dev>',
+        to: to.split(',').map((x) => x.trim()).filter(Boolean),
+        subject: `Novo post-it no mural: ${titleFrom(message)}`,
+        text: `Alguém deixou um post-it no mural do site:\n\n${message}\n\n(Também está salvo na tabela de sugestões do Notion.)`,
+        html: `<p style="font-family:Georgia,serif;color:#3b2a20">Alguém deixou um post-it no mural do site:</p><blockquote style="font-family:Georgia,serif;font-size:17px;color:#3b2a20;background:#efe6d6;padding:16px 20px;border-left:3px solid #4e5d68;white-space:pre-wrap">${esc(message)}</blockquote><p style="font-family:Arial,sans-serif;font-size:12px;color:#7d6b58">Também está salvo na tabela de sugestões do Notion.</p>`,
+      }),
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) console.error('[recommend] email failed:', res.status);
+  } catch (err) {
+    console.error('[recommend] email failed:', (err as Error).message);
+  }
+}
