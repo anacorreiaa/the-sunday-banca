@@ -16,12 +16,42 @@ function newId() {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
 }
 
-// Post-it colours from the palette, and the little drawn objects used as magnets.
-const NOTE_COLORS = ['#F3E3A1', '#EBD5C8', '#DCE3C6', '#E9DFD0', '#F2D7A6', '#D9E1E4'];
-const MAGNETS = ['cup-blue', 'toaster', 'berries', 'cards', 'vase', 'boat', 'pajama', 'puzzles'];
-const tilt = (i: number) => [-3, 2.2, -1.4, 3.1, -2.4, 1.2, -0.8, 2.6][i % 8];
+/** Position on the desktop board: % of the cork area, width %, rotation, stacking. */
+type Spot = { x: number; y: number; w: number; r: number; z?: number };
+const pos = (s: Spot): React.CSSProperties => ({
+  ['--x' as string]: `${s.x}%`, ['--y' as string]: `${s.y}%`, ['--w' as string]: `${s.w}%`, ['--r' as string]: `${s.r}deg`, ['--z' as string]: s.z ?? 1,
+});
 
-function WriteNote({ prompt, index, enabled, copy }: { prompt: string; index: number; enabled: boolean; copy: Copy }) {
+const PIN_COLORS = ['#8E2B2B', '#4E5D68', '#CFAD64', '#6E6B3F', '#FAF8F3', '#7D8E95'];
+
+// The six newest editions become pinned photo prints.
+const PHOTO_SPOTS: Spot[] = [
+  { x: 2.5, y: 4, w: 14, r: -4 },
+  { x: 74, y: 3, w: 13.5, r: 3 },
+  { x: 2, y: 58, w: 13.5, r: 3, z: 2 },
+  { x: 31, y: 44, w: 13, r: -2 },
+  { x: 72.5, y: 60, w: 13.5, r: -3 },
+  { x: 47.5, y: 61, w: 13, r: 4 },
+];
+const NOTE_SPOTS: Spot[] = [
+  { x: 4, y: 33, w: 16.5, r: -2.5, z: 3 },
+  { x: 57, y: 37, w: 16.5, r: 2, z: 3 },
+  { x: 80, y: 33, w: 16.5, r: -1.5, z: 3 },
+];
+const NOTE_COLORS = ['#F3E3A1', '#EBD5C8', '#DCE3C6'];
+
+const STICKERS: { src: string; s: Spot }[] = [
+  { src: 'cup-blue', s: { x: 17.5, y: 6, w: 10, r: 0, z: 2 } },
+  { src: 'toaster', s: { x: 88, y: 12, w: 8, r: 4, z: 2 } },
+  { src: 'berries', s: { x: 16.5, y: 83, w: 8, r: 0, z: 4 } },
+  { src: 'cards', s: { x: 61.5, y: 69, w: 9, r: -6, z: 4 } },
+  { src: 'vase', s: { x: 44.5, y: 37, w: 9, r: 0, z: 4 } },
+  { src: 'boat', s: { x: 88, y: 72, w: 9, r: 3, z: 4 } },
+  { src: 'pajama', s: { x: 21, y: 44, w: 6.5, r: 6, z: 2 } },
+  { src: 'magazines', s: { x: 32, y: 70, w: 11, r: -5, z: 2 } },
+];
+
+function WriteNote({ prompt, index, enabled, copy, spot }: { prompt: string; index: number; enabled: boolean; copy: Copy; spot: Spot }) {
   const [message, setMessage] = useState('');
   const [state, setState] = useState<State>('idle');
   const [note, setNote] = useState('');
@@ -55,8 +85,8 @@ function WriteNote({ prompt, index, enabled, copy }: { prompt: string; index: nu
   }
 
   return (
-    <li className="postit postit--write" style={{ ['--note' as string]: NOTE_COLORS[index % NOTE_COLORS.length], ['--tilt' as string]: `${tilt(index)}deg` }}>
-      <span className="pin" aria-hidden="true" />
+    <li className="bi postit postit--write" style={{ ...pos(spot), ['--note' as string]: NOTE_COLORS[index % NOTE_COLORS.length] }}>
+      <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[index] }} aria-hidden="true" />
       <form onSubmit={send} noValidate>
         <label htmlFor={fieldId} className="postit-prompt">{prompt}</label>
         <textarea
@@ -65,7 +95,7 @@ function WriteNote({ prompt, index, enabled, copy }: { prompt: string; index: nu
           maxLength={MAX}
           value={message}
           onChange={(e) => { setMessage(e.target.value); if (state !== 'sending') setState('idle'); }}
-          placeholder="escreva aqui"
+          placeholder="escreva aqui…"
         />
         <div className="hp" aria-hidden="true"><input ref={hpRef} type="text" tabIndex={-1} autoComplete="off" /></div>
         <div className="postit-foot">
@@ -79,49 +109,56 @@ function WriteNote({ prompt, index, enabled, copy }: { prompt: string; index: nu
 
 export default function SuggestionBoard({ copy, enabled }: { copy: Copy; enabled: boolean }) {
   const { editions, open } = useEditions();
-  const done = editions.slice(0, 8);
-
-  // Interleave: writable notes first among the topics already covered.
-  const items: ({ kind: 'write'; i: number } | { kind: 'done'; i: number })[] = [];
-  const order = [0, 'd', 1, 'd', 'd', 2, 'd', 'd', 'd', 'd', 'd'] as const;
-  let d = 0;
-  for (const o of order) {
-    if (o === 'd') { if (d < done.length) items.push({ kind: 'done', i: d++ }); }
-    else if (o < copy.prompts.length) items.push({ kind: 'write', i: o });
-  }
-  while (d < done.length) items.push({ kind: 'done', i: d++ });
+  const prints = editions.filter((e) => e.meta.photo).slice(0, PHOTO_SPOTS.length);
 
   return (
     <section className="board" id="sugestoes" aria-labelledby="board-heading">
-      <div className="board-frame">
-        <div className="board-cork">
-          <div className="board-title">
-            <span className="pin pin--red" aria-hidden="true" />
+      <div className="board-cork">
+        <ul className="collage">
+          {/* Title card */}
+          <li className="bi board-title" style={pos({ x: 31, y: 5, w: 38, r: -1, z: 3 })}>
+            <span className="tape tape--l" aria-hidden="true" />
+            <span className="tape tape--r" aria-hidden="true" />
             <h2 id="board-heading">{copy.heading}</h2>
-            <p>Escreva num post-it em branco. Nos outros, o que já viramos edição.</p>
-          </div>
-          <ul className="board-notes">
-            {items.map((it, k) => {
-              if (it.kind === 'write') return <WriteNote key={`w${it.i}`} prompt={copy.prompts[it.i]} index={it.i} enabled={enabled} copy={copy} />;
-              const e = done[it.i];
-              const magnet = MAGNETS[it.i % MAGNETS.length];
-              return (
-                <li
-                  key={e.article.postId}
-                  className="postit postit--done"
-                  style={{ ['--note' as string]: NOTE_COLORS[(it.i + 3) % NOTE_COLORS.length], ['--tilt' as string]: `${tilt(k + 3)}deg` }}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="magnet" src={`assets/drawn/${magnet}.webp`} alt="" aria-hidden="true" />
-                  <button type="button" onClick={(ev) => open(e.article.postId, ev.currentTarget)} aria-haspopup="dialog">
-                    <span className="postit-label">{e.meta.label} · já escrevemos</span>
-                    <span className="postit-title">{e.article.title}</span>
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+            <p>Escreva num post-it. Nas fotos, o que já virou edição.</p>
+          </li>
+
+          {/* Writable post-its */}
+          {copy.prompts.map((p, i) => (
+            <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS[i % NOTE_SPOTS.length]} />
+          ))}
+
+          {/* Editions as pinned photo prints */}
+          {prints.map((e, i) => (
+            <li key={e.article.postId} className="bi print" style={pos(PHOTO_SPOTS[i])}>
+              <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[(i + 2) % PIN_COLORS.length] }} aria-hidden="true" />
+              <button type="button" onClick={(ev) => open(e.article.postId, ev.currentTarget)} aria-haspopup="dialog" aria-label={`${e.article.title}, ${e.meta.dateLong}`}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={e.meta.photo!} alt="" loading="lazy" />
+                <span className="print-caption">{e.article.title}</span>
+              </button>
+            </li>
+          ))}
+
+          {/* Paper scraps, swatches and labels */}
+          <li className="bi swatch swatch--stripes" style={pos({ x: 17, y: 30, w: 8, r: 5 })} aria-hidden="true" />
+          <li className="bi swatch swatch--gingham" style={pos({ x: 66, y: 4, w: 7.5, r: -6 })} aria-hidden="true" />
+          <li className="bi swatch swatch--diamond" style={pos({ x: 87, y: 50, w: 7, r: 4 })} aria-hidden="true" />
+          <li className="bi swatch swatch--hanky" style={pos({ x: 16.5, y: 59, w: 10, r: -3 })} aria-hidden="true" />
+          <li className="bi label label--cereja" style={pos({ x: 28, y: 33, w: 9, r: -5, z: 2 })} aria-hidden="true">Why Sunday?</li>
+          <li className="bi badge" style={pos({ x: 88.5, y: 88, w: 9, r: -8, z: 4 })} aria-hidden="true"><span>The Sunday</span><b>Talks</b><span>em breve</span></li>
+          <li className="bi handnote" style={pos({ x: 75, y: 89, w: 12, r: 2, z: 3 })} aria-hidden="true">sente-se,<br />a mesa está posta ♡</li>
+          <li className="bi handnote handnote--green" style={pos({ x: 25, y: 88, w: 12, r: -2, z: 3 })} aria-hidden="true">curiosidade<br />é o nosso domingo</li>
+          <li className="bi ticket" style={pos({ x: 59, y: 89, w: 12, r: -2, z: 3 })} aria-hidden="true"><span>ADMIT ONE</span><b>Sunday Lunch</b></li>
+
+          {/* Loose drawn stickers */}
+          {STICKERS.map((st) => (
+            <li key={st.src} className="bi sticker-loose" style={pos(st.s)} aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`assets/drawn/${st.src}.webp`} alt="" loading="lazy" />
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );
