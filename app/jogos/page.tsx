@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import publication from '@/lib/publication.json';
 import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 import GamesRoom from '@/components/GamesRoom';
 
 export const metadata: Metadata = {
@@ -15,10 +15,7 @@ export default function Jogos() {
       <main className="games-main">
         <GamesRoom />
       </main>
-      <footer className="footer">
-        <span>{publication.tagline}</span>
-        <a href={publication.substackUrl}>thesundaymagazine.substack.com</a>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

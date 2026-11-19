@@ -3,6 +3,7 @@ import publication from '@/lib/publication.json';
 import photoIds from '@/data/photos.json';
 import excerpts from '@/data/excerpts.json';
 import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 import NewsletterList from '@/components/NewsletterList';
 import { loadArchive } from '@/lib/substack';
 import { cleanSubtitle, editionMeta } from '@/lib/editions';
@@ -28,10 +29,7 @@ export default async function Newsletter() {
       <main className="news-main">
         <NewsletterList posts={posts} subscribeUrl={publication.subscribeUrl} labels={publication.tagLabels as Record<string, string>} />
       </main>
-      <footer className="footer">
-        <span>{publication.tagline}</span>
-        <a href={publication.substackUrl}>thesundaymagazine.substack.com</a>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

@@ -176,7 +176,7 @@ export default function FlipMagazine() {
   );
 
   return (
-    <section className="flip" aria-labelledby="flip-heading">
+    <section className="flip" id="quem-somos" aria-labelledby="flip-heading">
       <div className="flip-head">
         <p className="eyebrow">Quem somos</p>
         <h2 id="flip-heading">Folheie a revista</h2>

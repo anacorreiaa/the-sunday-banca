@@ -3,6 +3,7 @@ import photoIds from '@/data/photos.json';
 import excerpts from '@/data/excerpts.json';
 import Hero from '@/components/Hero';
 import SiteNav from '@/components/SiteNav';
+import SiteFooter from '@/components/SiteFooter';
 import CupDive from '@/components/CupDive';
 import Room from '@/components/Room';
 import FlipMagazine from '@/components/FlipMagazine';
@@ -39,10 +40,7 @@ export default async function Home() {
           <p className="empty">Não conseguimos carregar as edições agora. Elas continuam todas no <a href={publication.substackUrl}>Substack</a>.</p>
         )}
       </main>
-      <footer className="footer">
-        <span>{publication.tagline}</span>
-        <a href={publication.substackUrl}>thesundaymagazine.substack.com</a>
-      </footer>
+      <SiteFooter />
     </EditionsProvider>
   );
 }

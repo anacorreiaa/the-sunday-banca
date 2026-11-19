@@ -39,28 +39,20 @@
    "href": "#topo"
   },
   {
-   "label": "Newsletter",
-   "page": "news"
-  },
-  {
-   "label": "The Sunday Tips",
-   "filter": "the sunday tips"
-  },
-  {
    "label": "Edições",
    "filter": "Edições"
   },
   {
-   "label": "Quero a revista física",
-   "href": "https://forms.gle/k8VVBrege8vHJB5W8"
-  },
-  {
    "label": "About",
-   "href": "https://thesundaymagazine.substack.com/about"
+   "href": "#quem-somos"
   },
   {
    "label": "Sala de Jogos",
    "page": "games"
+  },
+  {
+   "label": "Substack",
+   "page": "news"
   }
  ],
  "printMagazine": {
@@ -68,5 +60,11 @@
   "lead": "Uma newsletter para mulheres curiosas, todo domingo. E uma revista impressa, todo mês.",
   "cta": "Quero a revista física",
   "note": "Garanta a sua com assinatura mensal"
+ },
+ "contact": {
+  "email": "",
+  "phone": "",
+  "instagram": "",
+  "instagramUrl": ""
  }
 }
