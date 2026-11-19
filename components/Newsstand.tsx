@@ -5,7 +5,6 @@ import type { Article } from '@/lib/types';
 import { hash } from '@/lib/magazines.mjs';
 import { orderByPopularity } from '@/lib/archive-core.mjs';
 import Cover from './Cover';
-import { PuzzleBox } from './Puzzle';
 import { useEditions } from './Editions';
 
 type Props = { popularIds: string[]; locale: string };
@@ -54,6 +53,9 @@ export default function Newsstand({ popularIds, locale }: Props) {
       setFilter(hit ? hit.tag : ALL);
     };
     window.addEventListener('sunday:filter', on);
+    // Coming from another page with ?tema=… (e.g. the games room menu).
+    const tema = new URLSearchParams(window.location.search).get('tema');
+    if (tema) on(new CustomEvent('sunday:filter', { detail: tema }));
     return () => window.removeEventListener('sunday:filter', on);
   }, [filters]);
 
@@ -124,7 +126,6 @@ export default function Newsstand({ popularIds, locale }: Props) {
           const p = ON_TABLE[i];
           return mag(a, i, { ['--sx' as string]: `${p.x}%`, ['--sy' as string]: `${p.y}%`, ['--rot' as string]: `${p.r}deg`, ['--sz' as string]: i + 1 });
         })}
-        <PuzzleBox />
       </ul>
       </div>
 

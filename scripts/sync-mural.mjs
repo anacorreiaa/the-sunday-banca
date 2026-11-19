@@ -29,14 +29,14 @@ for (const [i, f] of files.entries()) {
 await writeFile(list, JSON.stringify(names, null, 1) + '\n');
 console.log(`[mural] ${names.length} photos`);
 
-// The puzzle box next to the editions table: first photo in /quebra-cabeca, cropped square.
+// The puzzle box next to the editions table: first photo in /quebra-cabeca, cropped to a 4:5 portrait.
 const puzzleDir = path.join(root, 'quebra-cabeca');
 const puzzle = (await readdir(puzzleDir).catch(() => []))
   .filter((f) => /\.(jpe?g|png|webp|heic|heif|avif)$/i.test(f))
   .sort((a, b) => a.localeCompare(b, 'pt', { numeric: true }))[0];
 if (puzzle) {
   try {
-    await sharp(path.join(puzzleDir, puzzle)).rotate().resize(1000, 1000, { fit: 'cover', position: 'attention' }).webp({ quality: 82 }).toFile(path.join(root, 'public', 'assets', 'puzzle.webp'));
+    await sharp(path.join(puzzleDir, puzzle)).rotate().resize(960, 1200, { fit: 'cover', position: 'attention' }).webp({ quality: 82 }).toFile(path.join(root, 'public', 'assets', 'puzzle.webp'));
     console.log(`[puzzle] ${puzzle}`);
   } catch (err) {
     console.warn(`[puzzle] skipped ${puzzle}: ${err.message}`);

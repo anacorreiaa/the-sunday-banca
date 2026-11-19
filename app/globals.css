@@ -438,7 +438,7 @@ button, select, textarea, input { font: inherit; color: inherit; }
 .dive-ripple span:nth-child(3) { transform: translate(-50%, -50%) scale(calc(var(--hit) * 0.5)); border-color: rgba(59, 42, 32, 0.2); }
 .dive-lines { position: absolute; left: 0; right: 0; top: 13vh; text-align: center; z-index: 1; }
 .dive-line { position: absolute; left: 0; right: 0; margin: 0; opacity: 0; font-family: var(--serif); font-style: italic; font-size: clamp(30px, 5vw, 58px); color: var(--expresso); }
-.dive-paper { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, #b07b4b, #8a5a33 70%, #74492a); opacity: 0; z-index: 6; pointer-events: none; }
+.dive-paper { position: absolute; inset: 0; background: var(--wallpaper); opacity: 0; z-index: 6; pointer-events: none; }
 .dive--static { height: auto; }
 .dive--static .dive-stage { position: relative; height: 80vh; }
 .dive--static .dive-line--1 { opacity: 1; }
@@ -764,27 +764,23 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .mp-cover-sub { margin: 2.5% 0 0; font-family: var(--serif); font-size: clamp(15px, 1.5vw, 19px); color: #fffdf8; }
 .mp-cover--photo .mp-cover-foot { margin-top: 7%; text-align: center; color: rgba(255, 253, 248, 0.8); }
 
-/* ——— The Sunday Talks fills the screen: the cup lands straight in the room ——— */
-html { scroll-snap-type: y proximity; }
-.room { position: relative; padding: 0; background: #7a4c2a; scroll-snap-align: start; scroll-margin-top: -64px; }
-.room-scroller { overflow: hidden; }
-.room-canvas { position: relative; width: max(100vw, 177.97svh); height: max(100svh, 56.19vw); max-width: none; left: 50%; transform: translateX(-50%); margin: 0; }
-.room-img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; box-shadow: none; }
-.room-plaque { position: absolute; z-index: 3; left: 50%; top: 74px; transform: translateX(-50%); padding: 10px 30px 12px; text-align: center; pointer-events: none;
-  background: linear-gradient(180deg, #fbf7ee, #efe6d6); border: 1px solid rgba(91, 47, 34, 0.35); border-radius: 3px;
-  box-shadow: 0 0 0 4px rgba(176, 123, 75, 0.9), 0 0 0 5px rgba(91, 47, 34, 0.4), 0 14px 22px -10px rgba(30, 16, 6, 0.6); }
-.room-plaque h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 2.8vw, 40px); color: var(--expresso); white-space: nowrap; }
-.room-lead { position: absolute; z-index: 3; left: 50%; bottom: 18px; transform: translateX(-50%); margin: 0; width: max-content; max-width: min(92vw, 640px);
-  padding: 8px 18px; background: rgba(250, 248, 243, 0.9); border-radius: 30px; font-size: 13px; color: var(--expresso); text-align: center; box-shadow: 0 8px 18px -10px rgba(30, 16, 6, 0.5); }
-@media (max-width: 760px) {
-  .room-scroller { overflow-x: auto; overflow-y: hidden; }
-  .room-canvas { width: 124.6svh; height: 70svh; left: 0; transform: none; }
-  .room-plaque { top: 112px; padding: 7px 16px 8px; }
-  .room-plaque h2 { font-size: 24px; }
-  .room { scroll-margin-top: 0; }
-  .room-lead { font-size: 12px; bottom: 12px; padding: 7px 14px; }
+/* ——— The Sunday Talks: striped wallpaper behind the bookcase, so the room fills the screen ——— */
+.room {
+  padding: clamp(36px, 5vw, 64px) 0 0;
+  background: var(--wallpaper);
 }
-
+.room .room-head { background: var(--branco-casa); padding: 22px 34px 24px; border: 1px solid rgba(78, 93, 104, 0.25); box-shadow: 0 1px 0 #fff inset, 0 14px 24px -16px rgba(43, 29, 22, 0.45); max-width: 600px; border-radius: 2px; }
+.room-canvas { margin-top: clamp(40px, 5vw, 70px); }
+.room-img { border-radius: 0; box-shadow: none; }
+.room-canvas::before { /* carved crown on top of the bookcase */
+  content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: clamp(18px, 2.4vw, 34px); border-radius: 3px 3px 0 0;
+  background: linear-gradient(180deg, #8a5a33 0 18%, #b07b4b 18% 30%, #7a4c2a 30% 44%, #a7703f 44% 78%, #6b4124 78%);
+  box-shadow: 0 -6px 14px -6px rgba(43, 29, 22, 0.35);
+}
+@media (max-width: 760px) {
+  :root { --st: 16px; }
+  .room .room-head { margin: 0 16px 0; padding: 18px 20px; }
+}
 /* ——— Phones: board and table keep the desktop look and slide sideways ——— */
 .swipe-hint { display: none; }
 @media (max-width: 760px) {
@@ -800,39 +796,80 @@ html { scroll-snap-type: y proximity; }
   .swipe-hint--light { margin: 0; padding: 0 0 12px; background: var(--branco-casa); }
 }
 
-/* ——— Puzzle box beside the table ——— */
-.puzzle-spot { position: absolute; left: 88.4%; top: 64%; width: 8.6%; aspect-ratio: 1; z-index: 2; list-style: none; }
-.puzzle-box { position: absolute; inset: 0; padding: 0; border: 0; background: none; cursor: pointer; transform: rotate(9deg); transition: transform 0.3s cubic-bezier(0.2, 0.7, 0.2, 1); }
-.puzzle-box:hover, .puzzle-box:focus-visible { transform: rotate(4deg) scale(1.12); }
-.puzzle-box:focus-visible { outline: 3px solid var(--branco-casa); outline-offset: 4px; }
-.puzzle-lid { position: absolute; inset: 0; display: block; background: #d9c7a8 center / cover; border: 0.45vw solid #f3ead8; border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(91, 47, 34, 0.35), 0.3vw 0.3vw 0 #c2a37a, 0.6vw 1vw 1.3vw -0.2vw rgba(30, 16, 6, 0.55); }
-.puzzle-lid-band { position: absolute; left: 0; right: 0; bottom: 0; padding: 0.25vw 0; background: rgba(250, 248, 243, 0.94); color: var(--expresso);
-  font-family: var(--serif); font-style: italic; font-size: max(7px, 0.62vw); text-align: center; white-space: nowrap; }
-.puzzle-piece { position: absolute; width: 26%; aspect-ratio: 1; pointer-events: none; filter: drop-shadow(0.15vw 0.25vw 0.2vw rgba(30, 16, 6, 0.4)); }
-.puzzle-piece--1 { left: -22%; top: 78%; transform: rotate(-24deg); background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M20%2030h18a10%2010%200%201%201%2020%200h18v18a10%2010%200%201%200%200%2020v18H58a10%2010%200%201%201-20%200H20V68a10%2010%200%201%201%200-20z%22%20fill%3D%22%23c49a6c%22%20stroke%3D%22rgba%2860%2C35%2C20%2C.35%29%22%20stroke-width%3D%222%22/%3E%3C/svg%3E") center / contain no-repeat; }
-.puzzle-piece--2 { left: 4%; top: 104%; transform: rotate(31deg); background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M20%2030h18a10%2010%200%201%201%2020%200h18v18a10%2010%200%201%200%200%2020v18H58a10%2010%200%201%201-20%200H20V68a10%2010%200%201%201%200-20z%22%20fill%3D%22%239aa07a%22%20stroke%3D%22rgba%2860%2C35%2C20%2C.35%29%22%20stroke-width%3D%222%22/%3E%3C/svg%3E") center / contain no-repeat; }
-.puzzle-tag { position: absolute; right: -6%; bottom: 112%; width: max-content; padding: 0.35vw 0.7vw; background: #fbf6ea; color: #2f3e57;
-  font-family: 'Caveat', cursive; font-size: max(12px, 1.15vw); line-height: 1.05; text-align: center; transform: rotate(-4deg);
-  box-shadow: 0 0.5vw 0.8vw -0.4vw rgba(30, 16, 6, 0.5); pointer-events: none; animation: tag-nudge 3.2s ease-in-out infinite; }
-@keyframes tag-nudge { 0%, 100% { transform: rotate(-4deg) translateY(0); } 50% { transform: rotate(-4deg) translateY(-4px); } }
-@media (prefers-reduced-motion: reduce) { .puzzle-tag { animation: none; } }
 
-.puzzle-dialog { border: 0; padding: 0; background: transparent; max-width: min(560px, 94vw); width: 100%; }
-.puzzle-dialog::backdrop { background: rgba(43, 29, 22, 0.55); }
-.puzzle-card { position: relative; background: var(--branco-casa); padding: 26px clamp(16px, 4vw, 34px) 22px; border-radius: 4px; text-align: center; box-shadow: 0 30px 60px -20px rgba(0,0,0,0.5); }
-.puzzle-card h2 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(26px, 4vw, 34px); color: var(--expresso); }
-.puzzle-help { margin: 6px 0 16px; font-size: 13px; color: var(--muted); min-height: 1.3em; }
-.puzzle-close { position: absolute; top: 8px; right: 10px; width: 40px; height: 40px; border: 0; background: none; font-size: 26px; color: var(--expresso); cursor: pointer; }
-.puzzle-board { position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); gap: 2px; width: min(100%, 62vh); aspect-ratio: 1; margin: 0 auto; background: #d8cbb4; padding: 2px; border-radius: 2px; }
-.puzzle-peek { position: absolute; inset: 2px; width: calc(100% - 4px); height: calc(100% - 4px); object-fit: cover; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 2; }
-.puzzle-board.is-peek .puzzle-peek { opacity: 0.85; }
-.puzzle-tile { border: 0; padding: 0; cursor: pointer; background-color: #d8cbb4; background-size: calc(var(--n) * 100%) calc(var(--n) * 100%); transition: transform 0.15s, box-shadow 0.15s, filter 0.15s; }
-.puzzle-tile.is-sel { transform: scale(0.92); box-shadow: 0 0 0 3px var(--caramelo); position: relative; z-index: 1; }
-.puzzle-tile:hover:not(:disabled) { filter: brightness(1.06); }
-.puzzle-board.is-solved { gap: 0; transition: gap 0.4s; box-shadow: 0 0 0 3px var(--ouro-velho); }
-.puzzle-board.is-solved .puzzle-tile { cursor: default; }
-.puzzle-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px 10px; margin-top: 16px; }
-.puzzle-actions button { border: 1px solid var(--line); background: #fff; color: var(--expresso); padding: 9px 14px; min-height: 40px; border-radius: 20px; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; }
-.puzzle-actions button:hover { border-color: var(--expresso); }
-.puzzle-moves { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+/* ——— Sala de Jogos ——— */
+.sitenav-links a.is-current { text-decoration: underline; text-underline-offset: 5px; }
+.games-main { background: var(--branco-casa); min-height: 80vh; }
+.games { max-width: 1180px; margin: 0 auto; padding: clamp(40px, 6vw, 72px) clamp(14px, 3vw, 28px) clamp(60px, 8vw, 100px); }
+.games-head { text-align: center; }
+.games-head h1 { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(40px, 6vw, 64px); color: var(--expresso); }
+.games-lead { margin: 8px 0 0; color: var(--muted); }
+.games-tabs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: clamp(26px, 4vw, 40px) 0 clamp(20px, 3vw, 30px); }
+.games-tabs button { border: 1px solid var(--line); background: #fff; border-radius: 3px; padding: 14px 10px 12px; cursor: pointer; text-align: center; transition: border-color 0.2s, background 0.2s; }
+.games-tabs button:hover { border-color: var(--caramelo); }
+.games-tabs button[aria-selected='true'] { background: var(--papel); border-color: var(--expresso); box-shadow: inset 0 -3px 0 var(--caramelo); }
+.games-tab-name { display: block; font-family: var(--serif); font-size: clamp(19px, 2.2vw, 26px); color: var(--expresso); }
+.games-tab-note { display: block; font-size: 10.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.games-panel { background: var(--papel); border-radius: 4px; padding: clamp(16px, 3vw, 30px); box-shadow: inset 0 0 0 1px rgba(91, 47, 34, 0.08); }
+.game-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 12px; margin-bottom: 16px; }
+.game-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: #fff; }
+.game-seg button { border: 0; background: none; padding: 9px 14px; min-height: 40px; font-size: 12px; letter-spacing: 0.06em; color: var(--expresso); cursor: pointer; }
+.game-seg button[aria-pressed='true'] { background: var(--expresso); color: var(--branco-casa); }
+.game-btn { border: 1px solid var(--line); background: #fff; color: var(--expresso); padding: 9px 14px; min-height: 40px; border-radius: 22px; font-size: 12px; letter-spacing: 0.06em; cursor: pointer; }
+.game-btn:hover { border-color: var(--expresso); }
+.game-count { font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.game-note { text-align: center; font-size: 13px; color: var(--muted); max-width: 60ch; margin: 14px auto 0; line-height: 1.5; }
+.pw-msg { text-align: center; min-height: 1.4em; margin: 10px 0 0; font-family: var(--serif); font-size: 20px; color: var(--expresso); }
+@media (max-width: 760px) { .games-tabs { grid-template-columns: repeat(2, 1fr); } }
+
+/* Jigsaw: a wooden table top with a board to build on */
+.jigsaw-area { position: relative; touch-action: none; user-select: none; -webkit-user-select: none; border-radius: 4px; overflow: hidden;
+  background: #a87444 url('../public/assets/worn-wood.webp') center / 900px auto; box-shadow: inset 0 0 40px rgba(40, 20, 8, 0.35); }
+.jigsaw-board { position: absolute; background: #e9dfcd; border-radius: 2px; box-shadow: inset 0 0 0 1px rgba(91, 47, 34, 0.25), 0 6px 14px -6px rgba(30, 15, 5, 0.6); }
+.jigsaw-ghost { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.16; filter: grayscale(0.6); pointer-events: none; }
+.jigsaw-piece { position: absolute; left: 0; top: 0; cursor: grab; filter: drop-shadow(1px 2px 1.5px rgba(30, 15, 5, 0.45)); will-change: transform; }
+.jigsaw-piece.is-lifted { cursor: grabbing; filter: drop-shadow(4px 10px 8px rgba(30, 15, 5, 0.45)); }
+.jigsaw-piece.is-placed { cursor: default; filter: none; transition: transform 0.12s; }
+.jigsaw-won { position: absolute; left: 50%; bottom: 18px; transform: translateX(-50%); z-index: 999; background: var(--branco-casa); padding: 12px 18px; border-radius: 30px; display: flex; gap: 14px; align-items: center; box-shadow: 0 12px 26px -10px rgba(0, 0, 0, 0.5); }
+.jigsaw-won p { margin: 0; font-family: var(--serif); font-size: 21px; color: var(--expresso); }
+
+/* Palavritas */
+.pw-grid { display: grid; gap: 6px; justify-content: center; margin-top: 16px; }
+.pw-row { display: grid; grid-template-columns: repeat(5, clamp(46px, 12vw, 58px)); gap: 6px; }
+.pw-cell { aspect-ratio: 1; display: grid; place-items: center; border: 2px solid #d8cbb4; background: #fffdf8; font-family: var(--serif); font-size: clamp(24px, 6vw, 30px); font-weight: 600; color: var(--expresso); text-transform: uppercase; }
+.pw-cell.is-typed { border-color: var(--muted); }
+.pw-cell.is-ok, .pw-cell.is-near, .pw-cell.is-no { color: #fff; animation: pw-flip 0.45s both; }
+.pw-cell.is-ok { background: #6e7d4f; border-color: #6e7d4f; }
+.pw-cell.is-near { background: #c39b45; border-color: #c39b45; }
+.pw-cell.is-no { background: #9b8c7c; border-color: #9b8c7c; }
+@keyframes pw-flip { 0% { transform: rotateX(90deg); } 100% { transform: rotateX(0); } }
+.pw-keys { margin: 8px auto 0; max-width: 520px; display: grid; gap: 6px; }
+.pw-krow { display: flex; justify-content: center; gap: 5px; }
+.pw-key { flex: 1; max-width: 44px; min-height: 50px; border: 0; border-radius: 4px; background: #e2d7c3; color: var(--expresso); font-weight: 500; font-size: 15px; cursor: pointer; padding: 0; }
+.pw-key--wide { max-width: 72px; flex: 1.6; font-size: 12px; }
+.pw-key.is-ok { background: #6e7d4f; color: #fff; }
+.pw-key.is-near { background: #c39b45; color: #fff; }
+.pw-key.is-no { background: #b6a996; color: #fff; }
+
+/* Sudoku */
+.sd-grid { display: grid; grid-template-columns: repeat(9, 1fr); width: min(100%, 470px); aspect-ratio: 1; margin: 0 auto; border: 2px solid var(--expresso); background: var(--expresso); gap: 1px; }
+.sd-cell { border: 0; padding: 0; background: #fffdf8; font-variant-numeric: lining-nums; font-family: var(--serif); font-size: clamp(18px, 4.6vw, 26px); color: var(--ardosia); cursor: pointer; }
+.sd-cell:nth-child(9n + 3), .sd-cell:nth-child(9n + 6) { margin-right: 1px; }
+.sd-cell:nth-child(n + 19):nth-child(-n + 27), .sd-cell:nth-child(n + 46):nth-child(-n + 54) { margin-bottom: 1px; }
+.sd-cell.is-given { color: var(--expresso); font-weight: 600; }
+.sd-cell.is-near { background: #f4ecdd; }
+.sd-cell.is-same { background: #ead9b6; }
+.sd-cell.is-sel { background: #e2c98f; }
+.sd-cell.is-clash { color: #a33c32; }
+.sd-grid.is-solved { border-color: var(--ouro-velho); }
+.sd-pad { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 14px auto 0; max-width: 470px; }
+.sd-pad button { font-variant-numeric: lining-nums; width: 44px; height: 46px; border: 1px solid var(--line); background: #fff; border-radius: 4px; font-family: var(--serif); font-size: 22px; color: var(--expresso); cursor: pointer; }
+
+/* Caça-palavras */
+.caca-wrap { display: flex; flex-wrap: wrap; justify-content: center; gap: 22px 34px; align-items: flex-start; }
+.caca-grid { display: grid; grid-template-columns: repeat(var(--n), 1fr); width: min(100%, 520px); background: #fffdf8; border: 1px solid var(--line); padding: 8px; touch-action: none; user-select: none; -webkit-user-select: none; border-radius: 3px; }
+.caca-cell { aspect-ratio: 1; display: grid; place-items: center; font-family: var(--serif); font-size: clamp(15px, 3.6vw, 22px); font-weight: 500; color: var(--expresso); border-radius: 50%; cursor: pointer; }
+.caca-cell.is-sel { background: rgba(154, 108, 69, 0.35) !important; }
+.caca-words { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 26px; min-width: 220px; }
+.caca-words li { font-family: var(--serif); font-size: 21px; color: var(--expresso); padding: 3px 0; }
+.caca-words li.is-found { text-decoration: line-through; color: var(--muted); }
