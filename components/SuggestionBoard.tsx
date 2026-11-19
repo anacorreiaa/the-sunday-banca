@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useEditions } from './Editions';
+import muralPhotos from '@/lib/mural.json';
 
 type Copy = { heading: string; prompts: string[]; button: string; sending: string; success: string; error: string };
 type State = 'idle' | 'sending' | 'success' | 'error';
@@ -286,12 +287,12 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
           {copy.prompts.map((p, i) => (
             <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[i % NOTE_SPOTS_C.length]} />
           ))}
-          {MOOD_C.map((m, i) => (
+          {MOOD_C.slice(0, muralPhotos.length || MOOD_C.length).map((m, i) => (
             <li key={m.src} className={`bi mood mood--${m.kind}`} style={pos(m.s)} aria-hidden="true">
               {m.kind === 'tape' && <span className="tape tape--c" />}
               {m.kind !== 'tape' && <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[(i + 4) % PIN_COLORS.length] }} />}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={`assets/mood/${m.src}.webp`} alt="" loading="lazy" />
+              <img src={muralPhotos[i] || `assets/mood/${m.src}.webp`} alt="" loading="lazy" />
             </li>
           ))}
           <li className="bi tickets" style={pos({ x: 28.5, y: 86, w: 13.5, r: -4, z: 5 })} aria-hidden="true">

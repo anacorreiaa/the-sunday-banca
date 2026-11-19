@@ -65,15 +65,18 @@ export default function FlipMagazine() {
 
   const pages: React.ReactNode[] = [];
   pages.push(
-    <div className="mag-page mag-page--cover" key="cover">
-      <div className="mp-inner mp-cover">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="mp-cover-logo" src="assets/wordmark-light.svg" alt="The Sunday Magazine" />
-        <p className="mp-cover-kicker">Edição especial</p>
-        <p className="mp-cover-title">Quem somos</p>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="mp-cover-art" src="assets/drawn/cup-blue.webp" alt="" />
-        <p className="mp-cover-foot">Arraste o canto da página para folhear →</p>
+    <div className="mag-page mag-page--cover mag-page--photo" key="cover">
+      <div className="mp-inner mp-cover mp-cover--photo">
+        <div className="mp-cover-top">
+          <p className="mp-cover-mast">The Sunday</p>
+          <p className="mp-cover-tag">Para mulheres curiosas</p>
+          <p className="mp-cover-line">Edição especial</p>
+        </div>
+        <div className="mp-cover-bottom">
+          <p className="mp-cover-title">Quem somos</p>
+          <p className="mp-cover-sub">Pull up a chair, a mesa está posta.</p>
+          <p className="mp-cover-foot">Arraste o canto da página para folhear →</p>
+        </div>
       </div>
     </div>,
     <div className="mag-page mp--papel" key="intro">
