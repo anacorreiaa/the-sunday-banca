@@ -57,6 +57,13 @@ export default function Jigsaw() {
   const [size, setSize] = useState(0);
   const [photo, setPhoto] = useState(0);
   const IMG = PHOTOS[photo];
+  // A surprise each time: another photo from the month's puzzle and the mural, never the same one twice in a row.
+  const nextPhoto = () => setPhoto((cur) => {
+    if (PHOTOS.length < 2) return cur;
+    let n = cur;
+    while (n === cur) n = Math.floor(Math.random() * PHOTOS.length);
+    return n;
+  });
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [ghost, setGhost] = useState(true);
   const [won, setWon] = useState(false);
@@ -237,15 +244,7 @@ export default function Jigsaw() {
         </div>
         <span className="game-count">{count.done} de {count.total} no lugar</span>
         <button type="button" className="game-btn" onClick={() => setGhost((x) => !x)} aria-pressed={ghost}>{ghost ? 'Esconder a imagem guia' : 'Mostrar a imagem guia'}</button>
-        <button type="button" className="game-btn" onClick={deal}>Espalhar de novo</button>
-      </div>
-      <div className="jigsaw-photos" role="group" aria-label="Escolher a foto">
-        {PHOTOS.map((src, i) => (
-          <button key={src} type="button" aria-pressed={photo === i} onClick={() => setPhoto(i)} aria-label={i === 0 ? 'Foto do mês' : `Foto ${i} do mural`}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={src} alt="" loading="lazy" />
-          </button>
-        ))}
+        <button type="button" className="game-btn" onClick={nextPhoto}>Nova imagem</button>
       </div>
       <div className="jigsaw-area" ref={areaRef} style={{ height: g.areaH || 520 }} onPointerDown={onDown}>
         <div className="jigsaw-board" style={{ left: g.bx, top: g.by, width: g.bw, height: g.bh }}>
@@ -264,11 +263,11 @@ export default function Jigsaw() {
         {won && (
           <div className="jigsaw-won" role="status">
             <p>Pronto, você montou ♡</p>
-            <button type="button" className="game-btn" onClick={() => setPhoto((p) => (p + 1) % PHOTOS.length)}>Próxima foto →</button>
+            <button type="button" className="game-btn" onClick={nextPhoto}>Nova imagem →</button>
           </div>
         )}
       </div>
-      <p className="game-note">Arraste as peças para o quadro. Quando uma peça chega perto do lugar certo, ela se encaixa sozinha. Para montar outra imagem, escolha uma foto na faixa de cima.</p>
+      <p className="game-note">Arraste as peças para o quadro. Quando uma peça chega perto do lugar certo, ela se encaixa sozinha. Para uma surpresa, toque em “Nova imagem”.</p>
     </div>
   );
 }
