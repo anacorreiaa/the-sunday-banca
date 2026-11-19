@@ -1,4 +1,4 @@
-// Turns the photos in /mural into the mural (board) photos on the site.
+// Turns the photos in /mural into the mural (board) photos on the site, and /quebra-cabeca into the puzzle.
 // Photos are placed by file name order: 01-…, 02-…, up to the number of spots on the board.
 // Any jpg, png, webp or heic works; they are resized here so big phone photos stay light.
 import { readdir, mkdir, rm, writeFile } from 'node:fs/promises';
@@ -28,3 +28,17 @@ for (const [i, f] of files.entries()) {
 }
 await writeFile(list, JSON.stringify(names, null, 1) + '\n');
 console.log(`[mural] ${names.length} photos`);
+
+// The puzzle box next to the editions table: first photo in /quebra-cabeca, cropped square.
+const puzzleDir = path.join(root, 'quebra-cabeca');
+const puzzle = (await readdir(puzzleDir).catch(() => []))
+  .filter((f) => /\.(jpe?g|png|webp|heic|heif|avif)$/i.test(f))
+  .sort((a, b) => a.localeCompare(b, 'pt', { numeric: true }))[0];
+if (puzzle) {
+  try {
+    await sharp(path.join(puzzleDir, puzzle)).rotate().resize(1000, 1000, { fit: 'cover', position: 'attention' }).webp({ quality: 82 }).toFile(path.join(root, 'public', 'assets', 'puzzle.webp'));
+    console.log(`[puzzle] ${puzzle}`);
+  } catch (err) {
+    console.warn(`[puzzle] skipped ${puzzle}: ${err.message}`);
+  }
+}

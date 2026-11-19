@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Article } from '@/lib/types';
 import { hash } from '@/lib/magazines.mjs';
 import { orderByPopularity } from '@/lib/archive-core.mjs';
 import Cover from './Cover';
+import { PuzzleBox } from './Puzzle';
 import { useEditions } from './Editions';
 
 type Props = { popularIds: string[]; locale: string };
@@ -66,6 +67,12 @@ export default function Newsstand({ popularIds, locale }: Props) {
   const filterName = (tag: string) => (tag === '__general__' ? 'Geral' : label(tag));
 
   const onTable = visible.slice(0, ON_TABLE.length);
+  const tableRef = useRef<HTMLDivElement>(null);
+  // On phones the table keeps its desktop look and slides sideways: start on the magazines.
+  useEffect(() => {
+    const s = tableRef.current;
+    if (s && s.scrollWidth > s.clientWidth) s.scrollLeft = (s.scrollWidth - s.clientWidth) * 0.52;
+  }, []);
 
   const mag = (a: Article, i: number, style: React.CSSProperties, cls = '') => {
     const ed = byId.get(a.postId)!;
@@ -110,12 +117,16 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
       <p className="sr-only" aria-live="polite">{visible.length} {visible.length === 1 ? 'edição' : 'edições'}</p>
 
+      <p className="swipe-hint swipe-hint--light" aria-hidden="true">← deslize para ver a mesa →</p>
+      <div className="table-scroll" ref={tableRef}>
       <ul className="table-stage" aria-label="Edições mais recentes">
         {onTable.map((a, i) => {
           const p = ON_TABLE[i];
           return mag(a, i, { ['--sx' as string]: `${p.x}%`, ['--sy' as string]: `${p.y}%`, ['--rot' as string]: `${p.r}deg`, ['--sz' as string]: i + 1 });
         })}
+        <PuzzleBox />
       </ul>
+      </div>
 
       <div className={`table-more${visible.length > onTable.length || visible.length === 0 ? '' : ' table-more--desk-empty'}`}>
         {visible.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}

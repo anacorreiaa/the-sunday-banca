@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEditions } from './Editions';
 import muralPhotos from '@/lib/mural.json';
 
@@ -27,7 +27,7 @@ const pos = (s: Spot): React.CSSProperties => ({
 function useDraggable() {
   const top = useRef(20);
   return (e: React.PointerEvent<HTMLUListElement>) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 || e.pointerType !== 'mouse') return;
     const target = e.target as HTMLElement;
     if (target.closest('textarea, input, button, a, select, label')) return;
     const li = target.closest('li.bi') as HTMLElement | null;
@@ -274,8 +274,16 @@ function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
 
 function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
   const drag = useDraggable();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  // On phones the board keeps its desktop layout and slides sideways: start on the title.
+  useEffect(() => {
+    const s = scrollRef.current;
+    if (s && s.scrollWidth > s.clientWidth) s.scrollLeft = (s.scrollWidth - s.clientWidth) * 0.4;
+  }, []);
   return (
     <section className="board board--b board--drag" id="sugestoes" aria-labelledby="board-heading">
+      <p className="swipe-hint" aria-hidden="true">← deslize para ver o mural inteiro →</p>
+      <div className="board-scroll" ref={scrollRef}>
       <div className="board-cork">
         <ul className="collage" onPointerDown={drag}>
           <li className="bi board-title" style={pos({ x: 33, y: 3, w: 26, r: -1, z: 6 })}>
@@ -315,6 +323,7 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
             </li>
           ))}
         </ul>
+      </div>
       </div>
     </section>
   );
