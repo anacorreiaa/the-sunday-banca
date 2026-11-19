@@ -43,6 +43,10 @@
    "filter": "Edições"
   },
   {
+   "label": "Quero a revista física",
+   "href": "https://forms.gle/k8VVBrege8vHJB5W8"
+  },
+  {
    "label": "About",
    "href": "#quem-somos"
   },
@@ -62,9 +66,9 @@
   "note": "Garanta a sua com assinatura mensal"
  },
  "contact": {
-  "email": "",
+  "email": "thesundaymagazineac@gmail.com",
   "phone": "",
-  "instagram": "",
-  "instagramUrl": ""
+  "instagram": "thesunday.ac",
+  "instagramUrl": "https://www.instagram.com/thesunday.ac/"
  }
 }

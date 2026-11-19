@@ -29,7 +29,6 @@ export default async function Home() {
       <main>
         <Hero />
         <CupDive />
-        {editions.length > 0 && <Room />}
         {editions.length > 0 && <FlipMagazine />}
 
         <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
@@ -39,6 +38,7 @@ export default async function Home() {
         ) : (
           <p className="empty">Não conseguimos carregar as edições agora. Elas continuam todas no <a href={publication.substackUrl}>Substack</a>.</p>
         )}
+        {editions.length > 0 && <Room />}
       </main>
       <SiteFooter />
     </EditionsProvider>

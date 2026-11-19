@@ -436,7 +436,7 @@ button, select, textarea, input { font: inherit; color: inherit; }
 .dive-ripple span:nth-child(3) { transform: translate(-50%, -50%) scale(calc(var(--hit) * 0.5)); border-color: rgba(59, 42, 32, 0.2); }
 .dive-lines { position: absolute; left: 0; right: 0; top: 13vh; text-align: center; z-index: 1; }
 .dive-line { position: absolute; left: 0; right: 0; margin: 0; opacity: 0; font-family: var(--serif); font-style: italic; font-size: clamp(30px, 5vw, 58px); color: var(--expresso); }
-.dive-paper { position: absolute; inset: 0; background: var(--wallpaper); opacity: 0; z-index: 6; pointer-events: none; }
+.dive-paper { position: absolute; inset: 0; background: var(--linho); opacity: 0; z-index: 6; pointer-events: none; }
 .dive--static { height: auto; }
 .dive--static .dive-stage { position: relative; height: 80vh; }
 .dive--static .dive-line--1 { opacity: 1; }
@@ -935,3 +935,4 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .site-footer a:hover { text-decoration: underline; text-underline-offset: 4px; }
 .site-footer-small { font-size: 13px; color: #c3ccd1; font-family: var(--sans); }
 @media (max-width: 760px) { .site-footer-inner { grid-template-columns: 1fr; } }
+#quem-somos.flip { padding-top: clamp(28px, 4vw, 48px); }
