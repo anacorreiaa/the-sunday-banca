@@ -70,11 +70,7 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
   const onTable = visible.slice(0, ON_TABLE.length);
   const tableRef = useRef<HTMLDivElement>(null);
-  // On phones the table keeps its desktop look and slides sideways: start on the magazines.
-  useEffect(() => {
-    const s = tableRef.current;
-    if (s && s.scrollWidth > s.clientWidth) s.scrollLeft = (s.scrollWidth - s.clientWidth) * 0.52;
-  }, []);
+
 
   const mag = (a: Article, i: number, style: React.CSSProperties, cls = '') => {
     const ed = byId.get(a.postId)!;
@@ -119,7 +115,6 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
       <p className="sr-only" aria-live="polite">{visible.length} {visible.length === 1 ? 'edição' : 'edições'}</p>
 
-      <p className="swipe-hint swipe-hint--light" aria-hidden="true">← deslize para ver a mesa →</p>
       <div className="table-scroll" ref={tableRef}>
       <ul className="table-stage" aria-label="Edições mais recentes">
         {onTable.map((a, i) => {

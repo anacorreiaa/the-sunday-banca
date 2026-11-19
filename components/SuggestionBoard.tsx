@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useEditions } from './Editions';
 import muralPhotos from '@/lib/mural.json';
 
@@ -88,13 +88,13 @@ const STICKERS: { src: string; s: Spot }[] = [
   { src: 'magazines', s: { x: 32, y: 70, w: 11, r: -5, z: 2 } },
 ];
 
-function WriteNote({ prompt, index, enabled, copy, spot }: { prompt: string; index: number; enabled: boolean; copy: Copy; spot: Spot }) {
+function WriteNote({ prompt, index, enabled, copy, spot, flat = false }: { prompt: string; index: number; enabled: boolean; copy: Copy; spot: Spot; flat?: boolean }) {
   const [message, setMessage] = useState('');
   const [state, setState] = useState<State>('idle');
   const [note, setNote] = useState('');
   const idRef = useRef<string | null>(null);
   const hpRef = useRef<HTMLInputElement>(null);
-  const fieldId = `note-${index}`;
+  const fieldId = `note-${flat ? 'm' : ''}${index}`;
 
   async function send(e: React.FormEvent) {
     e.preventDefault();
@@ -122,7 +122,7 @@ function WriteNote({ prompt, index, enabled, copy, spot }: { prompt: string; ind
   }
 
   return (
-    <li className="bi postit postit--write" style={{ ...pos(spot), ['--note' as string]: NOTE_COLORS[index % NOTE_COLORS.length] }}>
+    <li className={flat ? 'postit postit--write postit--flat' : 'bi postit postit--write'} style={{ ...(flat ? {} : pos(spot)), ['--note' as string]: NOTE_COLORS[index % NOTE_COLORS.length] }}>
       <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[index] }} aria-hidden="true" />
       <form onSubmit={send} noValidate>
         <label htmlFor={fieldId} className="postit-prompt">{prompt}</label>
@@ -275,14 +275,8 @@ function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
 function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
   const drag = useDraggable();
   const scrollRef = useRef<HTMLDivElement>(null);
-  // On phones the board keeps its desktop layout and slides sideways: start on the title.
-  useEffect(() => {
-    const s = scrollRef.current;
-    if (s && s.scrollWidth > s.clientWidth) s.scrollLeft = (s.scrollWidth - s.clientWidth) * 0.4;
-  }, []);
   return (
     <section className="board board--b board--drag" id="sugestoes" aria-labelledby="board-heading">
-      <p className="swipe-hint" aria-hidden="true">← deslize para ver o mural inteiro →</p>
       <div className="board-scroll" ref={scrollRef}>
       <div className="board-cork">
         <ul className="collage" onPointerDown={drag}>
@@ -324,6 +318,15 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
           ))}
         </ul>
       </div>
+      </div>
+      {/* On phones the whole board fits the screen, so the notes are too small to write on: the same three notes, full size, below it. */}
+      <div className="notes-mobile">
+        <p className="notes-mobile-h">Escreva num post-it ↓</p>
+        <ul>
+          {copy.prompts.map((p, i) => (
+            <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[0]} flat />
+          ))}
+        </ul>
       </div>
     </section>
   );

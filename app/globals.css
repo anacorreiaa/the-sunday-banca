@@ -942,3 +942,25 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .dive-paper { background: var(--wallpaper) !important; }
 #quem-somos .flip-head h2, #quem-somos .flip-head .eyebrow { text-shadow: 0 0 14px rgba(243, 233, 214, 1), 0 0 4px rgba(243, 233, 214, 1); }
 #quem-somos .flip-controls span { color: var(--expresso); }
+
+/* ——— Phones: whole board and whole table on screen, no sideways sliding ——— */
+.notes-mobile { display: none; }
+@media (max-width: 760px) {
+  .board--drag .board-scroll { overflow: visible; padding: 0 10px 8px; }
+  .board--drag .board-cork { width: 100%; }
+  .board--drag .collage .postit--write { pointer-events: none; }
+  .notes-mobile { display: block; padding: 18px 16px 6px; }
+  .notes-mobile-h { margin: 0 0 14px; text-align: center; font-family: 'Caveat', cursive; font-size: 26px; color: var(--expresso); }
+  .notes-mobile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .postit--flat { position: relative; min-height: 0; transform: rotate(-0.6deg); }
+  .postit--flat:nth-child(2) { transform: rotate(0.8deg); }
+  .postit--flat form { padding: 22px 16px 12px; }
+  .postit--flat .postit-prompt { font-size: 24px; margin-bottom: 4px; }
+  .postit--flat textarea { font-size: 21px; line-height: 27px; min-height: 108px; background-image: repeating-linear-gradient(transparent 0 26px, rgba(59, 42, 32, 0.16) 26px 27px); }
+  .postit--flat .postit-foot { gap: 10px; margin-top: 6px; }
+  .postit--flat .postit-foot button { font-size: 11px; padding: 10px 14px; min-height: 40px; }
+  .postit--flat .postit-status { font-size: 13px; }
+  .postit--flat .pushpin { width: 16px; height: 16px; margin-left: -8px; top: -6px; }
+  .table-scroll { overflow: hidden; }
+  .table-stage { width: 128vw; margin-left: -14vw; }
+}
