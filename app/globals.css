@@ -964,3 +964,31 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .table-scroll { overflow: hidden; }
   .table-stage { width: 128vw; margin-left: -14vw; }
 }
+
+/* ——— Sala de Jogos: the whole page is a game table seen from above ——— */
+.games-main {
+  background:
+    url('../public/assets/scene/game-table.webp') center top / 100% auto no-repeat,
+    #a8683a url('../public/assets/scene/game-wood.webp') center top / 1020px auto repeat;
+  min-height: calc(100vw * 1700 / 1680 - 58px);
+}
+.games { max-width: none; }
+.games-head, .games-tabs { max-width: 760px; margin-left: auto; margin-right: auto; }
+.games-head h1, .games-head .eyebrow, .games-lead { color: #fff7e8; text-shadow: 0 2px 10px rgba(0,0,0,.45), 0 0 2px rgba(0,0,0,.4); }
+.games-tabs button { box-shadow: 0 10px 18px -8px rgba(0,0,0,.5); }
+.games-panel { background: transparent; box-shadow: none; border-radius: 0; padding: 10px calc(50% - 320px) 0; }
+.games-panel:has(.jigsaw) { padding: 10px calc(50% - 405px) 0; }
+.jigsaw-area { background: transparent; box-shadow: none; }
+.jigsaw-board { box-shadow: 0 10px 20px -6px rgba(20,10,4,.6); }
+.sd-grid, .caca-grid { box-shadow: 0 12px 24px -8px rgba(20,10,4,.6); }
+.pw-cell { box-shadow: 0 4px 8px -3px rgba(20,10,4,.5); }
+.pw-key { box-shadow: 0 3px 6px -2px rgba(20,10,4,.5); }
+.games-panel .game-note, .games-panel .game-count, .games-panel .pw-msg { font-size: 14px; color: #fff7e8; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 10px rgba(0,0,0,.35); }
+.games-panel .pw-msg { font-size: 20px; }
+.caca-words li { font-size: 24px; font-weight: 600; color: #fff7e8; text-shadow: 0 1px 2px rgba(0,0,0,.6), 0 0 10px rgba(0,0,0,.35); }
+.caca-words li.is-found { color: #e9c46a; }
+@media (max-width: 860px) {
+  .games-main { background-size: 190% auto, 700px auto; min-height: 0; }
+  .games-panel, .games-panel:has(.jigsaw) { padding: 6px 0 30px; }
+  .games-head { padding-top: 40px; }
+}
