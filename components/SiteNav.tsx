@@ -1,12 +1,12 @@
 'use client';
 
 import publication from '@/lib/publication.json';
-import { gamesHref, homeHref } from '@/lib/links';
+import { gamesHref, homeHref, newsHref } from '@/lib/links';
 
 type NavItem = { label: string; href?: string; filter?: string; page?: string };
 
 /** Sticky top menu mirroring the Substack navigation. Tips/Edições jump to the editions table, already filtered. */
-export default function SiteNav({ home = true }: { home?: boolean }) {
+export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' }) {
   const items = (publication as unknown as { nav: NavItem[] }).nav;
 
   const go = (e: React.MouseEvent, it: NavItem) => {
@@ -25,13 +25,15 @@ export default function SiteNav({ home = true }: { home?: boolean }) {
             const external = it.href?.startsWith('http');
             const href = it.page === 'games'
               ? gamesHref
+              : it.page === 'news'
+              ? newsHref
               : it.filter
                 ? (home ? '#edicoes' : `${homeHref}?tema=${encodeURIComponent(it.filter)}#edicoes`)
                 : it.href?.startsWith('#') && !home ? `${homeHref}${it.href}` : it.href;
             return (
               <li key={it.label}>
                 <a
-                  className={it.label === 'Quero a revista física' ? 'nav-print' : it.page === 'games' && !home ? 'is-current' : undefined}
+                  className={it.label === 'Quero a revista física' ? 'nav-print' : it.page && it.page === current ? 'is-current' : undefined}
                   href={href}
                   onClick={(e) => go(e, it)}
                   {...(external ? { target: '_blank', rel: 'noopener' } : {})}

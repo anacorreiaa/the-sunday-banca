@@ -39,6 +39,10 @@
    "href": "#topo"
   },
   {
+   "label": "Newsletter",
+   "page": "news"
+  },
+  {
    "label": "The Sunday Tips",
    "filter": "the sunday tips"
   },

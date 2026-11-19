@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 export default function Jogos() {
   return (
     <>
-      <SiteNav home={false} />
+      <SiteNav home={false} current="games" />
       <main className="games-main">
         <GamesRoom />
       </main>

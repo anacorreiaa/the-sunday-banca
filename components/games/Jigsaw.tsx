@@ -4,7 +4,10 @@
 // Drag pieces onto the board; a piece close to its place clicks into it.
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-const IMG = 'assets/puzzle.webp';
+import muralPhotos from '@/lib/mural.json';
+
+// The month's puzzle photo first, then every photo on the mural: changing the mural changes these too.
+const PHOTOS = ['assets/puzzle.webp', ...(muralPhotos as string[])];
 const SIZES = [
   { label: '12 peças', cols: 3, rows: 4 },
   { label: '20 peças', cols: 4, rows: 5 },
@@ -52,6 +55,8 @@ function piecePath(pw: number, ph: number, t: number, dirs: [number, number, num
 
 export default function Jigsaw() {
   const [size, setSize] = useState(0);
+  const [photo, setPhoto] = useState(0);
+  const IMG = PHOTOS[photo];
   const [img, setImg] = useState<HTMLImageElement | null>(null);
   const [ghost, setGhost] = useState(true);
   const [won, setWon] = useState(false);
@@ -66,7 +71,7 @@ export default function Jigsaw() {
     const i = new Image();
     i.onload = () => setImg(i);
     i.src = IMG;
-  }, []);
+  }, [IMG]);
 
   /** Board size and where it sits in the play area (desktop: board left, loose pieces right; phone: pieces below). */
   const layout = useCallback(() => {
@@ -140,7 +145,7 @@ export default function Jigsaw() {
     const dpr = Math.min(2, window.devicePixelRatio || 1);
     for (const p of pieces.current) {
       const cv = p.canvas;
-      if (!cv || cv.dataset.painted === `${size}-${pw}`) continue;
+      if (!cv || cv.dataset.painted === `${img.src}-${size}-${pw}`) continue;
       cv.width = Math.ceil((pw + 2 * t) * dpr);
       cv.height = Math.ceil((ph + 2 * t) * dpr);
       const ctx = cv.getContext('2d')!;
@@ -161,7 +166,7 @@ export default function Jigsaw() {
       ctx.lineWidth = 0.8;
       ctx.strokeStyle = 'rgba(40,25,15,0.45)';
       ctx.stroke(p.path);
-      cv.dataset.painted = `${size}-${pw}`;
+      cv.dataset.painted = `${img.src}-${size}-${pw}`;
     }
   });
 
@@ -234,14 +239,22 @@ export default function Jigsaw() {
         <button type="button" className="game-btn" onClick={() => setGhost((x) => !x)} aria-pressed={ghost}>{ghost ? 'Esconder a imagem guia' : 'Mostrar a imagem guia'}</button>
         <button type="button" className="game-btn" onClick={deal}>Espalhar de novo</button>
       </div>
+      <div className="jigsaw-photos" role="group" aria-label="Escolher a foto">
+        {PHOTOS.map((src, i) => (
+          <button key={src} type="button" aria-pressed={photo === i} onClick={() => setPhoto(i)} aria-label={i === 0 ? 'Foto do mês' : `Foto ${i} do mural`}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={src} alt="" loading="lazy" />
+          </button>
+        ))}
+      </div>
       <div className="jigsaw-area" ref={areaRef} style={{ height: g.areaH || 520 }} onPointerDown={onDown}>
         <div className="jigsaw-board" style={{ left: g.bx, top: g.by, width: g.bw, height: g.bh }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {ghost && <img src={IMG} alt="" className="jigsaw-ghost" />}
+          {ghost && img && <img src={img.src} alt="" className="jigsaw-ghost" />}
         </div>
         {pieces.current.map((p) => (
           <canvas
-            key={`${size}-${p.r}-${p.c}-${g.pw}`}
+            key={`${photo}-${size}-${p.r}-${p.c}-${g.pw}`}
             ref={(el) => { p.canvas = el; }}
             className={`jigsaw-piece${p.done ? ' is-placed' : ''}`}
             style={{ width: g.pw + 2 * g.t, height: g.ph + 2 * g.t, transform: `translate(${p.x - g.t}px, ${p.y - g.t}px)`, zIndex: p.z }}
@@ -251,11 +264,11 @@ export default function Jigsaw() {
         {won && (
           <div className="jigsaw-won" role="status">
             <p>Pronto, você montou ♡</p>
-            <button type="button" className="game-btn" onClick={deal}>Montar de novo</button>
+            <button type="button" className="game-btn" onClick={() => setPhoto((p) => (p + 1) % PHOTOS.length)}>Próxima foto →</button>
           </div>
         )}
       </div>
-      <p className="game-note">Arraste as peças para o quadro. Quando uma peça chega perto do lugar certo, ela se encaixa sozinha.</p>
+      <p className="game-note">Arraste as peças para o quadro. Quando uma peça chega perto do lugar certo, ela se encaixa sozinha. Para montar outra imagem, escolha uma foto na faixa de cima.</p>
     </div>
   );
 }
