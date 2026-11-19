@@ -22,6 +22,42 @@ const pos = (s: Spot): React.CSSProperties => ({
   ['--x' as string]: `${s.x}%`, ['--y' as string]: `${s.y}%`, ['--w' as string]: `${s.w}%`, ['--r' as string]: `${s.r}deg`, ['--z' as string]: s.z ?? 1,
 });
 
+/** Lets the visitor pick up any item on the desktop board and move it around (positions stay in %). */
+function useDraggable() {
+  const top = useRef(20);
+  return (e: React.PointerEvent<HTMLUListElement>) => {
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement;
+    if (target.closest('textarea, input, button, a, select, label')) return;
+    const li = target.closest('li.bi') as HTMLElement | null;
+    const ul = e.currentTarget;
+    if (!li || getComputedStyle(li).position !== 'absolute') return;
+    e.preventDefault();
+    const box = ul.getBoundingClientRect();
+    const x0 = parseFloat(li.style.getPropertyValue('--x')) || 0;
+    const y0 = parseFloat(li.style.getPropertyValue('--y')) || 0;
+    const sx = e.clientX, sy = e.clientY;
+    li.style.setProperty('--z', String(++top.current));
+    li.classList.add('is-dragging');
+    li.setPointerCapture(e.pointerId);
+    const move = (ev: PointerEvent) => {
+      const x = Math.min(97, Math.max(-5, x0 + ((ev.clientX - sx) / box.width) * 100));
+      const y = Math.min(97, Math.max(-3, y0 + ((ev.clientY - sy) / box.height) * 100));
+      li.style.setProperty('--x', `${x}%`);
+      li.style.setProperty('--y', `${y}%`);
+    };
+    const up = () => {
+      li.classList.remove('is-dragging');
+      li.removeEventListener('pointermove', move);
+      li.removeEventListener('pointerup', up);
+      li.removeEventListener('pointercancel', up);
+    };
+    li.addEventListener('pointermove', move);
+    li.addEventListener('pointerup', up);
+    li.addEventListener('pointercancel', up);
+  };
+}
+
 const PIN_COLORS = ['#8E2B2B', '#4E5D68', '#CFAD64', '#6E6B3F', '#FAF8F3', '#7D8E95'];
 
 // The six newest editions become pinned photo prints.
@@ -236,10 +272,11 @@ function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
 }
 
 function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
+  const drag = useDraggable();
   return (
-    <section className="board board--b" id="sugestoes" aria-labelledby="board-heading">
+    <section className="board board--b board--drag" id="sugestoes" aria-labelledby="board-heading">
       <div className="board-cork">
-        <ul className="collage">
+        <ul className="collage" onPointerDown={drag}>
           <li className="bi board-title" style={pos({ x: 33, y: 3, w: 26, r: -1, z: 6 })}>
             <span className="tape tape--l" aria-hidden="true" />
             <span className="tape tape--r" aria-hidden="true" />

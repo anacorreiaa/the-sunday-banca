@@ -11,10 +11,18 @@ type Props = { popularIds: string[]; locale: string };
 type Sort = 'new' | 'popular';
 const ALL = '__all__';
 
-/** Stable "dropped on the table" variation per edition. */
-function scatter(id: string) {
-  const h = hash(id);
-  return { rot: ((h % 1300) / 100 - 6.5).toFixed(2), dy: ((h >> 8) % 26) - 13, dx: ((h >> 16) % 18) - 9 };
+/** Where the newest editions lie on the table: only the free middle of the wood, clear of the flowers,
+ *  books, berries, glasses and cup (left/top in % of the table picture, tilt in degrees). */
+const ON_TABLE = [
+  { x: 30, y: 35, r: -6 },
+  { x: 40.4, y: 37.5, r: 2.5 },
+  { x: 50.4, y: 33.5, r: -2 },
+  { x: 60.4, y: 36.5, r: 5 },
+];
+
+/** Small stable tilt for the editions further down. */
+function tilt(id: string) {
+  return ((hash(id) % 500) / 100 - 2.5).toFixed(2);
 }
 
 export default function Newsstand({ popularIds, locale }: Props) {
@@ -55,9 +63,24 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
   const filterName = (tag: string) => (tag === '__general__' ? 'Geral' : label(tag));
 
+  const onTable = visible.slice(0, ON_TABLE.length);
+
+  const mag = (a: Article, i: number, style: React.CSSProperties, cls = '') => {
+    const ed = byId.get(a.postId)!;
+    return (
+      <li key={a.postId} className={`table-mag ${cls}`} style={style}>
+        <button type="button" className="mag-hit" onClick={(e) => openEdition(a.postId, e.currentTarget)} aria-haspopup="dialog" aria-label={`${a.title}, ${ed.meta.dateLong}`}>
+          <span className="table-mag-body">
+            <Cover article={a} meta={ed.meta} eager={i < 5} />
+          </span>
+        </button>
+      </li>
+    );
+  };
+
   return (
     <section className="archive archive--table" id="edicoes" aria-labelledby="archive-heading">
-      <div className="table-floor">
+      <div className="table-head">
         <div className="table-card">
           <p className="eyebrow">A banca</p>
           <h2 id="archive-heading">Todas as edições</h2>
@@ -81,25 +104,22 @@ export default function Newsstand({ popularIds, locale }: Props) {
             </label>
           </div>
         </div>
+      </div>
 
-        <p className="sr-only" aria-live="polite">{visible.length} {visible.length === 1 ? 'edição' : 'edições'}</p>
+      <p className="sr-only" aria-live="polite">{visible.length} {visible.length === 1 ? 'edição' : 'edições'}</p>
 
-        <ul className="table-mags">
-          {visible.length === 0 && <li className="empty">Nenhuma edição por aqui ainda.</li>}
-          {visible.map((a, i) => {
-            const ed = byId.get(a.postId)!;
-            const s = scatter(a.id);
-            return (
-              <li key={a.postId} className="table-mag" style={{ ['--rot' as string]: `${s.rot}deg`, ['--dy' as string]: `${s.dy}px`, ['--dx' as string]: `${s.dx}px` }}>
-                <button type="button" className="mag-hit" onClick={(e) => openEdition(a.postId, e.currentTarget)} aria-haspopup="dialog" aria-label={`${a.title}, ${ed.meta.dateLong}`}>
-                  <span className="table-mag-body">
-                    <Cover article={a} meta={ed.meta} eager={i < 4} />
-                    <span className="mag-sheen" aria-hidden="true" />
-                  </span>
-                </button>
-              </li>
-            );
-          })}
+      <ul className="table-stage" aria-label="Edições mais recentes">
+        {onTable.map((a, i) => {
+          const p = ON_TABLE[i];
+          return mag(a, i, { ['--sx' as string]: `${p.x}%`, ['--sy' as string]: `${p.y}%`, ['--rot' as string]: `${p.r}deg`, ['--sz' as string]: i + 1 });
+        })}
+      </ul>
+
+      <div className="table-more">
+        {visible.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}
+        {visible.length > onTable.length && <h3>Mais edições</h3>}
+        <ul className="table-grid">
+          {visible.map((a, i) => mag(a, i, { ['--rot' as string]: `${tilt(a.id)}deg` }, i < onTable.length ? 'on-table' : ''))}
         </ul>
       </div>
     </section>
