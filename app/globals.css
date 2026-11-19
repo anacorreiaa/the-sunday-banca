@@ -992,3 +992,33 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .games-panel, .games-panel:has(.jigsaw) { padding: 6px 0 30px; }
   .games-head { padding-top: 40px; }
 }
+
+/* ——— Sala de Jogos fits one computer screen ——— */
+@media (min-width: 861px) {
+  .games { padding-top: 22px; padding-bottom: 20px; }
+  .games-head .eyebrow { margin-bottom: 2px; }
+  .games-head h1 { font-size: 50px; }
+  .games-lead { margin-top: 2px; font-size: 14px; }
+  .games-tabs { margin: 16px auto 14px; gap: 8px; }
+  .games-tabs button { padding: 8px 8px 7px; }
+  .games-tab-name { font-size: 20px; }
+  .games-tab-note { font-size: 9.5px; margin-top: 1px; }
+  .game-bar { margin-bottom: 10px; }
+  .game-note { margin-top: 8px; font-size: 13px; }
+  .pw-msg { margin-top: 4px; min-height: 1.2em; }
+  .palavritas .game-note { margin: 0 auto 4px; }
+  .pw-grid { margin-top: 8px; gap: 5px; }
+  .pw-row { grid-template-columns: repeat(5, 46px); gap: 5px; }
+  .pw-cell { font-size: 24px; }
+  .pw-keys { max-width: 440px; gap: 5px; margin-top: 4px; }
+  .pw-key { min-height: 40px; font-size: 14px; }
+  .sd-grid { width: min(100%, 370px); }
+  .sd-cell { font-size: 21px; }
+  .sd-pad { margin-top: 10px; max-width: 560px; }
+  .sd-pad button { width: 40px; height: 40px; font-size: 20px; }
+  .games-panel:has(.caca) { padding: 10px calc(50% - 390px) 0; }
+  .caca-wrap { flex-wrap: nowrap; align-items: center; }
+  .caca-grid { width: 430px; padding: 6px; }
+  .caca-cell { font-size: 18px; }
+  .caca-words { min-width: 230px; }
+}

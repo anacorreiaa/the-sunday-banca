@@ -88,7 +88,7 @@ export default function Jigsaw() {
     const { cols, rows } = SIZES[size];
     const wide = W > 760;
     const ratio = img.naturalHeight / img.naturalWidth;
-    const bw = wide ? Math.min(W * 0.42, 600 / ratio) : W - 24;
+    const bw = wide ? Math.min(W * 0.42, Math.max(300, Math.min(440, window.innerHeight - 430)) / ratio) : W - 24;
     const bh = bw * ratio;
     const pw = bw / cols, ph = bh / rows;
     const t = Math.min(pw, ph) * 0.32;
