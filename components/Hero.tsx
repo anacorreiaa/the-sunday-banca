@@ -45,12 +45,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero" ref={ref} aria-label={publication.name}>
-      <header className="topbar topbar--dark">
-        <a className="topbar-author" href={publication.substackUrl}>{publication.author}</a>
-        <span className="topbar-center">Uma publicação no Substack</span>
-        <a className="topbar-subscribe" href={publication.subscribeUrl}>Assinar <span aria-hidden="true">↗</span></a>
-      </header>
+    <section className="hero" id="topo" ref={ref} aria-label={publication.name}>
       <div className="hero-stage">
         {ITEMS.map((it, i) => (
           <button

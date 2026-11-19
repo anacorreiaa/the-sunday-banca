@@ -38,14 +38,14 @@ export default function FlipMagazine() {
       const { PageFlip } = await import('page-flip');
       if (cancelled || !bookRef.current) return;
       const pf = new PageFlip(bookRef.current, {
-        width: 440,
-        height: 600,
+        width: 420,
+        height: 560,
         size: 'stretch' as never,
         minWidth: 260,
         maxWidth: 520,
         minHeight: 360,
         maxHeight: 710,
-        showCover: true,
+        showCover: false,
         maxShadowOpacity: 0.35,
         mobileScrollSupport: true,
         usePortrait: true,
@@ -65,7 +65,7 @@ export default function FlipMagazine() {
 
   const pages: React.ReactNode[] = [];
   pages.push(
-    <div className="mag-page mag-page--cover" data-density="hard" key="cover">
+    <div className="mag-page mag-page--cover" key="cover">
       <div className="mp-inner mp-cover">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="mp-cover-logo" src="assets/wordmark-light.svg" alt="The Sunday Magazine" />
@@ -73,7 +73,7 @@ export default function FlipMagazine() {
         <p className="mp-cover-title">Quem somos</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img className="mp-cover-art" src="assets/drawn/cup-blue.webp" alt="" />
-        <p className="mp-cover-foot">Arraste o canto para folhear →</p>
+        <p className="mp-cover-foot">Arraste o canto da página para folhear →</p>
       </div>
     </div>,
     <div className="mag-page mp--papel" key="intro">
@@ -146,7 +146,7 @@ export default function FlipMagazine() {
       </div>,
     );
   });
-  // Keep an even number of pages before the back cover so the back lands on the right.
+  // Spreads: keep the total even so the last spread is full.
   if ((pages.length + 1) % 2 === 1) {
     pages.push(
       <div className="mag-page mp--cereja" key="question">
@@ -159,7 +159,7 @@ export default function FlipMagazine() {
     );
   }
   pages.push(
-    <div className="mag-page mag-page--cover" data-density="hard" key="back">
+    <div className="mag-page mag-page--cover" key="back">
       <div className="mp-inner mp-cover mp-back">
         <p className="mp-cover-title">{about.signoff}</p>
         <a className="mp-subscribe" href={publication.subscribeUrl}>Assinar a The Sunday ↗</a>
@@ -171,10 +171,15 @@ export default function FlipMagazine() {
     <section className="flip" aria-labelledby="flip-heading">
       <div className="flip-head">
         <p className="eyebrow">Quem somos</p>
-        <h2 id="flip-heading">Folheie a revista.</h2>
+        <h2 id="flip-heading">Folheie a revista</h2>
       </div>
-      <div className="flip-book-wrap">
-        <div className="flip-book" ref={bookRef}>{pages}</div>
+      <div className="flip-desk">
+        <div className="flip-book-wrap">
+          <div className="flip-stack flip-stack--l" aria-hidden="true" />
+          <div className="flip-stack flip-stack--r" aria-hidden="true" />
+          <div className="flip-book" ref={bookRef}>{pages}</div>
+          <div className="flip-gutter" aria-hidden="true" />
+        </div>
       </div>
       <div className="flip-controls">
         <button type="button" onClick={() => flipRef.current?.flipPrev()} disabled={page === 0} aria-label="Página anterior">←</button>

@@ -1,36 +1,28 @@
 'use client';
 
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Article } from '@/lib/types';
-import { balanceRows, capacityFor, physical } from '@/lib/magazines.mjs';
+import { hash } from '@/lib/magazines.mjs';
 import { orderByPopularity } from '@/lib/archive-core.mjs';
 import Cover from './Cover';
 import { useEditions } from './Editions';
 
-type Props = {
-  popularIds: string[];
-  locale: string;
-};
-
+type Props = { popularIds: string[]; locale: string };
 type Sort = 'new' | 'popular';
 const ALL = '__all__';
-const GAP = 18; // px between magazines
-const SIDE_PAD = 34; // px inside the shelf on each side
-const AVG_WEIGHT = 140;
-// Inline so the relative path resolves against the page (works on the site and in static previews).
-const WOOD = { backgroundImage: 'url(assets/worn-wood.webp)', backgroundRepeat: 'repeat-x' } as const;
 
-const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
+/** Stable "dropped on the table" variation per edition. */
+function scatter(id: string) {
+  const h = hash(id);
+  return { rot: ((h % 1300) / 100 - 6.5).toFixed(2), dy: ((h >> 8) % 26) - 13, dx: ((h >> 16) % 18) - 9 };
+}
 
 export default function Newsstand({ popularIds, locale }: Props) {
   const { editions, byId, open: openEdition, label } = useEditions();
   const articles = useMemo<Article[]>(() => editions.map((e) => e.article), [editions]);
   const [filter, setFilter] = useState<string>(ALL);
   const [sort, setSort] = useState<Sort>('new');
-  const [rackWidth, setRackWidth] = useState<number | null>(null);
-  const rackRef = useRef<HTMLDivElement>(null);
 
-  // Filters come from real, visible tags. "Geral" only appears if some post has no tags.
   const filters = useMemo(() => {
     const counts = new Map<string, number>();
     let untagged = 0;
@@ -43,6 +35,17 @@ export default function Newsstand({ popularIds, locale }: Props) {
     return list;
   }, [articles, locale]);
 
+  // The top menu can ask for a filter ("Edições", "The Sunday Tips").
+  useEffect(() => {
+    const on = (e: Event) => {
+      const want = String((e as CustomEvent).detail || '').toLowerCase();
+      const hit = filters.find((f) => f.tag.toLowerCase() === want);
+      setFilter(hit ? hit.tag : ALL);
+    };
+    window.addEventListener('sunday:filter', on);
+    return () => window.removeEventListener('sunday:filter', on);
+  }, [filters]);
+
   const visible = useMemo(() => {
     const ordered = sort === 'popular' ? orderByPopularity(articles, popularIds) : [...articles].sort((a, b) => b.date.localeCompare(a.date));
     if (filter === ALL) return ordered;
@@ -50,124 +53,55 @@ export default function Newsstand({ popularIds, locale }: Props) {
     return ordered.filter((a) => a.tags.includes(filter));
   }, [articles, popularIds, sort, filter]);
 
-  // Stable physical variety per edition: tall or standard format, width, lean, page thickness.
-  const items = useMemo(
-    () => visible.map((a) => ({ article: a, ...physical(a.id, [{ ratio: 'grid' }, { ratio: 'stories' }]) })),
-    [visible],
-  );
-
-  useIsoLayoutEffect(() => {
-    const el = rackRef.current;
-    if (!el) return;
-    const measure = () => setRackWidth(el.clientWidth);
-    measure();
-    const ro = new ResizeObserver(measure);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  const width = rackWidth ?? 1100;
-  const capacity = capacityFor(width);
-  const rowSizes = balanceRows(items.length, capacity);
-  const inner = width - SIDE_PAD * 2;
-  // One shared unit so a half-empty shelf keeps the same magazine size as a full one.
-  const unit = (inner - GAP * (capacity - 1)) / (capacity * AVG_WEIGHT);
-
-  const rows: (typeof items)[] = [];
-  let k = 0;
-  for (const n of rowSizes) {
-    rows.push(items.slice(k, k + n));
-    k += n;
-  }
-
   const filterName = (tag: string) => (tag === '__general__' ? 'Geral' : label(tag));
 
   return (
-    <section className="archive" id="edicoes" aria-labelledby="archive-heading">
-      <div className="archive-head">
-        <p className="eyebrow">A banca</p>
-        <h2 id="archive-heading">Todas as edições.</h2>
-      </div>
-      <div className="controls">
-        <div className="filters" role="group" aria-label="Filtrar por tema">
-          <button type="button" className="chip" aria-pressed={filter === ALL} onClick={() => setFilter(ALL)}>
-            Todas <span className="count">{articles.length}</span>
-          </button>
-          {filters.map((f) => (
-            <button key={f.tag} type="button" className="chip" aria-pressed={filter === f.tag} onClick={() => setFilter(f.tag)}>
-              {filterName(f.tag)} <span className="count">{f.count}</span>
-            </button>
-          ))}
-        </div>
-        <label className="sort">
-          <span className="sort-label">Ordenar</span>
-          <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
-            <option value="new">Mais recentes</option>
-            <option value="popular">Mais populares</option>
-          </select>
-        </label>
-      </div>
-
-      <p className="sr-only" aria-live="polite">
-        {visible.length} {visible.length === 1 ? 'edição' : 'edições'}
-      </p>
-
-      <div
-        className={`rack${rackWidth == null ? ' rack--measuring' : ''}`}
-        ref={rackRef}
-      >
-        {items.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}
-        {rows.map((row, r) => {
-          const total = row.reduce((s, it) => s + it.weight * unit, 0) + GAP * (row.length - 1);
-          const fit = Math.min(1, inner / total);
-          return (
-            <div className="shelf-row" key={r} style={{ ['--wood-x' as string]: `${(r * 37) % 100}%` }}>
-              <ul className="shelf-items" style={{ gap: GAP * fit }}>
-                {row.map((it) => {
-                  const w = it.weight * unit * fit;
-                  const h = w * (it.ratio === 'stories' ? 1.42 : 1.27);
-                  const ed = byId.get(it.article.postId)!;
-                  return (
-                    <li
-                      key={it.article.postId}
-                      className="mag"
-                      style={{
-                        width: w,
-                        height: h,
-                        ['--lean' as string]: `${it.lean.toFixed(2)}deg`,
-                        ['--thick' as string]: `${it.thickness.toFixed(1)}px`,
-                      }}
-                    >
-                      <button
-                        type="button"
-                        className="mag-hit"
-                        onClick={(e) => openEdition(it.article.postId, e.currentTarget)}
-                        aria-haspopup="dialog"
-                        aria-label={`${it.article.title}, ${ed.meta.dateLong}`}
-                      >
-                        <span className="mag-body">
-                          <span className="mag-pages" aria-hidden="true" />
-                          <Cover article={it.article} meta={ed.meta} eager={r < 1} />
-                          <span className="mag-crease" aria-hidden="true" />
-                          <span className="mag-sheen" aria-hidden="true" />
-                        </span>
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-              <div className="shelf" aria-hidden="true">
-                <span className="shelf-rail" style={WOOD} />
-                <span className="shelf-board" style={WOOD} />
-                <span className="shelf-lip" style={WOOD} />
-                <span className="shelf-side shelf-side--l" style={WOOD} />
-                <span className="shelf-side shelf-side--r" style={WOOD} />
-              </div>
+    <section className="archive archive--table" id="edicoes" aria-labelledby="archive-heading">
+      <div className="table-floor">
+        <div className="table-card">
+          <p className="eyebrow">A banca</p>
+          <h2 id="archive-heading">Todas as edições</h2>
+          <div className="controls">
+            <div className="filters" role="group" aria-label="Filtrar por tema">
+              <button type="button" className="chip" aria-pressed={filter === ALL} onClick={() => setFilter(ALL)}>
+                Todas <span className="count">{articles.length}</span>
+              </button>
+              {filters.map((f) => (
+                <button key={f.tag} type="button" className="chip" aria-pressed={filter === f.tag} onClick={() => setFilter(f.tag)}>
+                  {filterName(f.tag)} <span className="count">{f.count}</span>
+                </button>
+              ))}
             </div>
-          );
-        })}
-      </div>
+            <label className="sort">
+              <span className="sort-label">Ordenar</span>
+              <select value={sort} onChange={(e) => setSort(e.target.value as Sort)}>
+                <option value="new">Mais recentes</option>
+                <option value="popular">Mais populares</option>
+              </select>
+            </label>
+          </div>
+        </div>
 
+        <p className="sr-only" aria-live="polite">{visible.length} {visible.length === 1 ? 'edição' : 'edições'}</p>
+
+        <ul className="table-mags">
+          {visible.length === 0 && <li className="empty">Nenhuma edição por aqui ainda.</li>}
+          {visible.map((a, i) => {
+            const ed = byId.get(a.postId)!;
+            const s = scatter(a.id);
+            return (
+              <li key={a.postId} className="table-mag" style={{ ['--rot' as string]: `${s.rot}deg`, ['--dy' as string]: `${s.dy}px`, ['--dx' as string]: `${s.dx}px` }}>
+                <button type="button" className="mag-hit" onClick={(e) => openEdition(a.postId, e.currentTarget)} aria-haspopup="dialog" aria-label={`${a.title}, ${ed.meta.dateLong}`}>
+                  <span className="table-mag-body">
+                    <Cover article={a} meta={ed.meta} eager={i < 4} />
+                    <span className="mag-sheen" aria-hidden="true" />
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </section>
   );
 }
