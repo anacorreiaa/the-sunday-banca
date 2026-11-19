@@ -1,4 +1,4 @@
-// A The Sunday magazine cover: the edition's painted photo full-bleed, masthead and cover line printed over it.
+// A The Sunday magazine cover: the edition's photo full-bleed, masthead and cover line printed over it.
 // Every edition, old or new, gets the same layout; the series shows in a small coloured flag, not a solid block.
 import type { Article } from '@/lib/types';
 import type { EditionMeta } from '@/lib/editions';
@@ -11,9 +11,7 @@ function seriesFlag(meta: EditionMeta) {
 }
 
 export default function Cover({ article, meta }: { article: Article; meta: EditionMeta; eager?: boolean }) {
-  // The painted version sits on top; if an edition has no painted photo yet, the plain photo underneath shows.
-  const paint = meta.photo && /^assets\/photos\/\d+\.webp$/.test(meta.photo) ? meta.photo.replace('.webp', '-paint.webp') : null;
-  const layers = [paint, meta.photo].filter(Boolean).map((u) => `url("${u}")`).join(', ');
+  const layers = meta.photo ? `url("${meta.photo}")` : '';
   return (
     <span className="cover-wrap">
       <span className="cover" style={{ ['--accent' as string]: meta.color }}>

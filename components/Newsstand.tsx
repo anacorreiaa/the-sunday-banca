@@ -14,10 +14,12 @@ const ALL = '__all__';
 /** Where the newest editions lie on the table: only the free middle of the wood, clear of the flowers,
  *  books, berries, glasses and cup (left/top in % of the table picture, tilt in degrees). */
 const ON_TABLE = [
-  { x: 30, y: 35, r: -6 },
-  { x: 40.4, y: 37.5, r: 2.5 },
-  { x: 50.4, y: 33.5, r: -2 },
-  { x: 60.4, y: 36.5, r: 5 },
+  { x: 31, y: 31, r: -5 },
+  { x: 44, y: 30, r: 3 },
+  { x: 57, y: 31.5, r: -2.5 },
+  { x: 36.5, y: 38, r: 4 },
+  { x: 49.5, y: 37.5, r: -3 },
+  { x: 60, y: 38.5, r: 6 },
 ];
 
 /** Small stable tilt for the editions further down. */
@@ -115,7 +117,7 @@ export default function Newsstand({ popularIds, locale }: Props) {
         })}
       </ul>
 
-      <div className="table-more">
+      <div className={`table-more${visible.length > onTable.length || visible.length === 0 ? '' : ' table-more--desk-empty'}`}>
         {visible.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}
         {visible.length > onTable.length && <h3>Mais edições</h3>}
         <ul className="table-grid">

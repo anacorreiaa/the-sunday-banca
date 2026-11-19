@@ -806,3 +806,4 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .board--drag .bi img { -webkit-user-drag: none; pointer-events: none; }
 }
 @media (max-width: 760px) { .table-more h3 { display: none; } }
+@media (min-width: 761px) { .table-more--desk-empty { display: none; } }
