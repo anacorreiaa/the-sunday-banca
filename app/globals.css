@@ -936,3 +936,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .site-footer-small { font-size: 13px; color: #c3ccd1; font-family: var(--sans); }
 @media (max-width: 760px) { .site-footer-inner { grid-template-columns: 1fr; } }
 #quem-somos.flip { padding-top: clamp(28px, 4vw, 48px); }
+
+/* ——— Magazine section sits on the beige vine wallpaper; the cup dive fades straight into it ——— */
+.flip, #quem-somos.flip { background: var(--wallpaper); }
+.dive-paper { background: var(--wallpaper) !important; }
+#quem-somos .flip-head h2, #quem-somos .flip-head .eyebrow { text-shadow: 0 0 14px rgba(243, 233, 214, 1), 0 0 4px rgba(243, 233, 214, 1); }
+#quem-somos .flip-controls span { color: var(--expresso); }

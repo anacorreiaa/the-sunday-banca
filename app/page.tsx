@@ -5,7 +5,6 @@ import Hero from '@/components/Hero';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import CupDive from '@/components/CupDive';
-import Room from '@/components/Room';
 import FlipMagazine from '@/components/FlipMagazine';
 import Newsstand from '@/components/Newsstand';
 import SuggestionBoard from '@/components/SuggestionBoard';
@@ -38,7 +37,7 @@ export default async function Home() {
         ) : (
           <p className="empty">Não conseguimos carregar as edições agora. Elas continuam todas no <a href={publication.substackUrl}>Substack</a>.</p>
         )}
-        {editions.length > 0 && <Room />}
+        {/* The Sunday Talks (components/Room.tsx) comes back when the podcast launches. */}
       </main>
       <SiteFooter />
     </EditionsProvider>

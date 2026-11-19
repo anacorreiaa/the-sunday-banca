@@ -39,16 +39,12 @@
    "href": "#topo"
   },
   {
-   "label": "Edições",
-   "filter": "Edições"
-  },
-  {
-   "label": "Quero a revista física",
-   "href": "https://forms.gle/k8VVBrege8vHJB5W8"
-  },
-  {
    "label": "About",
    "href": "#quem-somos"
+  },
+  {
+   "label": "Edições",
+   "filter": "Edições"
   },
   {
    "label": "Sala de Jogos",
