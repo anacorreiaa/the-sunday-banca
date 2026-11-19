@@ -146,8 +146,44 @@ const STICKERS_B: { src: string; s: Spot }[] = [
   { src: 'pajama', s: { x: 0.5, y: 52, w: 5, r: -6, z: 5 } },
 ];
 
-export default function SuggestionBoard({ copy, enabled, variant = 'a' }: { copy: Copy; enabled: boolean; variant?: 'a' | 'b' }) {
+// Version C: only the owners' photos (big and small), post-its and loose drawn pins. No edition prints.
+const MOOD_C: Mood[] = [
+  { src: 'limoes', kind: 'tape', s: { x: 1.5, y: 3, w: 16, r: -3 } },
+  { src: 'revistas', kind: 'polaroid', s: { x: 19, y: 2, w: 10, r: 4 } },
+  { src: 'veleiro', kind: 'plain', s: { x: 63, y: 2, w: 13, r: 3 } },
+  { src: 'roupao', kind: 'polaroid', s: { x: 78, y: 3, w: 12, r: -4 } },
+  { src: 'bobes', kind: 'polaroid', s: { x: 19.5, y: 33, w: 10, r: -3, z: 2 } },
+  { src: 'leitura', kind: 'tape', s: { x: 31, y: 32, w: 14.5, r: 3, z: 2 } },
+  { src: 'cafe', kind: 'tape', s: { x: 47, y: 34, w: 9, r: -4, z: 2 } },
+  { src: 'baguete', kind: 'polaroid', s: { x: 57.5, y: 31, w: 10, r: 4, z: 2 } },
+  { src: 'quarto', kind: 'plain', s: { x: 86, y: 30, w: 11, r: 3, z: 2 } },
+  { src: 'lago', kind: 'tape', s: { x: 1, y: 62, w: 15, r: 2, z: 2 } },
+  { src: 'sudoku', kind: 'plain', s: { x: 18, y: 66, w: 10, r: -4, z: 2 } },
+  { src: 'album', kind: 'polaroid', s: { x: 29.5, y: 61, w: 14, r: 2, z: 2 } },
+  { src: 'books', kind: 'plain', s: { x: 63, y: 64, w: 8, r: 5, z: 2 } },
+  { src: 'safari', kind: 'tape', s: { x: 72.5, y: 60, w: 11, r: -2, z: 2 } },
+  { src: 'papeis', kind: 'plain', s: { x: 86.5, y: 63, w: 8, r: 4, z: 2 } },
+  { src: 'presentes', kind: 'polaroid', s: { x: 89, y: 9, w: 9, r: 6, z: 1 } },
+];
+const NOTE_SPOTS_C: Spot[] = [
+  { x: 3, y: 33, w: 15, r: -2.5, z: 4 },
+  { x: 69, y: 31, w: 15, r: -1.5, z: 4 },
+  { x: 46, y: 63, w: 15, r: 2, z: 4 },
+];
+const STICKERS_C: { src: string; s: Spot }[] = [
+  { src: 'cup-blue', s: { x: 30, y: 17, w: 7, r: 0, z: 5 } },
+  { src: 'toaster', s: { x: 62, y: 54, w: 5, r: 4, z: 5 } },
+  { src: 'vase', s: { x: 47.5, y: 52, w: 6, r: 0, z: 5 } },
+  { src: 'pajama', s: { x: 59.5, y: 20, w: 4.2, r: -6, z: 7 } },
+  { src: 'berries', s: { x: 41, y: 87, w: 6, r: 0, z: 5 } },
+  { src: 'cards', s: { x: 62, y: 86, w: 7, r: -6, z: 5 } },
+  { src: 'boat', s: { x: 82.5, y: 50, w: 5.5, r: 3, z: 5 } },
+  { src: 'puzzles', s: { x: 6, y: 88, w: 7, r: -5, z: 5 } },
+];
+
+export default function SuggestionBoard({ copy, enabled, variant = 'a' }: { copy: Copy; enabled: boolean; variant?: 'a' | 'b' | 'c' }) {
   if (variant === 'b') return <BoardB copy={copy} enabled={enabled} />;
+  if (variant === 'c') return <BoardC copy={copy} enabled={enabled} />;
   return <BoardA copy={copy} enabled={enabled} />;
 }
 
@@ -189,6 +225,43 @@ function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
           <li className="bi handnote" style={pos({ x: 33, y: 89, w: 11, r: 2, z: 5 })} aria-hidden="true">sente-se, a mesa está posta ♡</li>
           <li className="bi badge" style={pos({ x: 90, y: 87, w: 8, r: -8, z: 5 })} aria-hidden="true"><span>The Sunday</span><b>Talks</b><span>em breve</span></li>
           {STICKERS_B.map((st) => (
+            <li key={st.src} className="bi sticker-loose" style={pos(st.s)} aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`assets/drawn/${st.src}.webp`} alt="" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
+
+function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
+  return (
+    <section className="board board--b" id="sugestoes" aria-labelledby="board-heading">
+      <div className="board-cork">
+        <ul className="collage">
+          <li className="bi board-title" style={pos({ x: 33, y: 3, w: 26, r: -1, z: 6 })}>
+            <span className="tape tape--l" aria-hidden="true" />
+            <span className="tape tape--r" aria-hidden="true" />
+            <h2 id="board-heading">{copy.heading}</h2>
+            <p>Escreva num post-it.</p>
+          </li>
+          {copy.prompts.map((p, i) => (
+            <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[i % NOTE_SPOTS_C.length]} />
+          ))}
+          {MOOD_C.map((m, i) => (
+            <li key={m.src} className={`bi mood mood--${m.kind}`} style={pos(m.s)} aria-hidden="true">
+              {m.kind === 'tape' && <span className="tape tape--c" />}
+              {m.kind !== 'tape' && <span className="pushpin" style={{ ['--pin' as string]: PIN_COLORS[(i + 4) % PIN_COLORS.length] }} />}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`assets/mood/${m.src}.webp`} alt="" loading="lazy" />
+            </li>
+          ))}
+          <li className="bi handnote" style={pos({ x: 14, y: 89, w: 11, r: 2, z: 5 })} aria-hidden="true">sente-se, a mesa está posta ♡</li>
+          <li className="bi ticket" style={pos({ x: 27.5, y: 88, w: 11, r: -2, z: 5 })} aria-hidden="true"><span>ADMIT ONE</span><b>Sunday Lunch</b></li>
+          <li className="bi badge" style={pos({ x: 90, y: 86, w: 8, r: -8, z: 5 })} aria-hidden="true"><span>The Sunday</span><b>Talks</b><span>em breve</span></li>
+          {STICKERS_C.map((st) => (
             <li key={st.src} className="bi sticker-loose" style={pos(st.s)} aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={`assets/drawn/${st.src}.webp`} alt="" loading="lazy" />
