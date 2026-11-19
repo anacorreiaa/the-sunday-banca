@@ -6,13 +6,13 @@ import { useEditions } from './Editions';
 // Empty stretches of shelf in room.webp, as % of the image: [left, right, shelf line (bottom), book height].
 // Filled in this order; the right-hand gap on the lower shelf sits behind a microphone, so it goes last.
 const SLOTS: [number, number, number, number][] = [
-  [33.9, 40.3, 29.8, 10.4],
-  [57.8, 63.1, 29.8, 10.4],
-  [64.5, 69.0, 15.1, 9.8],
-  [24.4, 31.3, 15.1, 9.8],
-  [50.9, 55.1, 15.1, 9.8],
-  [76.6, 80.0, 15.1, 9.8],
-  [77.0, 80.0, 29.8, 10.4],
+  [34.3, 40.4, 29.7, 10.4],
+  [57.5, 63.2, 29.7, 10.4],
+  [24.4, 31.2, 15.3, 10.2],
+  [50.8, 55.0, 15.3, 10.2],
+  [64.6, 69.0, 15.3, 10.2],
+  [76.3, 81.0, 15.3, 10.2],
+  [90.4, 95.0, 15.3, 10.2],
 ];
 const SPINE_W = 2.05; // % of image width
 const SPINE_COLORS = ['#8E2B2B', '#6E6B3F', '#CFAD64', '#9A6C45', '#E6DFD3', '#5B2F22', '#738691'];
@@ -48,7 +48,7 @@ export default function Room() {
       <div className="room-scroller" ref={scrollerRef}>
         <div className="room-canvas">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="room-img" src="assets/scene/room.webp" alt="Estante de madeira cheia de livros, duas poltronas, uma azul e uma branca, com microfones de podcast e uma mesinha com hortênsias" />
+          <img className="room-img" src="assets/scene/room.webp" alt="As duas fundadoras da The Sunday, de pijama listrado, rindo nas poltronas em frente a uma estante de livros, cada uma com um microfone de podcast" />
           <ul className="spines" aria-label="Edições na estante">
             {editions.slice(0, spots.length).map((e, i) => {
               const c = SPINE_COLORS[i % SPINE_COLORS.length];

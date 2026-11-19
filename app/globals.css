@@ -395,8 +395,14 @@ button, select, textarea, input { font: inherit; color: inherit; }
 .topbar--dark { border-bottom-color: rgba(59, 42, 32, 0.16); color: var(--expresso); position: relative; z-index: 5; width: 100%; }
 .topbar--dark .topbar-center { color: rgba(59, 42, 32, 0.6); }
 .hero-stage { position: relative; flex: 1; width: 100%; max-width: 1500px; margin: 0 auto; min-height: 560px; }
-.hero-logo { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); margin: 0; z-index: 3; pointer-events: none; }
-.hero-logo img { width: min(560px, 46vw); height: auto; }
+.hero-center { position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%); z-index: 6; display: flex; flex-direction: column; align-items: center; text-align: center; width: min(560px, 50vw); }
+.hero-logo { margin: 0; pointer-events: none; }
+.hero-lead { margin: 14px 0 18px; font-family: var(--serif); font-style: italic; font-size: clamp(16px, 1.5vw, 20px); line-height: 1.3; color: var(--expresso); max-width: 30ch; }
+.print-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--cereja); color: var(--branco-casa); text-decoration: none; padding: 14px 24px; min-height: 48px; border-radius: 2px; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; box-shadow: 0 12px 22px -12px rgba(142, 43, 43, 0.7); transition: transform 0.2s, background 0.2s; }
+.print-cta:hover { background: var(--expresso); transform: translateY(-2px); }
+.print-note { margin: 10px 0 0; font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+.sitenav-links a.nav-print { color: var(--cereja); font-weight: 500; }
+.hero-logo img { width: min(480px, 40vw); height: auto; }
 .sticker {
   position: absolute; left: var(--x); top: var(--y); width: var(--w);
   padding: 0; border: 0; background: none; cursor: pointer; z-index: 2;
@@ -418,12 +424,15 @@ button, select, textarea, input { font: inherit; color: inherit; }
 @keyframes hint { 50% { transform: translateY(5px); opacity: 0.55; } }
 
 @media (max-width: 760px) {
-  .hero-stage { min-height: 0; aspect-ratio: 3 / 4; }
+  .hero-stage { min-height: 0; aspect-ratio: 3 / 5; }
   .sticker { left: var(--mx); top: var(--my); width: var(--mw); transform: rotate(var(--mr)); }
   .sticker:hover, .sticker:focus-visible { transform: rotate(var(--mr)) scale(1.04); }
-  .hero-logo { top: 50%; }
-  .hero-logo { top: 52%; }
-  .hero-logo img { width: 62vw; }
+
+  .hero-center { width: 80vw; top: 51%; }
+  .hero-logo img { width: 58vw; }
+  .hero-lead { font-size: 14px; margin: 8px 0 10px; }
+  .print-cta { padding: 11px 16px; font-size: 10.5px; min-height: 44px; }
+  .print-note { font-size: 11px; }
 }
 
 /* ——— Cup dive ——— */
@@ -694,7 +703,42 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .mood--plain { border: 0.4cqw solid #fbf8f1; }
 .tape--c { left: 50%; margin-left: -3cqw; transform: rotate(-3deg); z-index: 2; }
 
+/* American raffle-style tickets */
+.tickets { aspect-ratio: 2 / 1; }
+.ticket2 {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #e8d3b0; color: #3b2a20; text-align: center;
+  background-image: radial-gradient(rgba(91, 47, 34, 0.06) 1px, transparent 1px); background-size: 5px 5px;
+  -webkit-mask: radial-gradient(circle 0.55cqw at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 0.55cqw at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+          mask: radial-gradient(circle 0.55cqw at 0 50%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 0.55cqw at 100% 50%, transparent 98%, #000) right / 51% 100% no-repeat;
+  filter: drop-shadow(0 0.5cqw 0.5cqw rgba(40, 25, 10, 0.35));
+}
+.ticket2::before { content: ''; position: absolute; inset: 0.55cqw 1.1cqw; border: 1px solid rgba(59, 42, 32, 0.7); border-radius: 2px; outline: 1px dashed rgba(59, 42, 32, 0.45); outline-offset: -0.45cqw; }
+.ticket2--back { transform: rotate(9deg) translate(4%, -14%); background-color: #dcc39b; }
+.ticket2-top { font-size: 0.75cqw; letter-spacing: 0.26em; font-weight: 600; }
+.ticket2 b { font-family: var(--serif); font-size: 1.6cqw; white-space: nowrap; font-weight: 600; line-height: 1; margin: 0.25cqw 0; }
+.ticket2-sub { font-size: 0.65cqw; letter-spacing: 0.3em; }
+
+/* Handwritten letters kept on the board */
+.letters { aspect-ratio: 3 / 4; }
+.letter {
+  position: absolute; inset: 0; padding: 1.4cqw 1.2cqw; box-sizing: border-box;
+  background-color: #f6efdf; color: #2f3e57; font-family: 'Caveat', cursive; font-size: 1.45cqw; line-height: 1.7cqw;
+  background-image: repeating-linear-gradient(transparent 0 1.6cqw, rgba(126, 160, 190, 0.45) 1.6cqw 1.7cqw), linear-gradient(90deg, transparent 1.6cqw, rgba(200, 80, 80, 0.35) 1.6cqw 1.7cqw, transparent 1.7cqw);
+  background-position: 0 1.2cqw, 0 0;
+  box-shadow: 0 1cqw 1.2cqw -0.8cqw rgba(40, 25, 10, 0.55);
+}
+.letter--back { transform: rotate(-7deg) translate(-6%, 3%); background: #ece2cb; }
+.letter-sign { display: block; text-align: right; margin-top: 0.4cqw; }
+.recipe {
+  padding: 0.8cqw 1cqw 1cqw; box-sizing: border-box; background: #fbf6ea; color: #2f3e57;
+  font-family: 'Caveat', cursive; font-size: 1.1cqw; line-height: 1.3cqw; border-top: 0.35cqw solid #c9d7de;
+  box-shadow: 0 1cqw 1.2cqw -0.8cqw rgba(40, 25, 10, 0.55);
+}
+.recipe-title { display: block; font-size: 1.4cqw; white-space: nowrap; margin-bottom: 0.3cqw; color: var(--cereja); }
+
 @media (max-width: 760px) {
+  .tickets, .letters, .recipe { display: none; }
   .board--b .board-cork { aspect-ratio: auto; }
   .board--b .board-title h2 { font-size: 30px; }
   .board--b .board-title p { font-size: 13px; }

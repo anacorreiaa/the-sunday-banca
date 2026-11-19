@@ -162,7 +162,6 @@ const MOOD_C: Mood[] = [
   { src: 'album', kind: 'polaroid', s: { x: 29.5, y: 61, w: 14, r: 2, z: 2 } },
   { src: 'books', kind: 'plain', s: { x: 63, y: 64, w: 8, r: 5, z: 2 } },
   { src: 'safari', kind: 'tape', s: { x: 72.5, y: 60, w: 11, r: -2, z: 2 } },
-  { src: 'papeis', kind: 'plain', s: { x: 86.5, y: 63, w: 8, r: 4, z: 2 } },
   { src: 'presentes', kind: 'polaroid', s: { x: 89, y: 9, w: 9, r: 6, z: 1 } },
 ];
 const NOTE_SPOTS_C: Spot[] = [
@@ -258,8 +257,18 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
               <img src={`assets/mood/${m.src}.webp`} alt="" loading="lazy" />
             </li>
           ))}
-          <li className="bi handnote" style={pos({ x: 14, y: 89, w: 11, r: 2, z: 5 })} aria-hidden="true">sente-se, a mesa está posta ♡</li>
-          <li className="bi ticket" style={pos({ x: 27.5, y: 88, w: 11, r: -2, z: 5 })} aria-hidden="true"><span>ADMIT ONE</span><b>Sunday Lunch</b></li>
+          <li className="bi tickets" style={pos({ x: 28.5, y: 86, w: 13.5, r: -4, z: 5 })} aria-hidden="true">
+            <span className="ticket2 ticket2--back" />
+            <span className="ticket2"><span className="ticket2-top">· TICKET ·</span><b>Sunday Lunch</b><span className="ticket2-sub">ADMIT ONE</span></span>
+          </li>
+          <li className="bi letters" style={pos({ x: 84.5, y: 59, w: 13, r: 4, z: 3 })} aria-hidden="true">
+            <span className="letter letter--back" />
+            <span className="letter">Querida,<br />domingo que vem tem bolo de limão e conversa longa. Traz aquele livro que você me prometeu.<br /><span className="letter-sign">com carinho, M.</span></span>
+          </li>
+          <li className="bi recipe" style={pos({ x: 14.5, y: 83.5, w: 12.5, r: 3, z: 5 })} aria-hidden="true">
+            <span className="recipe-title">Bolo de limão da vó</span>
+            3 ovos, 1 xíc. de açúcar, 2 limões, 2 xíc. de farinha. Forno médio, 40 min ♡
+          </li>
           <li className="bi badge" style={pos({ x: 90, y: 86, w: 8, r: -8, z: 5 })} aria-hidden="true"><span>The Sunday</span><b>Talks</b><span>em breve</span></li>
           {STICKERS_C.map((st) => (
             <li key={st.src} className="bi sticker-loose" style={pos(st.s)} aria-hidden="true">

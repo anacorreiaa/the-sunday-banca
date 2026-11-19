@@ -25,6 +25,7 @@ export default function SiteNav() {
             return (
               <li key={it.label}>
                 <a
+                  className={it.label === 'Quero a revista física' ? 'nav-print' : undefined}
                   href={it.filter ? '#edicoes' : it.href}
                   onClick={(e) => go(e, it)}
                   {...(external ? { target: '_blank', rel: 'noopener' } : {})}

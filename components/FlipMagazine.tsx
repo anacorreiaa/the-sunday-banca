@@ -162,7 +162,8 @@ export default function FlipMagazine() {
     <div className="mag-page mag-page--cover" key="back">
       <div className="mp-inner mp-cover mp-back">
         <p className="mp-cover-title">{about.signoff}</p>
-        <a className="mp-subscribe" href={publication.subscribeUrl}>Assinar a The Sunday ↗</a>
+        <a className="mp-subscribe" href={publication.printMagazine.url} target="_blank" rel="noopener">Quero a revista física ↗</a>
+        <a className="mp-subscribe" href={publication.subscribeUrl}>Assinar a newsletter ↗</a>
       </div>
     </div>,
   );
