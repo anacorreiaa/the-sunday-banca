@@ -1065,3 +1065,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .notes-mobile-head .board-eyebrow { font-size: 11px; margin-bottom: 8px; }
 .notes-mobile-title { margin: 0 0 8px; font-family: var(--serif); font-weight: 600; font-size: 34px; line-height: 1.05; color: var(--expresso); }
 .notes-mobile-head .notes-mobile-h { margin: 0; }
+
+/* Magazine: pictures give up space before the text has to shrink */
+.mp-inner > .mp-photo, .mp-inner > .mp-ed-photo { flex: 0 1 auto; min-height: 22%; object-fit: cover; }
+.mp-inner > .mp-spot { flex: 0 1 auto; min-height: 0; max-height: 46%; width: auto; max-width: 48%; object-fit: contain; }
+.mp-inner > * { flex-shrink: 0; }
+.mp-inner > .mp-photo, .mp-inner > .mp-ed-photo, .mp-inner > .mp-spot { flex-shrink: 1; }

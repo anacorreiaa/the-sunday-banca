@@ -24,6 +24,47 @@ function trimTo(paras: string[], max: number) {
   return out;
 }
 
+/**
+ * Shrinks each page's content (never below 62%) until nothing is cut off at the bottom.
+ * Pages that are not on screen are measured in an invisible copy of the same size.
+ */
+function fitPages(root: HTMLElement | null) {
+  if (!root) return;
+  const pages = [...root.querySelectorAll<HTMLElement>('.mag-page')];
+  const shown = pages.find((p) => p.offsetWidth > 0 && p.offsetHeight > 0);
+  if (!shown) return;
+  const W = shown.offsetWidth, H = shown.offsetHeight;
+  const probe = document.createElement('div');
+  probe.style.cssText = `position:fixed;left:-9999px;top:0;width:${W}px;height:${H}px;visibility:hidden;pointer-events:none;`;
+  document.body.appendChild(probe);
+  for (const page of pages) {
+    const inner = page.querySelector<HTMLElement>('.mp-inner');
+    if (!inner) continue;
+    const copy = page.cloneNode(true) as HTMLElement;
+    copy.removeAttribute('style');
+    copy.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;';
+    probe.replaceChildren(copy);
+    const el = copy.querySelector<HTMLElement>('.mp-inner')!;
+    el.style.removeProperty('zoom');
+    el.style.removeProperty('height');
+    let fit = 1;
+    for (let k = 0; k < 8; k++) {
+      if (el.scrollHeight - el.clientHeight <= 1 || fit <= 0.62) break;
+      fit = Math.max(0.62, fit * Math.min(0.97, el.clientHeight / el.scrollHeight));
+      el.style.setProperty('zoom', String(fit));
+      el.style.setProperty('height', `${H / fit}px`);
+    }
+    if (fit < 1) {
+      inner.style.setProperty('zoom', String(fit));
+      inner.style.setProperty('height', `${H / fit}px`);
+    } else {
+      inner.style.removeProperty('zoom');
+      inner.style.removeProperty('height');
+    }
+  }
+  probe.remove();
+}
+
 export default function FlipMagazine() {
   const { editions } = useEditions();
   const bookRef = useRef<HTMLDivElement>(null);
@@ -56,12 +97,25 @@ export default function FlipMagazine() {
       pf.on('flip', (e: { data: number }) => setPage(e.data));
       flipRef.current = pf as never;
       setCount(pf.getPageCount());
+      requestAnimationFrame(() => fitPages(bookRef.current));
     })();
     return () => {
       cancelled = true;
       try { flipRef.current?.destroy(); } catch {}
     };
   }, []);
+
+  // Re-fit when the window changes size, when photos arrive and when the fonts finish loading.
+  useEffect(() => {
+    const root = bookRef.current;
+    let t: ReturnType<typeof setTimeout>;
+    const later = () => { clearTimeout(t); t = setTimeout(() => fitPages(bookRef.current), 120); };
+    window.addEventListener('resize', later);
+    root?.addEventListener('load', later, true);
+    document.fonts?.ready.then(later);
+    later();
+    return () => { window.removeEventListener('resize', later); root?.removeEventListener('load', later, true); clearTimeout(t); };
+  }, [list.length]);
 
   const pages: React.ReactNode[] = [];
   pages.push(
@@ -147,7 +201,7 @@ export default function FlipMagazine() {
           )}
           <h3 className="mp-ed-title">{e.article.title}</h3>
           {sub && <p className="mp-ed-sub">{sub}</p>}
-          {trimTo(e.meta.excerpt, 330).map((t, i) => <p key={i} className="mp-body mp-body--small">{t}</p>)}
+          {trimTo(e.meta.excerpt, 230).map((t, i) => <p key={i} className="mp-body mp-body--small">{t}</p>)}
           <a className="mp-more" href={e.article.url} target="_blank" rel="noopener">Continue lendo no Substack ↗</a>
         </div>
       </div>,
