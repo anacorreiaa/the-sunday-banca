@@ -2,6 +2,7 @@
 
 // A real jigsaw: interlocking pieces cut from the month's photo (public/assets/puzzle.webp, made from /quebra-cabeca).
 // Drag pieces onto the board; a piece close to its place clicks into it.
+import Celebrate from './Celebrate';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import muralPhotos from '@/lib/mural.json';
@@ -260,9 +261,10 @@ export default function Jigsaw() {
             aria-hidden="true"
           />
         ))}
+        <Celebrate on={won} text="Você montou o quebra-cabeça!!!" />
         {won && (
           <div className="jigsaw-won" role="status">
-            <p>Pronto, você montou ♡</p>
+            <p>Pronto, você montou!!!</p>
             <button type="button" className="game-btn" onClick={nextPhoto}>Nova imagem →</button>
           </div>
         )}

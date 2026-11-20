@@ -1,6 +1,7 @@
 'use client';
 
 // Palavritas: guess the five-letter word of the day in six tries. Accents don't matter.
+import Celebrate from './Celebrate';
 import { useCallback, useEffect, useState } from 'react';
 
 const WORDS = [
@@ -59,7 +60,7 @@ export default function Palavritas() {
       const next = [...rows, cur];
       setRows(next);
       setCur('');
-      if (cur === answer) setMsg('Isso! Volte amanhã para uma palavra nova ♡');
+      if (cur === answer) setMsg('Isso! Volte amanhã para uma palavra nova.');
       else if (next.length >= ROWS) setMsg(`A palavra era ${WORDS[day % WORDS.length]}.`);
       return;
     }
@@ -103,6 +104,7 @@ export default function Palavritas() {
           );
         })}
       </div>
+      <Celebrate on={msg.startsWith('Isso!')} text="Você descobriu a palavra de hoje!!!" />
       <p className="pw-msg" aria-live="polite">{msg}</p>
       <div className="pw-keys">
         {KEYS.map((row, i) => (

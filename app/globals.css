@@ -859,6 +859,31 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .sd-cell.is-same { background: #ead9b6; }
 .sd-cell.is-sel { background: #e2c98f; }
 .sd-cell.is-clash { color: #a33c32; }
+.sd-cell.is-bad { background: #f3cfc9; color: #9b2d22; font-weight: 600; box-shadow: inset 0 0 0 2px #b8473b; }
+.sd-cell.is-bad.is-sel { background: #eab8b0; }
+.sd-cell.is-shake { animation: sd-shake .42s ease; position: relative; z-index: 1; }
+@keyframes sd-shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-4px); } 40% { transform: translateX(4px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(3px); } }
+.sd-notes { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; height: 100%; padding: 2px; font-family: var(--sans); font-size: clamp(8px, 1.7vw, 11px); line-height: 1; color: #8a6f55; align-items: center; justify-items: center; }
+.sd-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; margin: 0 auto 12px; }
+.sd-tool { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--line); background: #fff; color: var(--expresso); padding: 7px 13px; min-height: 36px; border-radius: 20px; font-size: 12px; letter-spacing: 0.04em; cursor: pointer; }
+.sd-tool.is-on { background: var(--expresso); color: var(--branco-casa); border-color: var(--expresso); }
+.sd-switch { width: 26px; height: 15px; border-radius: 8px; background: #d9cfc0; position: relative; transition: background .2s; }
+.sd-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 11px; height: 11px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.sd-tool.is-on .sd-switch { background: var(--caramelo); }
+.sd-tool.is-on .sd-switch::after { transform: translateX(11px); }
+.games-panel .sd-errors, .sd-errors { font-size: 13px; letter-spacing: 0.04em; color: #fff7e8; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.sd-pad.is-pencil button { font-size: 16px; color: #8a6f55; border-style: dashed; }
+.sd-pad button:disabled { opacity: .4; cursor: default; }
+.sd-grid.is-lost { opacity: .75; }
+.sd-cell.is-done { animation: sd-pop .7s cubic-bezier(.3,1.5,.5,1) var(--d, 0ms) both; position: relative; z-index: 2; }
+@keyframes sd-pop {
+  0% { transform: scale(1); box-shadow: none; }
+  40% { transform: scale(1.14) translateY(-2px); background: #f1dfb8; box-shadow: 0 6px 12px -3px rgba(60,30,10,.45), inset 0 1px 0 #fff; }
+  100% { transform: scale(1); box-shadow: none; }
+}
+.sd-pad button.is-gone { visibility: hidden; }
+.games-panel .pw-msg.sd-warn, .pw-msg.sd-warn { font-family: var(--sans); font-size: 14px; color: #ffd9d2; }
+.sd-lost { margin-top: 6px; }
 .sd-grid.is-solved { border-color: var(--ouro-velho); }
 .sd-pad { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 14px auto 0; max-width: 470px; }
 .sd-pad button { font-variant-numeric: lining-nums; width: 44px; height: 46px; border: 1px solid var(--line); background: #fff; border-radius: 4px; font-family: var(--serif); font-size: 22px; color: var(--expresso); cursor: pointer; }
@@ -1022,3 +1047,11 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .caca-cell { font-size: 18px; }
   .caca-words { min-width: 230px; }
 }
+
+/* Celebration */
+.confetti-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
+.celebrate-card { position: fixed; left: 50%; top: 42%; z-index: 9998; transform: translate(-50%, -50%); background: var(--branco-casa, #fffaf2); border: 1px solid var(--ouro-velho); border-radius: 4px; padding: 26px 40px 22px; text-align: center; box-shadow: 0 24px 50px -16px rgba(30, 15, 5, .55); animation: celebrate-in .5s cubic-bezier(.3, 1.4, .5, 1) both, celebrate-out .5s ease 2.7s forwards; cursor: pointer; max-width: calc(100vw - 40px); }
+.celebrate-title { margin: 0; font-family: var(--serif); font-size: clamp(34px, 6vw, 48px); font-style: italic; color: var(--expresso); line-height: 1.05; }
+.celebrate-text { margin: 8px 0 0; font-size: 14px; letter-spacing: .04em; color: var(--caramelo); }
+@keyframes celebrate-in { from { opacity: 0; transform: translate(-50%, -40%) scale(.85); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@keyframes celebrate-out { to { opacity: 0; transform: translate(-50%, -56%); } }

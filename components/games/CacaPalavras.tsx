@@ -1,6 +1,7 @@
 'use client';
 
 // Caça-palavras: Sunday words hidden across, down and diagonally. Drag (or tap the first and last letter) to mark one.
+import Celebrate from './Celebrate';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const POOL = ['DOMINGO', 'CAFE', 'LIVRO', 'MESA', 'CONVERSA', 'CURIOSA', 'REVISTA', 'VINHO', 'BOLO', 'ARTE', 'MUSEU', 'POEMA', 'VIAGEM', 'JANTAR', 'PIANO', 'FLORES', 'CARTA', 'AMIGAS', 'RECEITA', 'CINEMA'];
@@ -123,7 +124,8 @@ export default function CacaPalavras() {
         </ul>
       </div>
       <p className="game-note">Arraste da primeira à última letra, ou toque nas duas. As palavras podem estar na horizontal, na vertical ou na diagonal, de trás para a frente também.</p>
-      <p className="pw-msg" aria-live="polite">{all ? 'Achou todas ♡' : ''}</p>
+      <Celebrate on={all} text="Você achou todas as palavras!!!" />
+      <p className="pw-msg" aria-live="polite">{all ? 'Achou todas!!!' : ''}</p>
     </div>
   );
 }
