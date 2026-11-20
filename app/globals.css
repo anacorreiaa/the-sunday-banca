@@ -1055,3 +1055,13 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .celebrate-text { margin: 8px 0 0; font-size: 14px; letter-spacing: .04em; color: var(--caramelo); }
 @keyframes celebrate-in { from { opacity: 0; transform: translate(-50%, -40%) scale(.85); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 @keyframes celebrate-out { to { opacity: 0; transform: translate(-50%, -56%); } }
+
+/* Board title with more emphasis */
+.board-eyebrow { display: block; font-family: var(--sans); font-size: 0.95cqw; letter-spacing: 0.28em; text-transform: uppercase; color: var(--caramelo); margin-bottom: 0.9cqw; }
+.board--b .board-title--big { padding: 2.4cqw 2cqw 1.8cqw; }
+.board--b .board-title--big h2 { font-size: 3.15cqw; font-weight: 600; line-height: 1.02; letter-spacing: -0.005em; margin-bottom: 1cqw; }
+.board--b .board-title--big .board-hand { font-family: 'Caveat', cursive; font-size: 1.7cqw; color: var(--expresso); }
+.notes-mobile-head { text-align: center; margin: 4px 0 18px; }
+.notes-mobile-head .board-eyebrow { font-size: 11px; margin-bottom: 8px; }
+.notes-mobile-title { margin: 0 0 8px; font-family: var(--serif); font-weight: 600; font-size: 34px; line-height: 1.05; color: var(--expresso); }
+.notes-mobile-head .notes-mobile-h { margin: 0; }

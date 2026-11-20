@@ -1,5 +1,6 @@
 'use client';
 
+import Celebrate from './games/Celebrate';
 import { useRef, useState } from 'react';
 import { useEditions } from './Editions';
 import muralPhotos from '@/lib/mural.json';
@@ -138,6 +139,7 @@ function WriteNote({ prompt, index, enabled, copy, spot, flat = false }: { promp
         <div className="postit-foot">
           <p className={`postit-status postit-status--${state}`} role="status" aria-live="polite">{state === 'success' || state === 'error' ? note : ''}</p>
           <button type="submit" disabled={state === 'sending'}>{state === 'sending' ? copy.sending : copy.button}</button>
+          <Celebrate on={state === 'success'} title="Recebemos!!!" text="Obrigada por mandar sua ideia." />
         </div>
       </form>
     </li>
@@ -280,11 +282,12 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
       <div className="board-scroll" ref={scrollRef}>
       <div className="board-cork">
         <ul className="collage" onPointerDown={drag}>
-          <li className="bi board-title" style={pos({ x: 33, y: 3, w: 26, r: -1, z: 6 })}>
+          <li className="bi board-title board-title--big" style={pos({ x: 30.5, y: 2.5, w: 31, r: -1, z: 6 })}>
             <span className="tape tape--l" aria-hidden="true" />
             <span className="tape tape--r" aria-hidden="true" />
+            <span className="board-eyebrow">Mural de ideias</span>
             <h2 id="board-heading">{copy.heading}</h2>
-            <p>Escreva num post-it.</p>
+            <p className="board-hand">Escreva num post-it e conta pra gente</p>
           </li>
           {copy.prompts.map((p, i) => (
             <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[i % NOTE_SPOTS_C.length]} />
@@ -321,7 +324,11 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
       </div>
       {/* On phones the whole board fits the screen, so the notes are too small to write on: the same three notes, full size, below it. */}
       <div className="notes-mobile">
-        <p className="notes-mobile-h">Escreva num post-it ↓</p>
+        <div className="notes-mobile-head">
+          <span className="board-eyebrow">Mural de ideias</span>
+          <p className="notes-mobile-title">{copy.heading}</p>
+          <p className="notes-mobile-h">Escreva num post-it ↓</p>
+        </div>
         <ul>
           {copy.prompts.map((p, i) => (
             <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[0]} flat />
