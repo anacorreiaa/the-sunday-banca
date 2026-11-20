@@ -1,3 +1,4 @@
+import { publicHosts } from '@/lib/site';
 import { NextResponse, type NextRequest } from 'next/server';
 import { alreadyDelivered, clientHash, deliver, isConfigured, RATE_LIMIT, recentCount, validate, notifyByEmail } from '@/lib/recommend';
 
@@ -19,7 +20,7 @@ function trustedOrigin(req: NextRequest) {
   } catch {
     return false;
   }
-  const allowed = new Set<string>();
+  const allowed = new Set<string>(publicHosts);
   if (process.env.SITE_URL) {
     try { allowed.add(new URL(process.env.SITE_URL).host); } catch {}
   }

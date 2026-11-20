@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import publication from '@/lib/publication.json';
 import './globals.css';
 
-const siteUrl = process.env.SITE_URL || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
+import { siteUrl } from '@/lib/site';
 const launch = process.env.LAUNCH_READY === 'true';
 const title = `${publication.name} · A banca`;
 const description = `${publication.description} Todas as edições, numa banca de revistas.`;
