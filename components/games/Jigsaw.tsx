@@ -56,8 +56,20 @@ function piecePath(pw: number, ph: number, t: number, dirs: [number, number, num
 
 export default function Jigsaw() {
   const [size, setSize] = useState(0);
-  const [photo, setPhoto] = useState(0);
-  const IMG = PHOTOS[photo];
+  // -1 until the page opens in the browser, then a random photo (never the one from the last visit).
+  const [photo, setPhoto] = useState(-1);
+  const IMG = photo < 0 ? '' : PHOTOS[photo];
+  useEffect(() => {
+    let last = -1;
+    try { last = Number(localStorage.getItem('sunday-puzzle-last') ?? -1); } catch {}
+    let n = Math.floor(Math.random() * PHOTOS.length);
+    if (PHOTOS.length > 1) while (n === last) n = Math.floor(Math.random() * PHOTOS.length);
+    setPhoto(n);
+  }, []);
+  useEffect(() => {
+    if (photo < 0) return;
+    try { localStorage.setItem('sunday-puzzle-last', String(photo)); } catch {}
+  }, [photo]);
   // A surprise each time: another photo from the month's puzzle and the mural, never the same one twice in a row.
   const nextPhoto = () => setPhoto((cur) => {
     if (PHOTOS.length < 2) return cur;
@@ -76,6 +88,7 @@ export default function Jigsaw() {
   const zTop = useRef(10);
 
   useEffect(() => {
+    if (!IMG) return;
     const i = new Image();
     i.onload = () => setImg(i);
     i.src = IMG;
