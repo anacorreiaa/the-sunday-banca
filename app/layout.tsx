@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import publication from '@/lib/publication.json';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/next';
 
 import { siteUrl } from '@/lib/site';
 const launch = process.env.LAUNCH_READY === 'true';
@@ -30,7 +31,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Caveat:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
