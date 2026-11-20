@@ -1,6 +1,7 @@
 'use client';
 
 // Sudoku: a fresh grid each time, with a unique solution. Pick a square, then a number.
+import GameTimer from './GameTimer';
 import Celebrate from './Celebrate';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -84,6 +85,7 @@ export default function Sudoku() {
   const [pencil, setPencil] = useState(false);
   const [limit, setLimit] = useState(false);
   const [errors, setErrors] = useState(0);
+  const [round, setRound] = useState(0);
   const [shake, setShake] = useState<{ i: number; t: number } | null>(null);
   const [flash, setFlash] = useState<{ cells: Map<number, number>; t: number } | null>(null);
 
@@ -105,6 +107,7 @@ export default function Sudoku() {
     setNotes(Array.from({ length: 81 }, () => []));
     setSel(null);
     setErrors(0);
+    setRound((r) => r + 1);
   }, []);
   useEffect(() => { start(level); }, [level, start]);
   const retry = () => {
@@ -112,6 +115,7 @@ export default function Sudoku() {
     setCells([...game.puzzle]);
     setNotes(Array.from({ length: 81 }, () => []));
     setErrors(0);
+    setRound((r) => r + 1);
   };
 
   const lost = limit && errors >= MAX_ERRORS;
@@ -217,6 +221,7 @@ export default function Sudoku() {
         <button type="button" className={`sd-tool${limit ? ' is-on' : ''}`} role="switch" aria-checked={limit} onClick={toggleLimit}>
           <span className="sd-switch" aria-hidden="true" /> Máximo de {MAX_ERRORS} erros
         </button>
+        <GameTimer running={!solved && !lost} resetKey={round} />
         {limit && <span className="sd-errors" aria-live="polite">Erros: {errors}/{MAX_ERRORS}</span>}
       </div>
       <div className={`sd-grid${solved ? ' is-solved' : ''}${lost ? ' is-lost' : ''}`} role="grid" aria-label="Sudoku">

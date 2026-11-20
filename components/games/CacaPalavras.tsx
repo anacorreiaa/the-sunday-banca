@@ -1,6 +1,7 @@
 'use client';
 
 // Caça-palavras: Sunday words hidden across, down and diagonally. Drag (or tap the first and last letter) to mark one.
+import GameTimer from './GameTimer';
 import Celebrate from './Celebrate';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
@@ -111,6 +112,7 @@ export default function CacaPalavras() {
     <div className="caca">
       <div className="game-bar">
         <span className="game-count">{found.length} de {game.placed.length} palavras</span>
+        <GameTimer running={!all} resetKey={game} />
         <button type="button" className="game-btn" onClick={reset}>Nova grade</button>
       </div>
       <div className="caca-wrap">

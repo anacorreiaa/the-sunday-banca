@@ -1,6 +1,7 @@
 'use client';
 
 // Palavritas: guess the five-letter word of the day in six tries. Accents don't matter.
+import GameTimer from './GameTimer';
 import Celebrate from './Celebrate';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -91,6 +92,9 @@ export default function Palavritas() {
   return (
     <div className="palavritas">
       <p className="game-note">Descubra a palavra de hoje em 6 tentativas. Verde: letra certa no lugar certo. Mostarda: a letra existe, mas em outro lugar. Os acentos não contam.</p>
+      <div className="game-bar">
+        <GameTimer running={!done && (rows.length > 0 || cur.length > 0)} resetKey={day} />
+      </div>
       <div className="pw-grid" role="grid" aria-label="Tentativas">
         {Array.from({ length: ROWS }, (_, r) => {
           const word = r < rows.length ? rows[r] : r === rows.length ? cur : '';

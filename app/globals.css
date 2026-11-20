@@ -1071,3 +1071,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .mp-inner > .mp-spot { flex: 0 1 auto; min-height: 0; max-height: 46%; width: auto; max-width: 48%; object-fit: contain; }
 .mp-inner > * { flex-shrink: 0; }
 .mp-inner > .mp-photo, .mp-inner > .mp-ed-photo, .mp-inner > .mp-spot { flex-shrink: 1; }
+
+/* Game stopwatch */
+.game-timer { display: inline-flex; align-items: center; gap: 8px; }
+.game-time { font-family: var(--sans); font-variant-numeric: tabular-nums; font-size: 15px; letter-spacing: 0.06em; min-width: 3.4em; }
+.games-panel .game-time { color: #fff7e8; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
