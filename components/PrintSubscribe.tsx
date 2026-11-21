@@ -74,7 +74,6 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
         <h2 id="planos-h" className="ps-h2 ps-h2--light">Escolha o seu plano</h2>
-        <p className="ps-area">entrega expressa por motoboy na Grande São Paulo · o frete aparece quando você digitar o CEP</p>
         <div className="ps-tags">
           {plans.map((p, i) => (
             <article key={p.id} className={`ps-tag ps-tag--${i}${p.featured ? ' is-featured' : ''}${planId === p.id ? ' is-picked' : ''}`}>
