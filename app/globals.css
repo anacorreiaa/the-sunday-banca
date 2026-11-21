@@ -1228,3 +1228,25 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-plans .ps-h2 { margin-bottom: 76px; }
 .ps-quote-total { margin-top: 4px !important; font-family: var(--sans); font-size: 14px; color: var(--muted); }
 .ps-quote-total strong { font-weight: 500; color: var(--expresso); }
+
+/* What comes in the box */
+.ps-kit { padding: 30px 24px 100px; text-align: center; }
+.ps-kit .ps-h2 { margin-bottom: 50px; }
+.ps-kit-list { list-style: none; margin: 0 auto; padding: 0; max-width: 1080px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+.ps-kit-list h3 { margin: 22px 0 6px; font-family: 'Caveat', cursive; font-weight: 500; font-size: 36px; line-height: 1; }
+.ps-kit-list p { margin: 0 auto; max-width: 18em; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.ps-kit-art { position: relative; height: 260px; display: grid; place-items: center; }
+.ps-kit-art--mag img { height: 240px; aspect-ratio: 595 / 842; object-fit: cover; transform: rotate(-3deg); box-shadow: 1px 1px 0 #ebe4d8, 2px 2px 0 #d9d0c1, 0 22px 30px -18px rgba(40, 25, 15, .6); }
+.ps-kit-page { width: 170px; height: 230px; background: #fffdf8; transform: rotate(3deg); box-shadow: 0 22px 30px -18px rgba(40, 25, 15, .55); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.ps-kit-grid { display: grid; grid-template-columns: repeat(4, 26px); grid-auto-rows: 26px; border: 1.5px solid var(--expresso); }
+.ps-kit-grid i { font-style: normal; display: grid; place-items: center; font-family: var(--serif); font-size: 16px; color: var(--expresso); border: .5px solid rgba(59,42,32,.35); }
+.ps-kit-words { font-size: 9px; letter-spacing: .22em; color: var(--caramelo); }
+.ps-kit-art--games img { position: absolute; right: 12%; bottom: 6px; width: 110px; }
+.ps-kit-art--stickers .st { position: absolute; background: #fff; padding: 6px; border-radius: 18px; filter: drop-shadow(0 6px 8px rgba(40,25,15,.25)); }
+.ps-kit-art--stickers .st--1 { width: 120px; left: 14%; top: 18px; transform: rotate(-10deg); }
+.ps-kit-art--stickers .st--2 { width: 104px; right: 14%; top: 40px; transform: rotate(8deg); }
+.ps-kit-art--stickers .st--3 { width: 96px; left: 40%; bottom: 0; transform: rotate(-3deg); }
+@media (max-width: 860px) {
+  .ps-kit { padding: 10px 20px 70px; }
+  .ps-kit-list { grid-template-columns: 1fr; gap: 50px; }
+}

@@ -55,6 +55,39 @@ export default async function Assinatura() {
           </div>
         </section>
 
+        {/* What comes in the box */}
+        <section className="ps-kit" aria-labelledby="kit">
+          <p className="ps-eyebrow">Na edição de Natal</p>
+          <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
+          <ul className="ps-kit-list">
+            <li>
+              <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
+              <h3>A revista</h3>
+              <p>Impressa em papel fosco, para ler com calma, sem tela.</p>
+            </li>
+            <li>
+              <div className="ps-kit-art ps-kit-art--games" aria-hidden="true">
+                <span className="ps-kit-page">
+                  <span className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{[3, 7, 0, 0, 0, 1, 0, 9, 4, 0, 0, 2, 0, 0, 6, 0][i] || ''}</i>)}</span>
+                  <span className="ps-kit-words">CAFÉ · DOMINGO · MESA</span>
+                </span>
+                <img src={`${D}cup-blue.webp`} alt="" />
+              </div>
+              <h3>Caderno de jogos</h3>
+              <p>Sudoku, caça-palavras e outros passatempos para fazer junto com a revista.</p>
+            </li>
+            <li>
+              <div className="ps-kit-art ps-kit-art--stickers" aria-hidden="true">
+                <img className="st st--1" src={`${D}boat.webp`} alt="" />
+                <img className="st st--2" src={`${D}berries.webp`} alt="" />
+                <img className="st st--3" src={`${D}vase.webp`} alt="" />
+              </div>
+              <h3>Pack de adesivos</h3>
+              <p>Ilustrações da The Sunday para colar onde você quiser.</p>
+            </li>
+          </ul>
+        </section>
+
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
       </main>
       <SiteFooter />
