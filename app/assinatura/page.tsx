@@ -63,7 +63,6 @@ export default async function Assinatura() {
             <li>
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
               <h3>A revista</h3>
-              <p>Impressa em papel fosco, para ler com calma, sem tela.</p>
             </li>
             <li>
               <div className="ps-kit-art" aria-hidden="true">
@@ -89,7 +88,7 @@ export default async function Assinatura() {
             </li>
             <li>
               <div className="ps-kit-art" aria-hidden="true">
-                <span className="ps-kit-tea"><span className="ps-kit-tea-bag" /><span className="ps-kit-tea-string" /><span className="ps-kit-tea-tag">chá</span></span>
+                <img className="ps-tea-img" src="/assets/drawn/tea.svg" alt="" />
                 <img className="ps-kit-tea-cup" src={`${D}cup-blue.webp`} alt="" />
               </div>
               <h3>Saquinho de chá</h3>
