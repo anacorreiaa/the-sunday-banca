@@ -720,7 +720,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .table-stage { position: relative; width: 100%; aspect-ratio: 2720 / 1536; background: #b07a46 url('../public/assets/scene/table.webp') center / 100% 100% no-repeat; }
 .table-stage .table-mag { position: absolute; left: var(--sx); top: var(--sy); width: 10.8%; z-index: var(--sz); }
 .table-mag { width: clamp(150px, 15vw, 205px); aspect-ratio: 4 / 5.3; position: relative; transform: rotate(var(--rot)); transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); list-style: none; }
-.table-mag:hover, .table-mag:focus-within { transform: translateY(-4%) rotate(0deg) scale(1.5); z-index: 20 !important; }
+.table-mag:hover, .table-mag:focus-within { transform: translateY(-4%) rotate(0deg) scale(1.5); z-index: 5000 !important; }
 .table-mag-body { position: absolute; inset: 0; display: block; border-radius: 1px 3px 3px 1px;
   box-shadow: 0 1px 1px rgba(0,0,0,0.25), 0 0 0 0.5px rgba(0,0,0,0.12), 0.5vw 1.1vw 1.4vw -0.4vw rgba(30, 16, 6, 0.6); }
 .table-mag-body::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5%; z-index: 2; pointer-events: none; background: linear-gradient(90deg, rgba(0,0,0,0.28), rgba(255,255,255,0.18) 45%, transparent); }

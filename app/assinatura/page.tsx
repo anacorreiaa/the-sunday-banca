@@ -88,8 +88,8 @@ export default async function Assinatura() {
             </li>
             <li>
               <div className="ps-kit-art" aria-hidden="true">
-                <img className="ps-tea-img" src="/assets/drawn/tea.svg" alt="" />
-                <img className="ps-kit-tea-cup" src={`${D}cup-blue.webp`} alt="" />
+                <span className="ps-kit-tea"><span className="ps-kit-tea-bag" /><span className="ps-kit-tea-string" /><span className="ps-kit-tea-tag">chá</span></span>
+                <img className="ps-kit-tea-cup" src={`${D}cup-tea.webp`} alt="" />
               </div>
               <h3>Saquinho de chá</h3>
               <p>Para acompanhar a leitura, com calma.</p>

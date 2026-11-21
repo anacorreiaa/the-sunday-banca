@@ -22,9 +22,17 @@ const ON_TABLE = [
   { x: 60, y: 38.5, r: 6 },
 ];
 
-/** Small stable tilt for the editions further down. */
-function tilt(id: string) {
-  return ((hash(id) % 500) / 100 - 2.5).toFixed(2);
+/** Every edition lies on the table. The newest six take the spots above; older ones are piled
+ *  underneath the same spots, a little shifted and turned, so new issues cover the old ones. */
+function spot(i: number, id: string) {
+  const base = ON_TABLE[i % ON_TABLE.length];
+  const layer = Math.floor(i / ON_TABLE.length);
+  if (!layer) return { ...base, z: 1000 - i };
+  const h = hash(id);
+  const dx = (((h % 200) / 100) - 1) * 2.2 * Math.min(layer, 3);
+  const dy = ((((h >> 3) % 200) / 100) - 1) * 2.2 * Math.min(layer, 3);
+  const dr = (((h >> 6) % 160) / 10) - 8;
+  return { x: base.x + dx, y: base.y + dy, r: base.r + dr, z: 1000 - i };
 }
 
 export default function Newsstand({ popularIds, locale }: Props) {
@@ -68,7 +76,6 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
   const filterName = (tag: string) => (tag === '__general__' ? 'Geral' : label(tag));
 
-  const onTable = visible.slice(0, ON_TABLE.length);
   const tableRef = useRef<HTMLDivElement>(null);
 
 
@@ -117,20 +124,14 @@ export default function Newsstand({ popularIds, locale }: Props) {
 
       <div className="table-scroll" ref={tableRef}>
       <ul className="table-stage" aria-label="Edições mais recentes">
-        {onTable.map((a, i) => {
-          const p = ON_TABLE[i];
-          return mag(a, i, { ['--sx' as string]: `${p.x}%`, ['--sy' as string]: `${p.y}%`, ['--rot' as string]: `${p.r}deg`, ['--sz' as string]: i + 1 });
+        {visible.map((a, i) => {
+          const p = spot(i, a.postId);
+          return mag(a, i, { ['--sx' as string]: `${p.x}%`, ['--sy' as string]: `${p.y}%`, ['--rot' as string]: `${p.r}deg`, ['--sz' as string]: p.z });
         })}
       </ul>
       </div>
 
-      <div className={`table-more${visible.length > onTable.length || visible.length === 0 ? '' : ' table-more--desk-empty'}`}>
-        {visible.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}
-        {visible.length > onTable.length && <h3>Mais edições</h3>}
-        <ul className="table-grid">
-          {visible.map((a, i) => mag(a, i, { ['--rot' as string]: `${tilt(a.id)}deg` }, i < onTable.length ? 'on-table' : ''))}
-        </ul>
-      </div>
+      {visible.length === 0 && <p className="empty">Nenhuma edição por aqui ainda.</p>}
     </section>
   );
 }
