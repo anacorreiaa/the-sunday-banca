@@ -59,32 +59,11 @@ export default async function Assinatura() {
         <section className="ps-kit" aria-labelledby="kit">
           <p className="ps-eyebrow">Na edição de Natal</p>
           <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
-          <ul className="ps-kit-list">
+          <ul className="ps-kit-list ps-kit-list--4">
             <li>
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
-              <h3>A revista</h3>
-              <p>Impressa em papel fosco, para ler com calma, sem tela.</p>
-            </li>
-            <li>
-              <div className="ps-kit-art" aria-hidden="true">
-                <span className="ps-kit-page ps-kit-page--sudoku">
-                  {[0, 1, 2, 3].map((g) => (
-                    <span key={g} className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{(i * 7 + g * 3) % 5 === 0 ? ((i + g) % 9) + 1 : ''}</i>)}</span>
-                  ))}
-                </span>
-              </div>
-              <h3>Folha de sudokus</h3>
-              <p>Quatro sudokus numa folha de papel grosso, do fácil ao difícil.</p>
-            </li>
-            <li>
-              <div className="ps-kit-art" aria-hidden="true">
-                <span className="ps-kit-page ps-kit-page--words">
-                  <span className="ps-kit-letters">{'NATALCEIAPRESENTEOMESAVELAREDOMINGOSUNDAYLUZ'.slice(0, 42).split('').map((l, i) => <i key={i} className={i >= 0 && i < 5 ? 'on' : i >= 24 && i < 30 ? 'on' : ''}>{l}</i>)}</span>
-                  <span className="ps-kit-words">NATAL · MESA · CEIA</span>
-                </span>
-              </div>
-              <h3>Caça-palavras do mês</h3>
-              <p>Uma folha com o caça-palavras da edição, para fazer junto com a revista.</p>
+              <h3>A revista, com jogos</h3>
+              <p>Impressa em papel fosco, com uma página de sudoku e o caça-palavras do mês.</p>
             </li>
             <li>
               <div className="ps-kit-art ps-kit-art--stickers" aria-hidden="true">
