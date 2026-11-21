@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 360" width="640" height="720">
+  <defs>
+    <filter id="paper" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="3" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.55  0 0 0 0 0.48  0 0 0 0 0.38  0 0 0 0.10 0" result="tex"/>
+      <feComposite in="tex" in2="SourceGraphic" operator="in" result="t"/>
+      <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="t"/></feMerge>
+    </filter>
+    <filter id="leaves" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.55" numOctaves="3" seed="11" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.33  0 0 0 0 0.27  0 0 0 0 0.20  0 0 0 2.6 -1.05" result="spots"/>
+      <feComposite in="spots" in2="SourceGraphic" operator="in"/>
+    </filter>
+    <filter id="blur"><feGaussianBlur stdDeviation="3"/></filter>
+    <linearGradient id="bag" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fdf9ef"/><stop offset="1" stop-color="#f1e8d6"/>
+    </linearGradient>
+  </defs>
+  <!-- soft shadows -->
+  <path d="M182 92 L 296 92 L 300 330 L 178 330 Z" fill="#3b2a20" opacity=".10" filter="url(#blur)" transform="translate(4 6)"/>
+  <rect x="22" y="196" width="112" height="112" fill="#3b2a20" opacity=".08" filter="url(#blur)" transform="translate(3 5)"/>
+  <!-- string -->
+  <path d="M232 60 C 226 30, 180 20, 150 50 C 120 80, 150 120, 120 150 C 100 170, 86 180, 80 196" stroke="#e4dccd" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+  <path d="M232 60 C 226 30, 180 20, 150 50 C 120 80, 150 120, 120 150 C 100 170, 86 180, 80 196" stroke="#cfc4b0" stroke-width="1" fill="none" stroke-dasharray="2 3"/>
+  <!-- tag (octagon) -->
+  <path d="M38 196 L 122 196 L 134 208 L 134 296 L 122 308 L 38 308 L 26 296 L 26 208 Z" fill="#fbf7ee" stroke="#e2d8c4" stroke-width="1.2" filter="url(#paper)"/>
+  <!-- bag: top corners cut, slight fold at top -->
+  <g filter="url(#paper)">
+    <path d="M198 76 L 268 76 L 292 104 L 294 324 L 178 324 L 176 104 Z" fill="url(#bag)" stroke="#e4dac6" stroke-width="1.2"/>
+    <!-- folded flap seam -->
+    <path d="M232 76 L 232 210" stroke="#ebe2d1" stroke-width="10" opacity=".9"/>
+    <path d="M178 120 L 292 120" stroke="#e9dfcc" stroke-width="1" opacity=".8"/>
+    <!-- leaves showing through -->
+    <path d="M186 214 C 200 196, 222 204, 232 214 C 242 200, 270 196, 284 216 L 286 312 L 184 312 Z" fill="#b9ad97" opacity=".55"/>
+    <path d="M186 214 C 200 196, 222 204, 232 214 C 242 200, 270 196, 284 216 L 286 312 L 184 312 Z" fill="#000" filter="url(#leaves)"/>
+    <!-- haze of paper over leaves -->
+    <path d="M182 200 L 290 200 L 290 318 L 182 318 Z" fill="#fbf6ea" opacity=".28"/>
+  </g>
+  <!-- staple/knot of string at top -->
+  <path d="M228 76 q 4 -10 8 0" stroke="#d8cfbe" stroke-width="2.4" fill="none"/>
+</svg>

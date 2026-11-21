@@ -80,7 +80,6 @@ export default function Hero() {
           <a className="print-cta" href={publication.printMagazine.url} target="_blank" rel="noopener">
             {publication.printMagazine.cta} <span aria-hidden="true">→</span>
           </a>
-          <p className="print-note">{publication.printMagazine.note}</p>
         </div>
       </div>
       <p className="hero-hint" aria-hidden="true">role para mergulhar ↓</p>
