@@ -62,17 +62,19 @@ export default async function Assinatura() {
           <ul className="ps-kit-list ps-kit-list--4">
             <li>
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
-              <h3>A revista, com jogos</h3>
-              <p>Impressa em papel fosco, com uma página de sudoku e o caça-palavras do mês.</p>
+              <h3>A revista</h3>
+              <p>Impressa em papel fosco, para ler com calma, sem tela.</p>
             </li>
             <li>
-              <div className="ps-kit-art ps-kit-art--stickers" aria-hidden="true">
-                <img className="st st--1" src={`${D}boat.webp`} alt="" />
-                <img className="st st--2" src={`${D}berries.webp`} alt="" />
-                <img className="st st--3" src={`${D}vase.webp`} alt="" />
+              <div className="ps-kit-art" aria-hidden="true">
+                <span className="ps-kit-page ps-kit-page--sudoku">
+                  {[0, 1, 2, 3].map((g) => (
+                    <span key={g} className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{(i * 7 + g * 3) % 5 === 0 ? ((i + g) % 9) + 1 : ''}</i>)}</span>
+                  ))}
+                </span>
               </div>
-              <h3>Pack de adesivos</h3>
-              <p>Ilustrações da The Sunday para colar onde você quiser.</p>
+              <h3>Jogos inclusos</h3>
+              <p>Sudoku, caça-palavras e outros passatempos.</p>
             </li>
             <li>
               <div className="ps-kit-art" aria-hidden="true">
@@ -82,8 +84,8 @@ export default async function Assinatura() {
                 </span>
                 <img className="ps-kit-recipe-d" src={`${D}berries.webp`} alt="" />
               </div>
-              <h3>Receita do mês</h3>
-              <p>Um cartão com uma receita de Natal, para a sua mesa.</p>
+              <h3>Receita de Natal</h3>
+              <p>Um cartão com uma receita para a sua mesa.</p>
             </li>
             <li>
               <div className="ps-kit-art" aria-hidden="true">
