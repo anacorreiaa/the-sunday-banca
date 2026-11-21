@@ -58,10 +58,25 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
   // Test mode: nothing is charged and no order is saved. It shows the step where Mercado Pago
   // would open, then the thank-you page, so the whole path can be tried before payments are live.
   const [testPay, setTestPay] = useState(false);
-  const submit = (e: React.FormEvent) => {
+  // With a Mercado Pago link for the plan: save the order, then go and pay.
+  // Without one (still being set up): a test step that charges nothing.
+  const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!plan || area !== 'ok' || frete === null) return;
-    setTestPay(true);
+    if (!plan.checkoutUrl) { setTestPay(true); return; }
+    setState('sending');
+    try {
+      const res = await fetch('/api/assinatura', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ plan: plan.id, ...f, website: (e.currentTarget as HTMLFormElement).website?.value || '' }),
+      });
+      const j = await res.json().catch(() => ({}));
+      if (!res.ok || !j.ok) throw new Error();
+      window.location.href = plan.checkoutUrl;
+    } catch {
+      setState('error');
+    }
   };
   const finishTest = () => {
     if (!plan || frete === null) return;

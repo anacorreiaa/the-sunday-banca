@@ -11,7 +11,7 @@ const json = (status: number, body: Record<string, unknown>) =>
   NextResponse.json(body, { status, headers: { 'Cache-Control': 'no-store' } });
 
 /** The browser's Origin must be the public site (SITE_URL) or the host serving this request. */
-function trustedOrigin(req: NextRequest) {
+export function trustedOrigin(req: NextRequest) {
   const origin = req.headers.get('origin');
   if (!origin) return false;
   let originHost: string;

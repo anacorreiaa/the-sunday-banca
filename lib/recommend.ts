@@ -39,7 +39,7 @@ export function titleFrom(message: string) {
   return first.length > 80 ? `${first.slice(0, 79).trimEnd()}…` : first;
 }
 
-async function notion(path: string, body: unknown) {
+export async function notion(path: string, body: unknown) {
   const res = await fetch(`https://api.notion.com/v1/${path}`, {
     method: 'POST',
     headers: {
