@@ -93,7 +93,7 @@
    "cycles": 6,
    "billing": "once",
    "freeShipping": true,
-   "perk": "Frete grátis em todas as entregas"
+   "perk": "Frete incluso"
   },
   {
    "id": "anual",
@@ -107,7 +107,7 @@
    "cycles": 12,
    "billing": "once",
    "freeShipping": true,
-   "perk": "Frete grátis em todas as entregas"
+   "perk": "Frete incluso"
   }
  ],
  "shipping": {

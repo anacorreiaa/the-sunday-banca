@@ -96,7 +96,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
       {plan && (
         <section className="ps-form-wrap" id="entrega" aria-labelledby="entrega-h">
           <form className="ps-envelope" onSubmit={submit}>
-            <div className="ps-selo" aria-hidden="true"><img src="/assets/drawn/vase.webp" alt="" /></div>
+            <img className="ps-carta" src="/assets/drawn/carta.png" alt="" aria-hidden="true" />
             <h2 id="entrega-h">Para onde mandamos a sua revista?</h2>
             <p className="ps-form-plan">Plano <strong>{plan.name}</strong> · {plan.price} {plan.per}</p>
             <div className="pf-grid">
