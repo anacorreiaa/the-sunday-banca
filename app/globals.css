@@ -717,7 +717,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .table-card { max-width: 820px; margin: 0 auto; }
 .table-card h2 { margin: 0 0 16px; font-family: var(--serif); font-weight: 500; font-size: clamp(30px, 4vw, 46px); color: var(--expresso); }
 .table-card .controls { padding: 0 0 clamp(28px, 4vw, 44px); justify-content: center; flex-wrap: wrap; }
-.table-stage { position: relative; width: 100%; aspect-ratio: 2720 / 1536; background: #b07a46 url('../public/assets/scene/table.webp') center / 100% 100% no-repeat; }
+.table-stage { position: relative; isolation: isolate; width: 100%; aspect-ratio: 2720 / 1536; background: #b07a46 url('../public/assets/scene/table.webp') center / 100% 100% no-repeat; }
 .table-stage .table-mag { position: absolute; left: var(--sx); top: var(--sy); width: 10.8%; z-index: var(--sz); }
 .table-mag { width: clamp(150px, 15vw, 205px); aspect-ratio: 4 / 5.3; position: relative; transform: rotate(var(--rot)); transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1); list-style: none; }
 .table-mag:hover, .table-mag:focus-within { transform: translateY(-4%) rotate(0deg) scale(1.5); z-index: 5000 !important; }
