@@ -66,5 +66,63 @@
   "phone": "",
   "instagram": "thesunday.ac",
   "instagramUrl": "https://www.instagram.com/thesunday.ac/"
+ },
+ "printPlans": [
+  {
+   "id": "mensal",
+   "name": "Mensal",
+   "price": "R$ 59,90",
+   "per": "por mês",
+   "desc": "Uma revista nova todo mês. A cobrança se repete sozinha, mês a mês.",
+   "checkoutUrl": "",
+   "featured": false,
+   "amount": 59.9,
+   "cycles": 1,
+   "billing": "monthly"
+  },
+  {
+   "id": "semestral",
+   "name": "Semestral",
+   "price": "R$ 49,90",
+   "per": "por mês, no plano de 6 meses",
+   "desc": "Seis edições, pagas de uma vez. O menor preço por revista.",
+   "checkoutUrl": "",
+   "featured": true,
+   "amount": 49.9,
+   "cycles": 6,
+   "billing": "once"
+  },
+  {
+   "id": "avulsa",
+   "name": "Edição avulsa",
+   "price": "R$ 69,90",
+   "per": "uma vez",
+   "desc": "Só a edição do mês, sem assinatura.",
+   "checkoutUrl": "",
+   "featured": false,
+   "amount": 69.9,
+   "cycles": 1,
+   "billing": "once"
+  }
+ ],
+ "shipping": {
+  "bands": [
+   {
+    "maxKm": 5,
+    "price": 12
+   },
+   {
+    "maxKm": 15,
+    "price": 18
+   },
+   {
+    "maxKm": 30,
+    "price": 25
+   },
+   {
+    "maxKm": 45,
+    "price": 35
+   }
+  ]
  }
 }
