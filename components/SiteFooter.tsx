@@ -27,7 +27,7 @@ export default function SiteFooter() {
           <p className="site-footer-h">The Sunday</p>
           <ul>
             <li><a href={publication.substackUrl}>Newsletter no Substack</a></li>
-            <li><a href={publication.printMagazine.url} target="_blank" rel="noopener">Quero a revista física</a></li>
+            <li><a href={publication.printMagazine.url}>Quero a revista física</a></li>
             <li><a href={publication.subscribeUrl}>Assinar grátis</a></li>
           </ul>
         </div>

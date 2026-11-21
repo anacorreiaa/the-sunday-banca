@@ -77,7 +77,7 @@ export default function Hero() {
             <img src="assets/wordmark.svg" alt={publication.wordmark.alt} width={publication.wordmark.width} height={publication.wordmark.height} />
           </h1>
           <p className="hero-lead">{publication.printMagazine.lead}</p>
-          <a className="print-cta" href={publication.printMagazine.url} target="_blank" rel="noopener">
+          <a className="print-cta" href={publication.printMagazine.url}>
             {publication.printMagazine.cta} <span aria-hidden="true">→</span>
           </a>
         </div>

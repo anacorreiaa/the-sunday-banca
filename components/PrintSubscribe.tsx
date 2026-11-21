@@ -158,7 +158,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
             <button type="submit" className="ps-pay" disabled={state === 'sending' || area !== 'ok'}>
               {state === 'sending' ? 'Enviando…' : 'Continuar para o pagamento →'}
             </button>
-            <p className="ps-safe">Você será levada para o Mercado Pago para pagar com segurança.</p>
+            <p className="ps-safe">Você será levada para o Mercado Pago para pagar com segurança. A assinatura renova automaticamente ao fim de cada período, e você pode cancelar quando quiser.</p>
             {testPay && plan && frete !== null && (
               <div className="ps-mp" role="dialog" aria-modal="true" aria-labelledby="mp-h">
                 <div className="ps-mp-card">

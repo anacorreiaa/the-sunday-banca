@@ -56,7 +56,7 @@
   }
  ],
  "printMagazine": {
-  "url": "https://forms.gle/k8VVBrege8vHJB5W8",
+  "url": "/assinatura",
   "lead": "Uma newsletter para mulheres curiosas, todo domingo. E uma revista impressa, todo mês.",
   "cta": "Quero a revista física",
   "note": "Garanta a sua com assinatura mensal"
@@ -74,7 +74,7 @@
    "price": "R$ 69,90",
    "per": "por mês + frete",
    "desc": "Uma revista nova todo mês. Cancele quando quiser.",
-   "checkoutUrl": "",
+   "checkoutUrl": "https://mpago.la/1LyqFRA",
    "featured": false,
    "amount": 69.9,
    "cycles": 1,
@@ -87,7 +87,7 @@
    "price": "R$ 59,90",
    "per": "por mês",
    "desc": "Seis edições, uma por mês.",
-   "checkoutUrl": "",
+   "checkoutUrl": "https://mpago.la/34eFCuZ",
    "featured": false,
    "amount": 59.9,
    "cycles": 6,
@@ -101,7 +101,7 @@
    "price": "R$ 49,90",
    "per": "por mês",
    "desc": "Doze edições, uma por mês.",
-   "checkoutUrl": "",
+   "checkoutUrl": "https://mpago.la/27KbhDc",
    "featured": true,
    "amount": 49.9,
    "cycles": 12,
