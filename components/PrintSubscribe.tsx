@@ -11,7 +11,7 @@ const brl = (n: number) => n.toLocaleString('pt-BR', { style: 'currency', curren
 export function totalFor(p: Plan, fixedFrete: number) {
   const frete = p.freeShipping ? 0 : fixedFrete;
   if (p.billing === 'monthly') return { frete, line: `${brl(p.amount)} + ${brl(frete)} de frete`, total: `${brl(p.amount + frete)} por mês` };
-  return { frete, line: `${p.cycles} × ${brl(p.amount)}, frete grátis`, total: `${brl(p.amount * p.cycles)} de uma vez` };
+  return { frete, line: `${p.cycles} × ${brl(p.amount)}, frete grátis`, total: brl(p.amount * p.cycles) };
 }
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
