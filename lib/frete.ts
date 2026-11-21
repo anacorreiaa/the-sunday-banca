@@ -45,13 +45,24 @@ export async function locate(cep: string): Promise<(Place & { src: string }) | n
     const p = { lat: Number(a.lat), lng: Number(a.lng) };
     if (usable(p)) return { ...p, src: 'a' };
   }
-  // The street from ViaCEP, then its position from OpenStreetMap.
+  // The street from ViaCEP, then its position from OpenStreetMap. Street names repeat across
+  // the region, so the neighbourhood goes in the search and a result with the same CEP or city wins.
   const v = await getJson(`https://viacep.com.br/ws/${cep}/json/`);
   if (v && !v.erro && v.localidade) {
-    const q = new URLSearchParams({ street: v.logradouro || '', city: v.localidade, state: v.uf || 'SP', country: 'Brasil', format: 'json', limit: '1' });
-    const n = await getJson(`https://nominatim.openstreetmap.org/search?${q}`);
-    if (Array.isArray(n) && n[0]) {
-      const p = { lat: Number(n[0].lat), lng: Number(n[0].lon) };
+    const dashed = `${cep.slice(0, 5)}-${cep.slice(5)}`;
+    const tries = [
+      [v.logradouro, v.bairro, v.localidade, v.uf, 'Brasil'],
+      [v.logradouro, v.localidade, v.uf, 'Brasil'],
+      [v.bairro, v.localidade, v.uf, 'Brasil'],
+    ].map((parts) => parts.filter(Boolean).join(', '));
+    for (const q of tries) {
+      const n = await getJson(`https://nominatim.openstreetmap.org/search?${new URLSearchParams({ q, format: 'json', limit: '5', countrycodes: 'br' })}`);
+      if (!Array.isArray(n) || !n.length) continue;
+      const pick =
+        n.find((x: { display_name: string }) => x.display_name.includes(dashed)) ||
+        n.find((x: { display_name: string }) => x.display_name.includes(`${v.localidade},`)) ||
+        n[0];
+      const p = { lat: Number(pick.lat), lng: Number(pick.lon) };
       if (usable(p)) return { ...p, src: 'n' };
     }
   }
