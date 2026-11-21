@@ -1225,3 +1225,4 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 @media (max-width: 860px) { .ps-thanks-table { padding: 110px 16px 80px; } .ps-thanks-card h1 { max-width: 100%; font-size: 42px; margin-top: 50px; } }
 .ps-thanks-card .ps-mp-badge { max-width: 70%; }
 @media (max-width: 860px) { .ps-thanks-card .ps-mp-badge { font-size: 10px; letter-spacing: 0.12em; } }
+.ps-plans .ps-h2 { margin-bottom: 76px; }

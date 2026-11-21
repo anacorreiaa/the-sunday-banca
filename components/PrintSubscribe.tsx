@@ -3,21 +3,20 @@
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
 import { useState } from 'react';
 
-type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string };
+type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean };
 
 const brl = (n: number) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-/** What the customer pays for a plan with a given shipping price. */
-export function totalFor(p: Plan, frete: number) {
-  const each = p.amount + frete;
-  if (p.billing === 'monthly') return { line: `${brl(p.amount)} + ${brl(frete)} de frete`, total: `${brl(each)} por mês` };
-  if (p.cycles > 1) return { line: `${p.cycles} × (${brl(p.amount)} + ${brl(frete)} de frete)`, total: `${brl(each * p.cycles)} de uma vez` };
-  return { line: `${brl(p.amount)} + ${brl(frete)} de frete`, total: brl(each) };
+/** What the customer pays for a plan. Long plans ship free; the monthly plan pays a fixed delivery fee. */
+export function totalFor(p: Plan, fixedFrete: number) {
+  const frete = p.freeShipping ? 0 : fixedFrete;
+  if (p.billing === 'monthly') return { frete, line: `${brl(p.amount)} + ${brl(frete)} de frete`, total: `${brl(p.amount + frete)} por mês` };
+  return { frete, line: `${p.cycles} × ${brl(p.amount)}, frete grátis`, total: `${brl(p.amount * p.cycles)} de uma vez` };
 }
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
 
-export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
+export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; fixedFrete: number }) {
   const [planId, setPlanId] = useState<string | null>(null);
   const [f, setF] = useState({ nome: '', email: '', whatsapp: '', cep: '', rua: '', numero: '', complemento: '', bairro: '', cidade: '', uf: '' });
   const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
@@ -43,7 +42,7 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
     try {
       const r = await fetch(`/api/frete?cep=${cep}`);
       const j = await r.json();
-      if (j.ok) { setFrete(j.price); setArea('ok'); }
+      if (j.ok) { setFrete(fixedFrete); setArea('ok'); }
       else { setFrete(null); setArea(j.reason === 'out' ? 'out' : 'unknown'); }
     } catch {
       setFrete(null); setArea('unknown');
@@ -66,7 +65,7 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
   };
   const finishTest = () => {
     if (!plan || frete === null) return;
-    const q = new URLSearchParams({ plano: plan.name, total: totalFor(plan, frete).total, teste: '1' });
+    const q = new URLSearchParams({ plano: plan.name, total: totalFor(plan, fixedFrete).total, teste: '1' });
     window.location.href = `/assinatura/obrigada?${q}`;
   };
 
@@ -82,7 +81,7 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
                 {p.featured && <span className="ps-stamp" aria-label="Melhor preço">melhor<br />preço</span>}
                 <h3>{p.name}</h3>
                 <p className="ps-price">{p.price}</p>
-                <p className="ps-per">{p.per} + frete</p>
+                <p className="ps-per">{p.per}</p>
                 <p className="ps-desc">{p.desc}</p>
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
                   {planId === p.id ? 'Escolhido ✓' : 'Escolher'}
@@ -104,18 +103,18 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
               <label>E-mail<input required type="email" autoComplete="email" value={f.email} onChange={set('email')} /></label>
               <label>WhatsApp<input required type="tel" autoComplete="tel" inputMode="tel" placeholder="(11) 00000-0000" value={f.whatsapp} onChange={set('whatsapp')} /></label>
               <label>CEP<input required inputMode="numeric" autoComplete="postal-code" placeholder="00000-000" value={f.cep} onChange={onCep} onBlur={() => lookupCep()} aria-describedby="cep-msg" /></label>
-              {area === 'loading' && <p className="pf-full ps-calc" aria-live="polite">Calculando o frete…</p>}
+              {area === 'loading' && <p className="pf-full ps-calc" aria-live="polite">Conferindo o seu CEP…</p>}
               {area === 'ok' && frete !== null && (
                 <div className="pf-full ps-quote" aria-live="polite">
-                  <p className="ps-quote-frete">Frete para o seu CEP: <strong>{brl(frete)}</strong> por entrega</p>
-                  <p className="ps-quote-line">{totalFor(plan, frete).line}</p>
-                  <p className="ps-quote-total">Total: <strong>{totalFor(plan, frete).total}</strong></p>
+                  <p className="ps-quote-frete">{plan.freeShipping ? <>Entregamos no seu CEP, com <strong>frete grátis</strong>.</> : <>Entregamos no seu CEP. Frete: <strong>{brl(fixedFrete)}</strong> por mês.</>}</p>
+                  <p className="ps-quote-line">{totalFor(plan, fixedFrete).line}</p>
+                  <p className="ps-quote-total">Total: <strong>{totalFor(plan, fixedFrete).total}</strong></p>
                 </div>
               )}
               {area === 'unknown' && (
                 <div className="pf-full ps-out" role="alert">
                   <span className="ps-tape" />
-                  <strong>Não conseguimos calcular o frete para esse CEP.</strong>
+                  <strong>Não conseguimos encontrar esse CEP.</strong>
                   <span>Confira o número ou fale com a gente pelo Instagram.</span>
                 </div>
               )}
@@ -150,8 +149,8 @@ export default function PrintSubscribe({ plans }: { plans: Plan[] }) {
                   <p className="ps-mp-badge">Modo de teste</p>
                   <h3 id="mp-h">Aqui abriria o Mercado Pago</h3>
                   <p>No site de verdade, você iria para a página segura do Mercado Pago para pagar:</p>
-                  <p className="ps-mp-total">{totalFor(plan, frete).total}</p>
-                  <p className="ps-mp-small">Plano {plan.name} · {totalFor(plan, frete).line}</p>
+                  <p className="ps-mp-total">{totalFor(plan, fixedFrete).total}</p>
+                  <p className="ps-mp-small">Plano {plan.name} · {totalFor(plan, fixedFrete).line}</p>
                   <button type="button" className="ps-pay" onClick={finishTest}>Simular pagamento aprovado</button>
                   <button type="button" className="ps-mp-back" onClick={() => setTestPay(false)}>Voltar</button>
                 </div>

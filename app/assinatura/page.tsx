@@ -13,7 +13,7 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Assine a revista impressa · The Sunday Magazine',
-  description: 'A The Sunday impressa, todo mês na sua casa. Escolha o plano mensal, semestral ou uma edição avulsa.',
+  description: 'A The Sunday impressa, todo mês na sua casa. Escolha o plano mensal, semestral ou anual.',
   // Hidden while it is being tested.
   robots: { index: false, follow: false },
 };
@@ -55,7 +55,7 @@ export default async function Assinatura() {
           </div>
         </section>
 
-        <PrintSubscribe plans={publication.printPlans} />
+        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
       </main>
       <SiteFooter />
     </>

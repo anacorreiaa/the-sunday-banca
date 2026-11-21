@@ -71,38 +71,41 @@
   {
    "id": "mensal",
    "name": "Mensal",
-   "price": "R$ 59,90",
-   "per": "por mês",
-   "desc": "Uma revista nova todo mês. A cobrança se repete sozinha, mês a mês.",
-   "checkoutUrl": "",
-   "featured": false,
-   "amount": 59.9,
-   "cycles": 1,
-   "billing": "monthly"
-  },
-  {
-   "id": "semestral",
-   "name": "Semestral",
-   "price": "R$ 49,90",
-   "per": "por mês, no plano de 6 meses",
-   "desc": "Seis edições, pagas de uma vez. O menor preço por revista.",
-   "checkoutUrl": "",
-   "featured": true,
-   "amount": 49.9,
-   "cycles": 6,
-   "billing": "once"
-  },
-  {
-   "id": "avulsa",
-   "name": "Edição avulsa",
    "price": "R$ 69,90",
-   "per": "uma vez",
-   "desc": "Só a edição do mês, sem assinatura.",
+   "per": "por mês + frete",
+   "desc": "Uma revista nova todo mês. Cancele quando quiser.",
    "checkoutUrl": "",
    "featured": false,
    "amount": 69.9,
    "cycles": 1,
-   "billing": "once"
+   "billing": "monthly",
+   "freeShipping": false
+  },
+  {
+   "id": "semestral",
+   "name": "Semestral",
+   "price": "R$ 59,90",
+   "per": "por mês · frete grátis",
+   "desc": "Seis edições, pagas de uma vez: R$ 359,40.",
+   "checkoutUrl": "",
+   "featured": false,
+   "amount": 59.9,
+   "cycles": 6,
+   "billing": "once",
+   "freeShipping": true
+  },
+  {
+   "id": "anual",
+   "name": "Anual",
+   "price": "R$ 49,90",
+   "per": "por mês · frete grátis",
+   "desc": "Doze edições, pagas de uma vez: R$ 598,80. O menor preço por revista.",
+   "checkoutUrl": "",
+   "featured": true,
+   "amount": 49.9,
+   "cycles": 12,
+   "billing": "once",
+   "freeShipping": true
   }
  ],
  "shipping": {
@@ -123,6 +126,7 @@
     "maxKm": 45,
     "price": 35
    }
-  ]
+  ],
+  "fixed": 9.9
  }
 }
