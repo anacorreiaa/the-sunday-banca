@@ -3,7 +3,7 @@
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
 import { useState } from 'react';
 
-type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean };
+type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string };
 
 const brl = (n: number) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -82,6 +82,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
                 <h3>{p.name}</h3>
                 <p className="ps-price">{p.price}</p>
                 <p className="ps-per">{p.per}</p>
+                {p.perk && <p className="ps-perk">{p.perk}</p>}
                 <p className="ps-desc">{p.desc}</p>
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
                   {planId === p.id ? 'Escolhido ✓' : 'Escolher'}

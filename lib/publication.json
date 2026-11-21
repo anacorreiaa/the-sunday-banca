@@ -85,27 +85,29 @@
    "id": "semestral",
    "name": "Semestral",
    "price": "R$ 59,90",
-   "per": "por mês · frete grátis",
+   "per": "por mês",
    "desc": "Seis edições, uma por mês.",
    "checkoutUrl": "",
    "featured": false,
    "amount": 59.9,
    "cycles": 6,
    "billing": "once",
-   "freeShipping": true
+   "freeShipping": true,
+   "perk": "Frete grátis em todas as entregas"
   },
   {
    "id": "anual",
    "name": "Anual",
    "price": "R$ 49,90",
-   "per": "por mês · frete grátis",
-   "desc": "Doze edições, uma por mês. O menor preço por revista.",
+   "per": "por mês",
+   "desc": "Doze edições, uma por mês.",
    "checkoutUrl": "",
    "featured": true,
    "amount": 49.9,
    "cycles": 12,
    "billing": "once",
-   "freeShipping": true
+   "freeShipping": true,
+   "perk": "Frete grátis o ano inteiro"
   }
  ],
  "shipping": {
