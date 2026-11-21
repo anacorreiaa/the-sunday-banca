@@ -66,15 +66,25 @@ export default async function Assinatura() {
               <p>Impressa em papel fosco, para ler com calma, sem tela.</p>
             </li>
             <li>
-              <div className="ps-kit-art ps-kit-art--games" aria-hidden="true">
-                <span className="ps-kit-page">
-                  <span className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{[3, 7, 0, 0, 0, 1, 0, 9, 4, 0, 0, 2, 0, 0, 6, 0][i] || ''}</i>)}</span>
-                  <span className="ps-kit-words">CAFÉ · DOMINGO · MESA</span>
+              <div className="ps-kit-art" aria-hidden="true">
+                <span className="ps-kit-page ps-kit-page--sudoku">
+                  {[0, 1, 2, 3].map((g) => (
+                    <span key={g} className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{(i * 7 + g * 3) % 5 === 0 ? ((i + g) % 9) + 1 : ''}</i>)}</span>
+                  ))}
                 </span>
-                <img src={`${D}cup-blue.webp`} alt="" />
               </div>
-              <h3>Caderno de jogos</h3>
-              <p>Sudoku, caça-palavras e outros passatempos para fazer junto com a revista.</p>
+              <h3>Folha de sudokus</h3>
+              <p>Quatro sudokus numa folha de papel grosso, do fácil ao difícil.</p>
+            </li>
+            <li>
+              <div className="ps-kit-art" aria-hidden="true">
+                <span className="ps-kit-page ps-kit-page--words">
+                  <span className="ps-kit-letters">{'NATALCEIAPRESENTEOMESAVELAREDOMINGOSUNDAYLUZ'.slice(0, 42).split('').map((l, i) => <i key={i} className={i >= 0 && i < 5 ? 'on' : i >= 24 && i < 30 ? 'on' : ''}>{l}</i>)}</span>
+                  <span className="ps-kit-words">NATAL · MESA · CEIA</span>
+                </span>
+              </div>
+              <h3>Caça-palavras do mês</h3>
+              <p>Uma folha com o caça-palavras da edição, para fazer junto com a revista.</p>
             </li>
             <li>
               <div className="ps-kit-art ps-kit-art--stickers" aria-hidden="true">
@@ -84,6 +94,25 @@ export default async function Assinatura() {
               </div>
               <h3>Pack de adesivos</h3>
               <p>Ilustrações da The Sunday para colar onde você quiser.</p>
+            </li>
+            <li>
+              <div className="ps-kit-art" aria-hidden="true">
+                <span className="ps-kit-recipe">
+                  <span className="ps-kit-recipe-t">Receita de Natal</span>
+                  <span className="ps-kit-lines" />
+                </span>
+                <img className="ps-kit-recipe-d" src={`${D}berries.webp`} alt="" />
+              </div>
+              <h3>Receita do mês</h3>
+              <p>Um cartão com uma receita de Natal, para a sua mesa.</p>
+            </li>
+            <li>
+              <div className="ps-kit-art" aria-hidden="true">
+                <span className="ps-kit-tea"><span className="ps-kit-tea-bag" /><span className="ps-kit-tea-string" /><span className="ps-kit-tea-tag">chá</span></span>
+                <img className="ps-kit-tea-cup" src={`${D}cup-blue.webp`} alt="" />
+              </div>
+              <h3>Saquinho de chá</h3>
+              <p>Para acompanhar a leitura, com calma.</p>
             </li>
           </ul>
         </section>
