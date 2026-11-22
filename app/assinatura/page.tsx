@@ -58,7 +58,7 @@ export default async function Assinatura() {
         <section className="ps-kit" aria-labelledby="kit">
           <p className="ps-eyebrow">Na edição de Natal</p>
           <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
-          <ul className="ps-kit-list ps-kit-list--4">
+          <ul className="ps-kit-list">
             <li>
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
               <h3>A revista</h3>
@@ -84,14 +84,6 @@ export default async function Assinatura() {
               </div>
               <h3>Receita de Natal</h3>
               <p>Um cartão com uma receita para a sua mesa.</p>
-            </li>
-            <li>
-              <div className="ps-kit-art" aria-hidden="true">
-                <img className="ps-teabag-img" src="/assets/drawn/tea-bag.svg" alt="" />
-                <img className="ps-kit-tea-cup" src={`${D}cup-tea.webp`} alt="" />
-              </div>
-              <h3>Saquinho de chá</h3>
-              <p>Para acompanhar a leitura, com calma.</p>
             </li>
           </ul>
         </section>

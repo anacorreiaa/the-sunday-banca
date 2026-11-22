@@ -1356,3 +1356,4 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-fan-print { width: 170px; margin-left: -85px; }
 }
 @media (max-width: 860px) { .ps-stamp { top: 18px; right: 3px; width: 34px; height: 34px; font-size: 9.5px; outline-offset: -4px; border-width: 1.5px; } }
+@media (max-width: 860px) { .ps-kit-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } }
