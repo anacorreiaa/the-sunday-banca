@@ -1,7 +1,8 @@
 'use client';
 
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import PayOnSite from '@/components/PayOnSite';
 
 type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string; total?: string; payNote?: string; renews?: boolean };
 
@@ -67,6 +68,19 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
   // Test mode: nothing is charged and no order is saved. It shows the step where Mercado Pago
   // would open, then the thank-you page, so the whole path can be tried before payments are live.
   const [testPay, setTestPay] = useState(false);
+  // Paying on our own page: on only when both Mercado Pago keys are set in Vercel. Otherwise the plan's link, as before.
+  const [mp, setMp] = useState<{ enabled: boolean; publicKey: string }>({ enabled: false, publicKey: '' });
+  const [paying, setPaying] = useState(false);
+  useEffect(() => {
+    fetch('/api/pagamento/config').then((r) => r.json()).then((j) => { if (j?.enabled && j.publicKey) setMp({ enabled: true, publicKey: j.publicKey }); }).catch(() => {});
+  }, []);
+  const toThanks = useCallback(() => {
+    if (!plan) return;
+    const q = new URLSearchParams({ plano: plan.name, total: totalFor(plan, fixedFrete).total });
+    window.location.href = `/assinatura/obrigada?${q}`;
+  }, [plan, fixedFrete]);
+  const toLink = useCallback(() => { if (plan) window.location.href = plan.checkoutUrl; }, [plan]);
+  const closePay = useCallback(() => { setPaying(false); setState('idle'); }, []);
   // With a Mercado Pago link for the plan: save the order, then go and pay.
   // Without one (still being set up): a test step that charges nothing.
   const submit = async (e: React.FormEvent) => {
@@ -82,6 +96,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok || !j.ok) throw new Error();
+      if (mp.enabled) { setPaying(true); return; }
       window.location.href = plan.checkoutUrl;
     } catch {
       setState('error');
@@ -175,7 +190,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
             <button type="submit" className="ps-pay" disabled={state === 'sending' || area !== 'ok'}>
               {state === 'sending' ? 'Enviando…' : 'Continuar para o pagamento →'}
             </button>
-            <p className="ps-safe">Você será levada para o Mercado Pago para pagar com segurança.{plan.renews ? ' A assinatura renova automaticamente ao fim de cada período, e você pode cancelar quando quiser.' : ' Pagamento único: à vista no Pix ou parcelado no cartão.'}</p>
+            <p className="ps-safe">{mp.enabled ? 'Você paga aqui mesmo, com segurança, pelo Mercado Pago.' : 'Você será levada para o Mercado Pago para pagar com segurança.'}{plan.renews ? ' A assinatura renova automaticamente ao fim de cada período, e você pode cancelar quando quiser.' : ' Pagamento único: à vista no Pix ou parcelado no cartão.'}</p>
             {testPay && plan && frete !== null && (
               <div className="ps-mp" role="dialog" aria-modal="true" aria-labelledby="mp-h">
                 <div className="ps-mp-card">
@@ -188,6 +203,17 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                   <button type="button" className="ps-mp-back" onClick={() => setTestPay(false)}>Voltar</button>
                 </div>
               </div>
+            )}
+            {paying && plan && (
+              <PayOnSite
+                publicKey={mp.publicKey}
+                plan={plan}
+                total={Math.round((plan.billing === 'monthly' ? plan.amount + fixedFrete : plan.amount * plan.cycles) * 100) / 100}
+                email={f.email}
+                onDone={toThanks}
+                onFallback={toLink}
+                onClose={closePay}
+              />
             )}
             {state === 'error' && <p className="ps-err" role="alert">Não conseguimos enviar agora. Tente de novo em instantes ou fale com a gente pelo Instagram.</p>}
           </form>
