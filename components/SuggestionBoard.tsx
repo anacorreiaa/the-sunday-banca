@@ -358,12 +358,14 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
         <div className="notes-mobile-head">
           <span className="board-eyebrow">Mural de ideias</span>
           <p className="notes-mobile-title">{copy.heading}</p>
-          <p className="notes-mobile-h">Escreva num post-it ↓</p>
+          <p className="notes-mobile-h">Escreva no post-it ↓</p>
         </div>
         <ul>
-          {copy.prompts.map((p, i) => (
-            <WriteNote key={p} prompt={p} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[0]} flat />
-          ))}
+          {/* One note is enough on a phone: the curious one. */}
+          {(() => {
+            const i = Math.max(0, copy.prompts.findIndex((p) => p.includes('curiosa')));
+            return <WriteNote prompt={copy.prompts[i]} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[0]} flat />;
+          })()}
         </ul>
       </div>
     </section>

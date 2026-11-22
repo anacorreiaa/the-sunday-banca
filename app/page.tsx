@@ -33,8 +33,10 @@ export default async function Home() {
       <main>
         <div className="ps home-hero"><PrintHero fan={fan} hint home /></div>
         <CupDive />
-        {editions.length > 0 && <FlipMagazine />}
-        <PlansPreview />
+        <div className="gingham-zone">
+          {editions.length > 0 && <FlipMagazine />}
+          <PlansPreview />
+        </div>
 
         <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
 

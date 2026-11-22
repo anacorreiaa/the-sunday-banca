@@ -1409,3 +1409,22 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .home-hero .ps-hero { min-height: calc(100svh - 58px); box-sizing: border-box; padding-top: 100px; padding-bottom: 50px; }
 .ps-hero-hint { position: absolute; left: 0; right: 0; bottom: 10px; margin: 0; }
 @media (max-width: 860px) { .home-hero .ps-hero { min-height: 0; padding-bottom: 46px; } }
+
+
+/* ——— Gingham behind the magazine and the plans, with soft fades between backgrounds ——— */
+:root { --gingham: url('../public/assets/scene/gingham.webp') 0 0 / 190px 190px repeat; --gingham-base: #f1ebdf; }
+.dive { height: 280vh; }
+.dive-paper { background: var(--gingham), var(--gingham-base) !important; }
+.gingham-zone { position: relative; z-index: 2; margin-top: -72vh; }
+.gingham-zone::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: var(--gingham), var(--gingham-base);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 34vh, #000 calc(100% - 160px), transparent 100%);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 34vh, #000 calc(100% - 160px), transparent 100%); }
+.gingham-zone #quem-somos.flip, .gingham-zone .flip { background: transparent; margin-top: 0; padding-top: 20vh; }
+.gingham-zone .ps-home-plans, .gingham-zone .ps-home-plans .ps-table { background: transparent; }
+.gingham-zone .ps-home-plans .ps-plans { padding-bottom: 130px; }
+.board { position: relative; }
+.board::before, .board::after { content: ''; position: absolute; left: 0; right: 0; height: 180px; pointer-events: none; z-index: 0; }
+.board::before { top: 0; background: linear-gradient(var(--bg), transparent); }
+.board::after { bottom: 0; background: linear-gradient(transparent, var(--bg)); }
+.board > :not(.zoom) { position: relative; z-index: 1; }
