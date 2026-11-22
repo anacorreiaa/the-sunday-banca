@@ -1490,12 +1490,24 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .postit-foot button:hover { color: var(--cereja); }
 .postit-foot button:disabled { opacity: .6; }
 
-/* Magazine page: gingham all the way down, no wood */
-.ps-page { background: var(--gingham), var(--gingham-base); }
-.ps-page .ps-table, .ps-page .ps-cover, .ps-page .ps-cover .table-head { background: transparent; }
+/* Magazine page: cream for the box, gingham under the plans (like the home page), the table keeps its wooden floor */
+.ps-page { background: var(--branco-casa); }
+.ps-page .ps-table { background: var(--gingham), var(--gingham-base); }
+.ps-page .ps-cover, .ps-page .ps-cover .table-head { background: transparent; }
 .ps-page .ps-kit { padding-top: clamp(60px, 7vw, 100px); }
 .ps-page .ps-h2--light { color: var(--expresso); text-shadow: none; }
 .ps-page .ps-cover .table-card { background: transparent; box-shadow: none; padding: 0; }
-.ps-page .table-stage {
-  -webkit-mask-image: radial-gradient(ellipse 58% 60% at 50% 50%, #000 70%, transparent 100%);
-          mask-image: radial-gradient(ellipse 58% 60% at 50% 50%, #000 70%, transparent 100%); }
+
+
+/* Plan tags in azul maré on the magazine page too */
+.ps-page .ps-tag-paper, .ps-page .ps-tag.is-featured .ps-tag-paper { background: var(--azul-mare); color: #fbf7ee; }
+.ps-page .ps-tag.is-picked .ps-tag-paper { background: var(--ardosia); }
+.ps-page .ps-tag h3, .ps-page .ps-price, .ps-page .ps-desc { color: #fbf7ee; }
+.ps-page .ps-per { color: rgba(251, 247, 238, .78); }
+.ps-page .ps-perk { color: #f3dfa6; }
+.ps-page .ps-pick { border-color: #fbf7ee; color: #fbf7ee; }
+.ps-page .ps-pick:hover, .ps-page .ps-pick[aria-pressed="true"] { background: #fbf7ee; color: var(--azul-mare); }
+.ps-page .ps-tag-hole { background: #f1e8d8; box-shadow: inset 0 2px 3px rgba(0,0,0,.35); }
+.ps-page .ps-stamp { color: #f3dfa6; border-color: rgba(243, 223, 166, .9); outline-color: rgba(243, 223, 166, .7); }
+/* The "melhor preço" stamp keeps the tag's blue behind it, so the words show on phones */
+.ps-home-plans .ps-stamp, .ps-page .ps-stamp { background: var(--azul-mare); }
