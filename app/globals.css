@@ -1589,39 +1589,34 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-realmag::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
 @media (max-width: 760px) { .ps-kit-main .ps-kit-art--mag .ps-realmag img { height: 280px; } .ps-feature-tag { font-size: 10px; letter-spacing: .14em; } }
 
-/* Little drawings around the opening text of the magazine and about pages */
+/* Drawings gathered around the opening title of the magazine and about pages (like the home page) */
 .ps-intro, .ps-about { position: relative; }
 .deco { position: absolute; pointer-events: none; height: auto; }
-.ps-intro .deco--l { width: 130px; left: -170px; top: 150px; transform: rotate(-6deg); }
-.ps-intro .deco--r { width: 120px; right: -160px; top: 60px; transform: rotate(4deg); }
-.ps-about .deco--l { width: 140px; left: -190px; top: 120px; transform: rotate(-8deg); }
-.ps-about .deco--r { width: 120px; right: -170px; top: 200px; transform: rotate(5deg); }
-@media (max-width: 1100px) { .ps-intro .deco--l, .ps-about .deco--l { left: -40px; } .ps-intro .deco--r, .ps-about .deco--r { right: -40px; } }
-@media (max-width: 760px) {
-  .deco { opacity: .95; }
-  .ps-intro .deco--l { width: 62px; left: 6px; top: 22px; }
-  .ps-intro .deco--r { width: 58px; right: 8px; top: 14px; }
-  .ps-about .deco--l { width: 64px; left: 6px; top: 30px; }
-  .ps-about .deco--r { width: 56px; right: 8px; top: 24px; }
+/* Revista: three on each side of the title */
+.ps-intro .deco--1 { width: 120px; left: -190px; top: 40px; transform: rotate(-6deg); }
+.ps-intro .deco--2 { width: 110px; left: -250px; top: 230px; transform: rotate(-4deg); }
+.ps-intro .deco--3 { width: 70px;  left: -110px; top: 330px; transform: rotate(-8deg); }
+.ps-intro .deco--4 { width: 105px; right: -190px; top: 20px; transform: rotate(4deg); }
+.ps-intro .deco--5 { width: 78px;  right: -250px; top: 220px; transform: rotate(5deg); }
+.ps-intro .deco--6 { width: 110px; right: -130px; top: 330px; transform: rotate(-3deg); }
+/* Sobre nós: two on each side */
+.ps-about .deco--1 { width: 140px; left: -200px; top: 60px; transform: rotate(-8deg); }
+.ps-about .deco--2 { width: 120px; left: -150px; top: 300px; transform: rotate(-5deg); }
+.ps-about .deco--3 { width: 120px; right: -190px; top: 70px; transform: rotate(5deg); }
+.ps-about .deco--4 { width: 120px; right: -170px; top: 280px; transform: rotate(3deg); }
+@media (max-width: 1250px) {
+  .ps-intro .deco--2, .ps-intro .deco--5 { display: none; }
 }
-
-/* More drawings: FAQ and closing invitation on the magazine page, flip magazine on the about page */
-.ps-faq, .ps-close, .about-mag { position: relative; }
-.ps-close { max-width: 760px; margin: 0 auto; }
-.ps-faq .deco--l { width: 120px; left: -170px; top: 70px; transform: rotate(-5deg); }
-.ps-faq .deco--r { width: 110px; right: -160px; top: 260px; transform: rotate(6deg); }
-.ps-close .deco--l { width: 80px; left: 40px; top: 30px; transform: rotate(-6deg); }
-.ps-close .deco--r { width: 78px; right: 50px; top: 40px; transform: rotate(5deg); }
-.about-mag .deco { z-index: 3; }
-.about-mag .deco--l { width: 140px; left: max(30px, calc(50% - 560px)); top: 23vh; transform: rotate(-6deg); }
-.about-mag .deco--r { width: 120px; right: max(30px, calc(50% - 560px)); top: 21vh; transform: rotate(4deg); }
-@media (max-width: 1100px) { .ps-faq .deco--l { left: -30px; } .ps-faq .deco--r { right: -30px; } }
-@media (max-width: 760px) {
-  .ps-faq .deco--l { width: 58px; left: 4px; top: 30px; }
-  .ps-faq .deco--r { width: 52px; right: 6px; top: 26px; }
-  .ps-close .deco--l { width: 46px; left: 8px; top: 30px; }
-  .ps-close .deco--r { width: 46px; right: 8px; top: 30px; }
-  .about-mag .deco--l { width: 60px; left: 8px; top: 15vh; }
-  .about-mag .deco--r { width: 52px; right: 8px; top: 15vh; }
+@media (max-width: 1000px) {
+  .ps-intro .deco--1, .ps-about .deco--1 { left: -30px; } .ps-intro .deco--4, .ps-about .deco--3 { right: -30px; }
+  .ps-intro .deco--3, .ps-intro .deco--6, .ps-about .deco--2, .ps-about .deco--4 { display: none; }
 }
-@media (max-width: 760px) { .ps-close { padding-top: 70px; } .ps-close .deco--l, .ps-close .deco--r { top: 8px; } }
+@media (max-width: 760px) {
+  .ps-intro .deco--1 { width: 56px; left: 6px; top: 18px; }
+  .ps-intro .deco--4 { width: 50px; right: 8px; top: 10px; }
+  .ps-intro .deco--3, .ps-intro .deco--6 { display: block; top: auto; bottom: 0; }
+  .ps-intro .deco--3 { width: 38px; left: 12px; bottom: 6px; }
+  .ps-intro .deco--6 { width: 58px; right: 8px; bottom: 8px; }
+  .ps-about .deco--1 { width: 58px; left: 6px; top: 26px; }
+  .ps-about .deco--3 { width: 54px; right: 8px; top: 22px; }
+}

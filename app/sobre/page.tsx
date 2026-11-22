@@ -25,8 +25,9 @@ export default async function Sobre() {
       <SiteNav home={false} current="about" />
       <main className="ps about-page">
         <section className="ps-about" aria-labelledby="ps-about-h">
-          <img className="deco deco--l" src="/assets/drawn/cards.webp" alt="" aria-hidden="true" />
-          <img className="deco deco--r" src="/assets/drawn/cup-tea.webp" alt="" aria-hidden="true" />
+          {['cards', 'magazines', 'cup-tea', 'vase'].map((d, i) => (
+            <img key={d} className={`deco deco--${i + 1}`} src={`/assets/drawn/${d}.webp`} alt="" aria-hidden="true" />
+          ))}
           <p className="ps-eyebrow">Um pouco sobre nós</p>
           <h1 id="ps-about-h" className="ps-h2">Para quem gosta de saber um pouco de tudo.</h1>
           <p>A história por trás de um costume. Uma descoberta científica que muda nossa maneira de pensar. Um lugar que merece ser conhecido. Uma pergunta que nunca tínhamos pensado em fazer.</p>
@@ -34,8 +35,6 @@ export default async function Sobre() {
           <p className="ps-about-tag">The things they never taught us.</p>
         </section>
         <div className="gingham-zone about-mag">
-          <img className="deco deco--l" src="/assets/drawn/magazines.webp" alt="" aria-hidden="true" />
-          <img className="deco deco--r" src="/assets/drawn/vase.webp" alt="" aria-hidden="true" />
           {editions.length > 0 && <FlipMagazine />}
         </div>
       </main>

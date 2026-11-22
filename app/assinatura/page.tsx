@@ -44,8 +44,9 @@ export default async function Assinatura() {
       <main className="ps ps-page">
         {/* Opening: what The Sunday is, then what arrives at home */}
         <section className="ps-intro" aria-labelledby="ps-intro-h">
-          <img className="deco deco--l" src={`${D}berries.webp`} alt="" aria-hidden="true" />
-          <img className="deco deco--r" src={`${D}boat.webp`} alt="" aria-hidden="true" />
+          {['berries', 'puzzles', 'pajama', 'boat', 'toaster', 'cup-blue'].map((d, i) => (
+            <img key={d} className={`deco deco--${i + 1}`} src={`${D}${d}.webp`} alt="" aria-hidden="true" />
+          ))}
           <p className="ps-eyebrow">The Sunday Magazine</p>
           <h1 id="ps-intro-h" className="ps-intro-h">Uma boa leitura também pode chegar pelo correio.</h1>
           <p className="ps-intro-lead">Uma revista mensal para mulheres curiosas. Histórias, descobertas e pequenas surpresas para levar a vida além da rotina.</p>
@@ -91,8 +92,6 @@ export default async function Assinatura() {
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
 
         <section className="ps-faq" aria-labelledby="faq-h">
-          <img className="deco deco--l" src={`${D}puzzles.webp`} alt="" aria-hidden="true" />
-          <img className="deco deco--r" src={`${D}cup-blue.webp`} alt="" aria-hidden="true" />
           <p className="ps-eyebrow">Perguntas frequentes</p>
           <h2 id="faq-h" className="ps-h2">Antes de assinar</h2>
           {FAQ.map(([q, a]) => (
@@ -108,8 +107,6 @@ export default async function Assinatura() {
           <Newsstand popularIds={popularIds} locale={publication.locale} eyebrow="A coleção" title="Uma coleção para guardar" intro="Cada mês, uma nova edição. Histórias diferentes, capas para colecionar e assuntos que merecem voltar à conversa. Toque numa capa para ler." controls={false} />
         </div>
         <section className="ps-close">
-          <img className="deco deco--l" src={`${D}pajama.webp`} alt="" aria-hidden="true" />
-          <img className="deco deco--r" src={`${D}toaster.webp`} alt="" aria-hidden="true" />
           <p className="ps-close-h">Sente-se, a mesa está posta.</p>
           <a className="ps-cta" href="#planos">Quero a minha <span aria-hidden="true">↑</span></a>
         </section>
