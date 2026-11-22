@@ -1637,3 +1637,29 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .presale-note { font-size: 10px; letter-spacing: .08em; padding: 6px 10px; margin-bottom: 12px; }
 }
 @media (max-width: 760px) { .presale-more { display: none; } }
+
+/* Cup dive lines stay below the menu (its height comes from SiteNav) */
+.dive-lines { top: calc(var(--navh, 60px) + 4vh); }
+/* Phone page turn: soft fade */
+.flip-book { transition: opacity .16s ease; }
+.flip-book.is-fading { opacity: 0; }
+/* Surprise of the month: a recipe card with a bowl of berries */
+.ps-recipe-art { position: relative; }
+.ps-recipe-card { position: relative; width: 170px; height: 126px; padding: 26px 16px 12px; box-sizing: border-box; background: #fffdf8; transform: rotate(-5deg); display: flex; flex-direction: column; gap: 2px; text-align: left;
+  box-shadow: 0 1px 0 #ebe3d4, 0 18px 24px -14px rgba(40, 25, 15, .5); }
+.ps-recipe-check { position: absolute; left: 0; right: 0; top: 0; height: 16px;
+  background: repeating-linear-gradient(90deg, rgba(142,43,43,.55) 0 8px, transparent 8px 16px), repeating-linear-gradient(0deg, rgba(142,43,43,.55) 0 8px, rgba(142,43,43,.18) 8px 16px); }
+.ps-recipe-t { font-family: 'Caveat', cursive; font-size: 30px; line-height: 1; color: var(--cereja); }
+.ps-recipe-sub { font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--muted); }
+.ps-recipe-lines { flex: 1; margin-top: 6px; background: repeating-linear-gradient(transparent 0 11px, rgba(78, 93, 104, .25) 11px 12px); }
+.ps-recipe-bowl { position: absolute; width: 96px; right: calc(50% - 120px); bottom: 2px; filter: drop-shadow(0 8px 8px rgba(40,25,15,.2)); }
+@media (max-width: 760px) {
+  .presale-more { display: none; }
+  .ps-kit-art--small { transform: none; height: 128px; }
+  .ps-kit-extras .ps-kit-page--sudoku { transform: rotate(-2deg) scale(.7); }
+  .ps-recipe-card { width: 112px; height: 86px; padding: 18px 10px 8px; }
+  .ps-recipe-check { height: 11px; background-size: 11px 11px; }
+  .ps-recipe-t { font-size: 22px; }
+  .ps-recipe-sub { font-size: 10px; }
+  .ps-recipe-bowl { width: 64px; right: calc(50% - 76px); bottom: 6px; }
+}

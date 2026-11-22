@@ -44,7 +44,7 @@ export default async function Assinatura() {
       <main className="ps ps-page">
         {/* Opening: what The Sunday is, then what arrives at home */}
         <section className="ps-intro" aria-labelledby="ps-intro-h">
-          {['berries', 'puzzles', 'pajama', 'boat', 'toaster', 'cup-blue'].map((d, i) => (
+          {['vase', 'puzzles', 'pajama', 'boat', 'toaster', 'cup-blue'].map((d, i) => (
             <img key={d} className={`deco deco--${i + 1}`} src={`${D}${d}.webp`} alt="" aria-hidden="true" />
           ))}
           <p className="ps-eyebrow">The Sunday Magazine</p>
@@ -76,14 +76,17 @@ export default async function Assinatura() {
                 <p>Sudoku, caça-palavras e outros passatempos dentro da revista.</p>
               </li>
               <li>
-                <div className="ps-kit-art ps-kit-art--small" aria-hidden="true">
-                  <span className="ps-kit-recipe">
-                    <span className="ps-kit-recipe-t">Surpresa do mês</span>
-                    <span className="ps-kit-lines" />
+                <div className="ps-kit-art ps-kit-art--small ps-recipe-art" aria-hidden="true">
+                  <span className="ps-recipe-card">
+                    <span className="ps-recipe-check" />
+                    <span className="ps-recipe-t">Receita</span>
+                    <span className="ps-recipe-sub">para a sua mesa</span>
+                    <span className="ps-recipe-lines" />
                   </span>
+                  <img className="ps-recipe-bowl" src={`${D}berries.webp`} alt="" />
                 </div>
                 <h3>Surpresa do mês</h3>
-                <p>Um mimo diferente a cada edição. Em dezembro, uma receita de Natal.</p>
+                <p>Um mimo diferente a cada edição. Esta vai ser a sua receita de Natal.</p>
               </li>
             </ul>
           </div>

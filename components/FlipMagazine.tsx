@@ -73,7 +73,7 @@ function fitPages(root: HTMLElement | null) {
 export default function FlipMagazine() {
   const { editions } = useEditions();
   const bookRef = useRef<HTMLDivElement>(null);
-  const flipRef = useRef<{ flipNext: () => void; flipPrev: () => void; destroy: () => void; getCurrentPageIndex: () => number; getPageCount: () => number } | null>(null);
+  const flipRef = useRef<{ flipNext: () => void; flipPrev: () => void; turnToNextPage: () => void; turnToPrevPage: () => void; destroy: () => void; getCurrentPageIndex: () => number; getPageCount: () => number } | null>(null);
   const [page, setPage] = useState(0);
   const [count, setCount] = useState(0);
   const list = editions.slice(0, MAX_EDITIONS);
@@ -121,6 +121,20 @@ export default function FlipMagazine() {
     later();
     return () => { window.removeEventListener('resize', later); root?.removeEventListener('load', later, true); clearTimeout(t); };
   }, [list.length]);
+
+  // On phones the page-curl animation looks like the magazine bursts open, so the arrows turn the page with a soft fade instead.
+  const turn = (dir: 1 | -1) => {
+    const pf = flipRef.current; if (!pf) return;
+    if (window.matchMedia('(max-width: 760px)').matches) {
+      const el = bookRef.current;
+      el?.classList.add('is-fading');
+      setTimeout(() => {
+        if (dir > 0) pf.turnToNextPage(); else pf.turnToPrevPage();
+        setPage(pf.getCurrentPageIndex());
+        el?.classList.remove('is-fading');
+      }, 160);
+    } else if (dir > 0) pf.flipNext(); else pf.flipPrev();
+  };
 
   const pages: React.ReactNode[] = [];
   pages.push(
@@ -223,9 +237,9 @@ export default function FlipMagazine() {
         </div>
       </div>
       <div className="flip-controls">
-        <button type="button" onClick={() => flipRef.current?.flipPrev()} disabled={page === 0} aria-label="Página anterior">←</button>
+        <button type="button" onClick={() => turn(-1)} disabled={page === 0} aria-label="Página anterior">←</button>
         <span aria-live="polite">{count ? `${page + 1} / ${count}` : ''}</span>
-        <button type="button" onClick={() => flipRef.current?.flipNext()} disabled={count > 0 && page >= count - 1} aria-label="Próxima página">→</button>
+        <button type="button" onClick={() => turn(1)} disabled={count > 0 && page >= count - 1} aria-label="Próxima página">→</button>
       </div>
     </section>
   );
