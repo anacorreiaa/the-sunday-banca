@@ -3,7 +3,8 @@ import publication from '@/lib/publication.json';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import PrintSubscribe from '@/components/PrintSubscribe';
-import PrintHero from '@/components/PrintHero';
+import Newsstand from '@/components/Newsstand';
+import { EditionsProvider } from '@/components/Editions';
 import photoIds from '@/data/photos.json';
 import excerpts from '@/data/excerpts.json';
 import { loadArchive } from '@/lib/substack';
@@ -19,19 +20,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Assinatura() {
-  const { articles } = await loadArchive();
+  const { articles, popularIds } = await loadArchive();
   const photos = new Set<string>(photoIds);
-  // The newest newsletter editions that have a photo, fanned out behind the printed Nº 0.
-  const fan = [...articles]
-    .sort((a, b) => b.date.localeCompare(a.date))
-    .map((article) => ({ article, meta: editionMeta(article, photos, excerpts as Record<string, string[]>) }))
-    .filter((e) => e.meta.photo)
-    .slice(0, 6);
+  const editions = articles.map((article) => ({ article, meta: editionMeta(article, photos, excerpts as Record<string, string[]>) }));
   return (
-    <>
+    <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="print" />
       <main className="ps">
-        <PrintHero fan={fan} />
+        {/* The page opens on the coffee table with every edition on it; the same floor runs on under the plans. */}
+        <div className="ps-cover">
+          <Newsstand popularIds={popularIds} locale={publication.locale} />
+        </div>
 
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed}>
         {/* What comes in the box */}
@@ -70,6 +69,6 @@ export default async function Assinatura() {
         </PrintSubscribe>
       </main>
       <SiteFooter />
-    </>
+    </EditionsProvider>
   );
 }

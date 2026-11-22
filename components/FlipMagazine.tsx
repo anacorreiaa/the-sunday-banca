@@ -34,6 +34,7 @@ function fitPages(root: HTMLElement | null) {
   const shown = pages.find((p) => p.offsetWidth > 0 && p.offsetHeight > 0);
   if (!shown) return;
   const W = shown.offsetWidth, H = shown.offsetHeight;
+  const MIN_FIT = W < 260 ? 0.4 : 0.62;
   const probe = document.createElement('div');
   probe.style.cssText = `position:fixed;left:-9999px;top:0;width:${W}px;height:${H}px;visibility:hidden;pointer-events:none;`;
   document.body.appendChild(probe);
@@ -49,8 +50,8 @@ function fitPages(root: HTMLElement | null) {
     el.style.removeProperty('height');
     let fit = 1;
     for (let k = 0; k < 8; k++) {
-      if (el.scrollHeight - el.clientHeight <= 1 || fit <= 0.62) break;
-      fit = Math.max(0.62, fit * Math.min(0.97, el.clientHeight / el.scrollHeight));
+      if (el.scrollHeight - el.clientHeight <= 1 || fit <= MIN_FIT) break;
+      fit = Math.max(MIN_FIT, fit * Math.min(0.97, el.clientHeight / el.scrollHeight));
       el.style.setProperty('zoom', String(fit));
       el.style.setProperty('height', `${H / fit}px`);
     }
@@ -82,14 +83,14 @@ export default function FlipMagazine() {
         width: 420,
         height: 560,
         size: 'stretch' as never,
-        minWidth: 260,
-        maxWidth: 520,
-        minHeight: 360,
-        maxHeight: 710,
+        minWidth: 140,
+        maxWidth: 420,
+        minHeight: 187,
+        maxHeight: 560,
         showCover: false,
         maxShadowOpacity: 0.35,
         mobileScrollSupport: true,
-        usePortrait: true,
+        usePortrait: false, // always two pages side by side, also on phones
         flippingTime: 800,
         drawShadow: true,
       });

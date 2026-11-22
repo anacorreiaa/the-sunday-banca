@@ -6,7 +6,6 @@ import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import CupDive from '@/components/CupDive';
 import FlipMagazine from '@/components/FlipMagazine';
-import Newsstand from '@/components/Newsstand';
 import SuggestionBoard from '@/components/SuggestionBoard';
 import PlansPreview from '@/components/PlansPreview';
 import { EditionsProvider } from '@/components/Editions';
@@ -17,7 +16,7 @@ import { isConfigured } from '@/lib/recommend';
 export const revalidate = 3600;
 
 export default async function Home() {
-  const { articles, popularIds } = await loadArchive();
+  const { articles } = await loadArchive();
   const photos = new Set<string>(photoIds);
   const editions = articles.map((article) => ({ article, meta: editionMeta(article, photos, excerpts as Record<string, string[]>) }));
   const fan = [...editions]
@@ -28,7 +27,7 @@ export default async function Home() {
 
   return (
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
-      <a className="skip" href="#edicoes">Pular para as edições</a>
+      <a className="skip" href="#quem-somos">Pular para a revista</a>
       <SiteNav />
       <main>
         <div className="ps home-hero"><PrintHero fan={fan} hint home /></div>
@@ -40,11 +39,6 @@ export default async function Home() {
 
         <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
 
-        {editions.length > 0 ? (
-          <Newsstand popularIds={popularIds} locale={publication.locale} />
-        ) : (
-          <p className="empty">Não conseguimos carregar as edições agora. Elas continuam todas no <a href={publication.substackUrl}>Substack</a>.</p>
-        )}
         {/* The Sunday Talks (components/Room.tsx) comes back when the podcast launches. */}
       </main>
       <SiteFooter />
