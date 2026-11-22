@@ -1303,3 +1303,56 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-carta { position: absolute; right: 30px; top: 26px; width: 150px; transform: rotate(5deg); pointer-events: none; }
 @media (max-width: 860px) { .ps-carta { width: 92px; right: 14px; top: 16px; } }
 .ps-paynote { margin: -14px 0 20px; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+
+/* Phone: everything side by side, less scrolling */
+@media (max-width: 860px) {
+  .ps-plans { padding: 56px 8px 40px; }
+  .ps-plans .ps-h2 { margin-bottom: 44px; font-size: 32px; }
+  .ps-tags { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: none; }
+  .ps-tag--0, .ps-tag--1, .ps-tag--2 { margin-top: 0; transform: none; }
+  .ps-tag::before { top: -34px; height: 46px; }
+  .ps-tag-paper { padding: 34px 8px 12px; clip-path: polygon(20% 0, 80% 0, 100% 10%, 100% 100%, 0 100%, 0 10%); }
+  .ps-tag-hole { top: 12px; width: 10px; height: 10px; margin-left: -5px; }
+  .ps-tag h3 { font-size: 22px; }
+  .ps-price { margin-top: 8px; font-size: 24px; white-space: nowrap; }
+  .ps-per { font-size: 10px; letter-spacing: 0; }
+  .ps-perk { margin-top: 8px; font-size: 17px; }
+  .ps-desc { margin: 8px 0 10px; font-size: 11px; line-height: 1.35; }
+  .ps-perk + .ps-desc { margin-top: 6px; }
+  .ps-paynote { margin: -4px 0 10px; font-size: 10px; }
+  .ps-pick { min-height: 40px; font-size: 10px; letter-spacing: .08em; padding: 0 4px; }
+  .ps-stamp { width: 44px; height: 44px; right: 2px; top: 22px; font-size: 12px; outline-offset: -5px; }
+  .ps-kit { padding: 44px 10px 50px; }
+  .ps-kit .ps-h2 { margin-bottom: 26px; font-size: 30px; }
+  .ps-kit-list, .ps-kit-list--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+  .ps-kit-art { height: 110px; }
+  .ps-kit-art--mag img { height: 100px; }
+  .ps-kit-page--sudoku { padding: 6px; gap: 4px; transform: scale(.62) rotate(-2deg); }
+  .ps-kit-recipe { width: 120px; height: 84px; padding: 8px 10px; transform: scale(.72) rotate(-4deg); }
+  .ps-kit-recipe-t { font-size: 18px; }
+  .ps-kit-recipe-d { width: 44px; right: 0; bottom: 4px; }
+  .ps-teabag-img { width: 90px; left: 0; }
+  .ps-kit-art .ps-teabag-img ~ .ps-kit-tea-cup { width: 48px; bottom: 0; }
+  .ps-kit-list h3 { margin-top: 8px; font-size: 18px; }
+  .ps-kit-list p { font-size: 10.5px; line-height: 1.35; }
+}
+@media (max-width: 860px) {
+  .ps-kit-list li { min-width: 0; }
+  .ps-kit-art { overflow: hidden; }
+  .ps-kit-page--sudoku { transform: rotate(-2deg); padding: 5px; gap: 3px; }
+  .ps-kit-page--sudoku .ps-kit-grid { grid-template-columns: repeat(4, 8px); grid-auto-rows: 8px; border-width: 1px; }
+  .ps-kit-page--sudoku .ps-kit-grid i { font-size: 5px; }
+  .ps-kit-recipe { width: 78px; height: 62px; padding: 6px 7px; transform: rotate(-4deg); gap: 4px; }
+  .ps-kit-recipe-t { font-size: 13px; }
+  .ps-kit-recipe-d { width: 34px; right: 2px; bottom: 10px; }
+  .ps-teabag-img { width: 76px; left: 2px; top: 6px; }
+  .ps-kit-art .ps-teabag-img ~ .ps-kit-tea-cup { width: 40px; right: 0; bottom: 6px; }
+  .ps-kit-list h3 { font-size: 16px; }
+  .ps-stamp { top: -14px; right: -6px; width: 40px; height: 40px; font-size: 11px; background: #f1e3c6; }
+  .ps-hero { padding-top: 70px; padding-bottom: 10px; }
+  .ps-lead { margin: 14px auto 20px; font-size: 15px; }
+  .ps-fan { height: 330px; }
+  .ps-fan-mag { width: 150px; margin-left: -75px; }
+  .ps-fan-print { width: 170px; margin-left: -85px; }
+}
+@media (max-width: 860px) { .ps-stamp { top: 18px; right: 3px; width: 34px; height: 34px; font-size: 9.5px; outline-offset: -4px; border-width: 1.5px; } }

@@ -29,7 +29,7 @@ export default async function Assinatura() {
     .slice(0, 6);
   return (
     <>
-      <SiteNav home={false} />
+      <SiteNav home={false} current="print" />
       <main className="ps">
         {/* Hero: like the home page, gouache drawings around the words, and the magazine on the table */}
         <section className="ps-hero">
@@ -53,6 +53,7 @@ export default async function Assinatura() {
           </div>
         </section>
 
+        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed}>
         {/* What comes in the box */}
         <section className="ps-kit" aria-labelledby="kit">
           <p className="ps-eyebrow">Na edição de Natal</p>
@@ -94,8 +95,7 @@ export default async function Assinatura() {
             </li>
           </ul>
         </section>
-
-        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
+        </PrintSubscribe>
       </main>
       <SiteFooter />
     </>

@@ -39,6 +39,10 @@
    "href": "#topo"
   },
   {
+   "label": "Assinar",
+   "href": "/assinatura"
+  },
+  {
    "label": "About",
    "href": "#quem-somos"
   },

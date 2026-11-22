@@ -16,7 +16,7 @@ export function totalFor(p: Plan, fixedFrete: number) {
 
 const UFS = 'AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' ');
 
-export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; fixedFrete: number }) {
+export default function PrintSubscribe({ plans, fixedFrete, children }: { plans: Plan[]; fixedFrete: number; children?: React.ReactNode }) {
   const [planId, setPlanId] = useState<string | null>(null);
   const [f, setF] = useState({ nome: '', email: '', whatsapp: '', cep: '', rua: '', numero: '', complemento: '', bairro: '', cidade: '', uf: '' });
   const [state, setState] = useState<'idle' | 'sending' | 'error'>('idle');
@@ -85,6 +85,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
   };
 
   return (
+    <>
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
         <h2 id="planos-h" className="ps-h2 ps-h2--light">Escolha o seu plano</h2>
@@ -109,6 +110,9 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
         </div>
       </section>
 
+      </div>
+      {children}
+      <div className="ps-table">
       {plan && (
         <section className="ps-form-wrap" id="entrega" aria-labelledby="entrega-h">
           <form className="ps-envelope" onSubmit={submit}>
@@ -178,5 +182,6 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
         </section>
       )}
     </div>
+    </>
   );
 }

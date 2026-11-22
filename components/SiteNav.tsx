@@ -6,7 +6,7 @@ import { gamesHref, homeHref, newsHref } from '@/lib/links';
 type NavItem = { label: string; href?: string; filter?: string; page?: string };
 
 /** Sticky top menu mirroring the Substack navigation. Tips/Edições jump to the editions table, already filtered. */
-export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' }) {
+export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' | 'print' }) {
   const items = (publication as unknown as { nav: NavItem[] }).nav;
 
   const go = (e: React.MouseEvent, it: NavItem) => {
@@ -33,7 +33,7 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
             return (
               <li key={it.label}>
                 <a
-                  className={it.label === 'Quero a revista física' ? 'nav-print' : it.page && it.page === current ? 'is-current' : undefined}
+                  className={(it.page && it.page === current) || (current === 'print' && it.href === '/assinatura') ? 'is-current' : undefined}
                   href={href}
                   onClick={(e) => go(e, it)}
                   {...(external ? { target: '_blank', rel: 'noopener' } : {})}
@@ -44,7 +44,7 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
             );
           })}
         </ul>
-        <a className="sitenav-subscribe" href={publication.subscribeUrl}>Assinar <span aria-hidden="true">↗</span></a>
+        <a className="sitenav-subscribe" href="/minha-assinatura">Minha assinatura</a>
       </div>
     </nav>
   );
