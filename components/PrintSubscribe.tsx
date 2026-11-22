@@ -3,7 +3,7 @@
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
 import { useState } from 'react';
 
-type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string };
+type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string; payNote?: string; renews?: boolean };
 
 const brl = (n: number) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -99,6 +99,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
                 <p className="ps-per">{p.per}</p>
                 {p.perk && <p className="ps-perk">{p.perk}</p>}
                 <p className="ps-desc">{p.desc}</p>
+                {p.payNote && <p className="ps-paynote">{p.payNote}</p>}
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
                   {planId === p.id ? 'Escolhido ✓' : 'Escolher'}
                 </button>
@@ -158,7 +159,7 @@ export default function PrintSubscribe({ plans, fixedFrete }: { plans: Plan[]; f
             <button type="submit" className="ps-pay" disabled={state === 'sending' || area !== 'ok'}>
               {state === 'sending' ? 'Enviando…' : 'Continuar para o pagamento →'}
             </button>
-            <p className="ps-safe">Você será levada para o Mercado Pago para pagar com segurança. A assinatura renova automaticamente ao fim de cada período, e você pode cancelar quando quiser.</p>
+            <p className="ps-safe">Você será levada para o Mercado Pago para pagar com segurança.{plan.renews ? ' A assinatura renova automaticamente ao fim de cada período, e você pode cancelar quando quiser.' : ' Pagamento único: à vista no Pix ou parcelado no cartão.'}</p>
             {testPay && plan && frete !== null && (
               <div className="ps-mp" role="dialog" aria-modal="true" aria-labelledby="mp-h">
                 <div className="ps-mp-card">

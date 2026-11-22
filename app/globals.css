@@ -1302,3 +1302,4 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-perk + .ps-desc { margin-top: 14px; }
 .ps-carta { position: absolute; right: 30px; top: 26px; width: 150px; transform: rotate(5deg); pointer-events: none; }
 @media (max-width: 860px) { .ps-carta { width: 92px; right: 14px; top: 16px; } }
+.ps-paynote { margin: -14px 0 20px; font-size: 12.5px; line-height: 1.45; color: var(--muted); }
