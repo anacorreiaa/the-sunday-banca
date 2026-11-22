@@ -1570,3 +1570,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-faq-item summary { font-size: 19px; padding: 15px 30px 15px 0; }
   .ps-faq-item p { font-size: 14.5px; }
 }
+
+.ps-intro-h { font-style: italic; font-weight: 400; }
+.ps-kit-main .ps-kit-art--mag img[src*="edicao-01"] { aspect-ratio: auto; object-fit: contain; }
+@media (max-width: 760px) { .ps-feature-tag { font-size: 10.5px; letter-spacing: .18em; } }

@@ -22,7 +22,7 @@ export const revalidate = 3600;
 const FAQ: [string, string][] = [
   ['Quando recebo a minha primeira revista?', 'A sua assinatura começa pela próxima edição: a edição de Natal, em dezembro. A partir daí, chega uma revista nova todo mês.'],
   ['Onde vocês entregam?', 'Por enquanto, só na Grande São Paulo. Você confere se o seu CEP está na área de entrega antes de pagar.'],
-  ['Quanto custa o frete?', 'No plano mensal, o frete é fixo: R$ 10 por mês, então você paga R$ 79,90 por mês no total. Nos planos semestral e anual, o frete já está incluso.'],
+  ['Quanto custa o frete?', 'No plano mensal, o frete é fixo: R$ 10 por mês, então você paga R$ 79,90 por mês no total. Nos planos semestral e anual, o frete é por nossa conta :)'],
   ['Como posso pagar?', 'O pagamento é feito pelo Mercado Pago. O mensal é cobrado no cartão todo mês. O semestral e o anual são pagos uma vez só: à vista no Pix ou parcelados no cartão (os juros do parcelamento ficam por conta de quem parcela).'],
   ['A assinatura renova sozinha?', 'O mensal renova todo mês até você cancelar. O semestral e o anual não renovam sozinhos: quando acabarem, você escolhe se quer continuar.'],
   ['Como cancelo?', 'O mensal pode ser cancelado quando você quiser, sem multa. É só escrever para thesundaymagazineac@gmail.com.'],
@@ -55,7 +55,7 @@ export default async function Assinatura() {
           <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
           <div className="ps-kit-hero">
             <div className="ps-kit-main">
-              {DEC_COVER && <p className="ps-feature-tag">Em destaque · Edição Nº 01 · Dezembro 2026</p>}
+              {DEC_COVER && <p className="ps-feature-tag">Em destaque · Dezembro 2026</p>}
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="" /></div>
               <h3>{DEC_COVER ? 'A edição de Natal' : 'A revista'}</h3>
               <p>Chega na sua casa todo mês com conteúdos exclusivos, para ler sem tela, e colecionar.</p>
