@@ -76,9 +76,9 @@ export default function CupDive() {
       });
 
       // Final beat: the cup grows and the page turns to paper.
-      const z = easeInOut(seg(p, 0.8, 1));
+      const z = easeInOut(seg(p, 0.72, 0.9));
       cup.style.transform = `translateX(-50%) scale(${1 + z * 1.6})`;
-      paperRef.current!.style.opacity = seg(p, 0.86, 1).toFixed(3);
+      paperRef.current!.style.opacity = seg(p, 0.76, 0.86).toFixed(3);
     };
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(frame);

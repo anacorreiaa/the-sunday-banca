@@ -1400,3 +1400,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .board { background: var(--stripes-blue); }
 @media (max-width: 760px) { .board:not(.board--drag) { background: var(--stripes-blue); } }
 .ps-form-pay { margin: -26px 0 30px; font-size: 14px; color: var(--caramelo); }
+
+/* The magazine slides up over the end of the cup dive, so there is no empty screen in between */
+#quem-somos.flip { position: relative; z-index: 2; margin-top: -42vh; padding-top: clamp(36px, 5vw, 70px); }
