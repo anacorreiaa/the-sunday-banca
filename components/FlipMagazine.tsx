@@ -149,17 +149,17 @@ export default function FlipMagazine() {
         <img className="mp-spot" src="assets/drawn/toaster.webp" alt="" />
       </div>
     </div>,
-    <div className="mag-page mp--papel" key="contents">
+    <div className="mag-page mp--oliva" key="table">
       <div className="mp-inner">
-        <h3 className="mp-h">Nesta revista</h3>
-        <ol className="mp-toc">
-          {list.map((e) => (
-            <li key={e.article.postId}>
-              <span className="mp-toc-label">{e.meta.label}</span>
-              <span className="mp-toc-title">{e.article.title}</span>
-            </li>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="mp-photo" src="assets/mood/limoes.webp" alt="" loading="lazy" />
+        <h3 className="mp-h">{about.table.title}</h3>
+        <p className="mp-body">{about.table.lead}</p>
+        <dl className="mp-list">
+          {about.table.items.map(([k, v]) => (
+            <div key={k}><dt>{k}</dt><dd>{v}</dd></div>
           ))}
-        </ol>
+        </dl>
       </div>
     </div>,
   );
