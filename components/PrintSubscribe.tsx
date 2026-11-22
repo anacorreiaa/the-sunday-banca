@@ -1,7 +1,7 @@
 'use client';
 
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string; payNote?: string; renews?: boolean };
 
@@ -24,6 +24,15 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
   const [frete, setFrete] = useState<number | null>(null);
   const plan = plans.find((p) => p.id === planId) || null;
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => setF((x) => ({ ...x, [k]: e.target.value }));
+
+  // Coming from the home page with ?plano=…: that plan is already chosen.
+  useEffect(() => {
+    const want = new URLSearchParams(window.location.search).get('plano');
+    if (want && plans.some((p) => p.id === want)) {
+      setPlanId(want);
+      setTimeout(() => document.getElementById('entrega')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 350);
+    }
+  }, [plans]);
 
   const pick = (id: string) => {
     setPlanId(id);

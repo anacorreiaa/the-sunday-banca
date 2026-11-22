@@ -8,6 +8,7 @@ import CupDive from '@/components/CupDive';
 import FlipMagazine from '@/components/FlipMagazine';
 import Newsstand from '@/components/Newsstand';
 import SuggestionBoard from '@/components/SuggestionBoard';
+import PlansPreview from '@/components/PlansPreview';
 import { EditionsProvider } from '@/components/Editions';
 import { loadArchive } from '@/lib/substack';
 import { editionMeta } from '@/lib/editions';
@@ -29,6 +30,7 @@ export default async function Home() {
         <Hero />
         <CupDive />
         {editions.length > 0 && <FlipMagazine />}
+        <PlansPreview />
 
         <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
 

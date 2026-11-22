@@ -1357,3 +1357,12 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 }
 @media (max-width: 860px) { .ps-stamp { top: 18px; right: 3px; width: 34px; height: 34px; font-size: 9.5px; outline-offset: -4px; border-width: 1.5px; } }
 @media (max-width: 860px) { .ps-kit-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; } }
+
+/* Plans on the home page */
+.ps-home-plans .ps-plans { padding-top: 80px; padding-bottom: 70px; }
+.ps-eyebrow--light { text-align: center; color: #f6e7a6; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+.ps-home-plans .ps-h2 { margin-bottom: 70px; }
+.ps-home-plans .ps-pick { display: grid; place-items: center; text-decoration: none; box-sizing: border-box; }
+.ps-home-more { margin: 44px 0 0; text-align: center; }
+.ps-home-more a { color: #fff7e8; font-size: 14px; letter-spacing: .06em; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
+@media (max-width: 860px) { .ps-home-plans .ps-plans { padding-top: 50px; padding-bottom: 40px; } .ps-home-plans .ps-h2 { margin-bottom: 44px; } .ps-home-more { margin-top: 28px; } }
