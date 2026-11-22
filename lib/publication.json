@@ -39,7 +39,7 @@
    "href": "#topo"
   },
   {
-   "label": "Assinar",
+   "label": "Revista",
    "href": "/assinatura"
   },
   {
@@ -95,7 +95,8 @@
    "billing": "once",
    "freeShipping": true,
    "perk": "Frete incluso",
-   "renews": true
+   "renews": true,
+   "payNote": "À vista no Pix ou em até 6x no cartão"
   },
   {
    "id": "anual",

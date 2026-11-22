@@ -100,7 +100,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                 <p className="ps-per">{p.per}</p>
                 {p.perk && <p className="ps-perk">{p.perk}</p>}
                 <p className="ps-desc">{p.desc}</p>
-                {p.payNote && <p className="ps-paynote">{p.payNote}</p>}
+                {p.payNote && p.checkoutUrl.includes('mpago.li') && <p className="ps-paynote">{p.payNote}</p>}
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
                   {planId === p.id ? 'Escolhido ✓' : 'Escolher'}
                 </button>
