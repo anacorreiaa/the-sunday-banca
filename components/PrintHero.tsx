@@ -14,7 +14,9 @@ export default function PrintHero({ fan, cta = '#planos', hint = false, h1 = tru
       {home
         ? <img className="ps-d ps-d--pajama" src={`${D}pajama.webp`} alt="" />
         : <img className="ps-d ps-d--berries" src={`${D}berries.webp`} alt="" />}
-      <img className="ps-d ps-d--boat" src={`${D}boat.webp`} alt="" />
+      {home
+        ? <img className="ps-d ps-d--boat ps-d--toaster" src={`${D}toaster.webp`} alt="" />
+        : <img className="ps-d ps-d--boat" src={`${D}boat.webp`} alt="" />}
       <div className="ps-hero-text">
         <p className="ps-eyebrow">A revista impressa</p>
         <Title><span className="ps-script">The Sunday</span><span className="ps-h1-sub">na sua casa, todo mês</span></Title>

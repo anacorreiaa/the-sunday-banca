@@ -52,7 +52,7 @@
   },
   {
    "label": "Sobre nós",
-   "href": "#quem-somos"
+   "href": "/sobre"
   }
  ],
  "printMagazine": {
@@ -81,7 +81,7 @@
    "billing": "monthly",
    "freeShipping": false,
    "renews": true,
-   "total": "R$ 79,80 por mês com frete"
+   "total": "R$ 79,90 por mês com frete"
   },
   {
    "id": "semestral",
@@ -98,7 +98,7 @@
    "perk": "Frete incluso",
    "renews": false,
    "payNote": "À vista no Pix ou em até 6x no cartão",
-   "total": "R$ 359,40 no total"
+   "total": "R$ 359,40 em até 6x"
   },
   {
    "id": "anual",
@@ -115,7 +115,7 @@
    "perk": "Frete incluso",
    "payNote": "À vista no Pix ou em até 12x no cartão",
    "renews": false,
-   "total": "R$ 598,80 no total"
+   "total": "R$ 598,80 em até 12x"
   }
  ],
  "shipping": {
@@ -137,6 +137,6 @@
     "price": 35
    }
   ],
-  "fixed": 9.9
+  "fixed": 10
  }
 }

@@ -1,4 +1,6 @@
 import type { Metadata } from 'next';
+import { existsSync } from 'fs';
+import { join } from 'path';
 import publication from '@/lib/publication.json';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
@@ -12,8 +14,20 @@ import { loadArchive } from '@/lib/substack';
 import { editionMeta } from '@/lib/editions';
 
 const D = '/assets/drawn/';
+// The December (Nº 01) cover becomes the featured magazine as soon as the file is in public/assets.
+const DEC_COVER = existsSync(join(process.cwd(), 'public/assets/edicao-01-capa.webp')) ? '/assets/edicao-01-capa.webp' : null;
 
 export const revalidate = 3600;
+
+const FAQ: [string, string][] = [
+  ['Quando recebo a minha primeira revista?', 'A sua assinatura começa pela próxima edição: a edição de Natal, em dezembro. A partir daí, chega uma revista nova todo mês.'],
+  ['Onde vocês entregam?', 'Por enquanto, só na Grande São Paulo. Você confere se o seu CEP está na área de entrega antes de pagar.'],
+  ['Quanto custa o frete?', 'No plano mensal, o frete é fixo: R$ 10 por mês, então você paga R$ 79,90 por mês no total. Nos planos semestral e anual, o frete já está incluso.'],
+  ['Como posso pagar?', 'O pagamento é feito pelo Mercado Pago. O mensal é cobrado no cartão todo mês. O semestral e o anual são pagos uma vez só: à vista no Pix ou parcelados no cartão (os juros do parcelamento ficam por conta de quem parcela).'],
+  ['A assinatura renova sozinha?', 'O mensal renova todo mês até você cancelar. O semestral e o anual não renovam sozinhos: quando acabarem, você escolhe se quer continuar.'],
+  ['Como cancelo?', 'O mensal pode ser cancelado quando você quiser, sem multa. E em qualquer plano você pode desistir em até 7 dias depois da compra e recebe o valor de volta. É só escrever para thesundaymagazineac@gmail.com.'],
+  ['Mudei de endereço. E agora?', 'Escreva para thesundaymagazineac@gmail.com com o endereço novo antes do envio da próxima edição.'],
+];
 
 export const metadata: Metadata = {
   title: 'Assine a revista impressa · The Sunday Magazine',
@@ -41,9 +55,10 @@ export default async function Assinatura() {
           <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
           <div className="ps-kit-hero">
             <div className="ps-kit-main">
-              <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src="/assets/edicao-00-capa.webp" alt="" /></div>
-              <h3>A revista</h3>
-              <p>24 páginas impressas, todo mês, para ler sem tela e guardar na estante.</p>
+              {DEC_COVER && <p className="ps-feature-tag">Em destaque · Edição Nº 01 · Dezembro 2026</p>}
+              <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="" /></div>
+              <h3>{DEC_COVER ? 'A edição de Natal' : 'A revista'}</h3>
+              <p>A revista chega na sua casa todo mês com conteúdos exclusivos, para ler sem tela, e colecionar.</p>
             </div>
             <ul className="ps-kit-extras">
               <li>
@@ -72,16 +87,18 @@ export default async function Assinatura() {
           </div>
         </section>
 
-        {/* Why read it, before the prices */}
-        <section className="ps-about" aria-labelledby="ps-about-h">
-          <p className="ps-eyebrow">Um pouco sobre nós</p>
-          <h2 id="ps-about-h" className="ps-h2">Para quem gosta de saber um pouco de tudo.</h2>
-          <p>A história por trás de um costume. Uma descoberta científica que muda nossa maneira de pensar. Um lugar que merece ser conhecido. Uma pergunta que nunca tínhamos pensado em fazer.</p>
-          <p>A The Sunday reúne histórias e ideias para mulheres que continuam curiosas sobre o mundo.</p>
-          <p className="ps-about-tag">The things they never taught us.</p>
-        </section>
-
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
+
+        <section className="ps-faq" aria-labelledby="faq-h">
+          <p className="ps-eyebrow">Perguntas frequentes</p>
+          <h2 id="faq-h" className="ps-h2">Antes de assinar</h2>
+          {FAQ.map(([q, a]) => (
+            <details key={q} className="ps-faq-item">
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </section>
 
         {/* The collection on the coffee table, then one last invitation. */}
         <div className="ps-cover">

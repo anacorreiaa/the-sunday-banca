@@ -6,7 +6,7 @@ import { gamesHref, homeHref, newsHref } from '@/lib/links';
 type NavItem = { label: string; href?: string; filter?: string; page?: string };
 
 /** Sticky top menu mirroring the Substack navigation. Tips/Edições jump to the editions table, already filtered. */
-export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' | 'print' }) {
+export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' | 'print' | 'about' }) {
   const items = (publication as unknown as { nav: NavItem[] }).nav;
 
   const go = (e: React.MouseEvent, it: NavItem) => {
@@ -33,7 +33,7 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
             return (
               <li key={it.label}>
                 <a
-                  className={(it.page && it.page === current) || (current === 'print' && it.href === '/assinatura') ? 'is-current' : undefined}
+                  className={(it.page && it.page === current) || (current === 'print' && it.href === '/assinatura') || (current === 'about' && it.href === '/sobre') ? 'is-current' : undefined}
                   href={href}
                   onClick={(e) => go(e, it)}
                   {...(external ? { target: '_blank', rel: 'noopener' } : {})}
