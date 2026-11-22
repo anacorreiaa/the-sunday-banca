@@ -10,6 +10,7 @@ export default function PlansPreview() {
       <div className="ps-table">
         <section className="ps-plans">
           <p className="ps-eyebrow ps-eyebrow--light">A revista impressa</p>
+          <p className="presale-note">Pré-venda de Natal até 1º de dezembro<span className="presale-more"> · entrega até a 2ª semana de dezembro</span></p>
           <h2 id="planos-home" className="ps-h2 ps-h2--light">Receba a The Sunday em casa</h2>
           <div className="ps-tags">
             {plans.map((p, i) => (

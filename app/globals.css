@@ -1620,3 +1620,20 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-about .deco--1 { width: 58px; left: 6px; top: 26px; }
   .ps-about .deco--3 { width: 54px; right: 8px; top: 22px; }
 }
+
+/* ——— Christmas pre-sale ——— */
+.presale-bar { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 9px 16px; background: var(--cereja); color: #fbf7ee; text-decoration: none; font-size: 13px; letter-spacing: .04em; text-align: center; }
+.presale-bar b { font-weight: 600; letter-spacing: .12em; text-transform: uppercase; font-size: 12px; margin-right: 2px; }
+.presale-bar:hover .presale-go { transform: translateX(3px); }
+.presale-go { transition: transform .2s; }
+.presale-dot { width: 7px; height: 7px; border-radius: 50%; background: #f3dfa6; flex: none; animation: presale-pulse 1.6s ease-in-out infinite; }
+@keyframes presale-pulse { 50% { opacity: .35; } }
+.presale-note { display: inline-block; margin: 0 auto 18px; padding: 7px 16px; border: 1.5px solid var(--cereja); color: var(--cereja); background: rgba(250, 248, 243, .92); font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+.ps-plans { text-align: center; }
+.home-hero .ps-hero { min-height: calc(100svh - 96px); }
+@media (max-width: 760px) {
+  .presale-bar { font-size: 11.5px; padding: 8px 10px; gap: 7px; letter-spacing: .02em; }
+  .presale-bar b { font-size: 10.5px; letter-spacing: .08em; }
+  .presale-note { font-size: 10px; letter-spacing: .08em; padding: 6px 10px; margin-bottom: 12px; }
+}
+@media (max-width: 760px) { .presale-more { display: none; } }

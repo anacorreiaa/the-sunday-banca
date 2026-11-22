@@ -97,6 +97,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
     <>
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
+        <p className="presale-note">Pré-venda de Natal até 1º de dezembro<span className="presale-more"> · entrega até a 2ª semana de dezembro</span></p>
         <h2 id="planos-h" className="ps-h2 ps-h2--light">Escolha o seu plano</h2>
         <div className="ps-tags">
           {plans.map((p, i) => (
