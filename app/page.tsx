@@ -31,7 +31,7 @@ export default async function Home() {
       <a className="skip" href="#edicoes">Pular para as edições</a>
       <SiteNav />
       <main>
-        <div className="ps home-hero"><PrintHero fan={fan} hint /></div>
+        <div className="ps home-hero"><PrintHero fan={fan} hint home /></div>
         <CupDive />
         {editions.length > 0 && <FlipMagazine />}
         <PlansPreview />

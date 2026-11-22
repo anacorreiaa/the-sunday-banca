@@ -976,16 +976,16 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .board--drag .collage .postit--write { pointer-events: none; }
   .notes-mobile { display: block; padding: 18px 16px 6px; }
   .notes-mobile-h { margin: 0 0 14px; text-align: center; font-family: 'Caveat', cursive; font-size: 26px; color: var(--expresso); }
-  .notes-mobile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .notes-mobile ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
   .postit--flat { position: relative; min-height: 0; transform: rotate(-0.6deg); }
   .postit--flat:nth-child(2) { transform: rotate(0.8deg); }
-  .postit--flat form { padding: 22px 16px 12px; }
-  .postit--flat .postit-prompt { font-size: 24px; margin-bottom: 4px; }
-  .postit--flat textarea { font-size: 21px; line-height: 27px; min-height: 108px; background-image: repeating-linear-gradient(transparent 0 26px, rgba(59, 42, 32, 0.16) 26px 27px); }
-  .postit--flat .postit-foot { gap: 10px; margin-top: 6px; }
-  .postit--flat .postit-foot button { font-size: 11px; padding: 10px 14px; min-height: 40px; }
-  .postit--flat .postit-status { font-size: 13px; }
-  .postit--flat .pushpin { width: 16px; height: 16px; margin-left: -8px; top: -6px; }
+  .postit--flat form { padding: 14px 14px 10px; }
+  .postit--flat .postit-prompt { font-size: 19px; margin-bottom: 2px; line-height: 1.15; }
+  .postit--flat textarea { flex: 0 0 auto; font-size: 17px; line-height: 24px; min-height: 48px; height: 48px; background-image: repeating-linear-gradient(transparent 0 23px, rgba(59, 42, 32, 0.16) 23px 24px); }
+  .postit--flat .postit-foot { gap: 8px; margin-top: 4px; }
+  .postit--flat .postit-foot button { font-size: 10px; padding: 7px 12px; min-height: 34px; }
+  .postit--flat .postit-status { font-size: 12px; }
+  .postit--flat .pushpin { width: 14px; height: 14px; margin-left: -7px; top: -5px; }
   .table-scroll { overflow: hidden; }
   .table-stage { width: 128vw; margin-left: -14vw; }
 }
@@ -1091,6 +1091,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-d { position: absolute; pointer-events: none; }
 .ps-d--vase { width: 130px; left: 1%; bottom: 30px; transform: rotate(-4deg); }
 .ps-d--berries { width: 110px; left: 41%; top: 110px; }
+.ps-d--pajama { width: 84px; left: 42%; top: 96px; transform: rotate(5deg); }
 .ps-d--boat { width: 120px; right: 1%; top: 110px; }
 .ps-hero-text { position: relative; z-index: 1; padding-left: 9%; }
 .ps-hero h1 { margin: 0; font-weight: 400; }
@@ -1163,7 +1164,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-hero-text { padding-left: 0; }
   .ps-lead { margin-left: auto; margin-right: auto; }
   .ps-d--vase, .ps-d--boat { display: none; }
-  .ps-d--berries { display: none; }
+  .ps-d--berries, .ps-d--pajama { display: none; }
   .ps-script { font-size: 64px; }
   .ps-still { height: 430px; max-width: 380px; width: 100%; margin: 0 auto; }
   .ps-mag { width: 240px; left: 22%; }
@@ -1396,7 +1397,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 }
 .flip, #quem-somos.flip { background: var(--stripes-yellow); }
 .dive-paper { background: var(--stripes-yellow) !important; }
-.ps-home-plans .ps-table { background: var(--stripes-yellow); }
+.ps-home-plans .ps-table { background: var(--bg); }
 .board { background: var(--stripes-blue); }
 @media (max-width: 760px) { .board:not(.board--drag) { background: var(--stripes-blue); } }
 .ps-form-pay { margin: -26px 0 30px; font-size: 14px; color: var(--caramelo); }
