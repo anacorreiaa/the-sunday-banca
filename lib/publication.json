@@ -43,16 +43,16 @@
    "href": "/assinatura"
   },
   {
-   "label": "About",
-   "href": "#quem-somos"
+   "label": "Newsletter",
+   "page": "news"
   },
   {
    "label": "Sala de Jogos",
    "page": "games"
   },
   {
-   "label": "Newsletter",
-   "page": "news"
+   "label": "Sobre nós",
+   "href": "#quem-somos"
   }
  ],
  "printMagazine": {
