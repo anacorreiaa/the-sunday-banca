@@ -1381,3 +1381,22 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-kit-lines { background: repeating-linear-gradient(transparent 0 7px, rgba(78, 93, 104, .3) 7px 8px); }
 }
 .ps-home-plans .ps-tag.is-featured .ps-tag-paper { background: var(--branco-casa); }
+
+/* Board pictures open big */
+.board .mood img, .board .print img, .board .sticker-loose img { cursor: zoom-in; }
+.zoom { position: fixed; inset: 0; z-index: 9500; display: grid; place-items: center; padding: 24px; background: rgba(30, 20, 12, .82); cursor: zoom-out; animation: zoom-in .25s ease both; }
+.zoom img { max-width: min(92vw, 1100px); max-height: 86vh; object-fit: contain; background: #fffdf8; padding: 10px; box-shadow: 0 30px 60px -20px rgba(0,0,0,.6); }
+.zoom-close { position: absolute; top: 14px; right: 16px; width: 44px; height: 44px; border: 0; border-radius: 50%; background: rgba(255,255,255,.9); color: var(--expresso); font-size: 26px; line-height: 1; cursor: pointer; }
+@keyframes zoom-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fine stripes: baby yellow after the cup, baby blue behind the board */
+:root {
+  --stripes-yellow: repeating-linear-gradient(90deg, #f3e6b7 0 3px, #fbf7ea 3px 26px);
+  --stripes-blue: repeating-linear-gradient(90deg, #cddbe2 0 3px, #f6f8f7 3px 26px);
+}
+.flip, #quem-somos.flip { background: var(--stripes-yellow); }
+.dive-paper { background: var(--stripes-yellow) !important; }
+.ps-home-plans .ps-table { background: var(--stripes-yellow); }
+.board { background: var(--stripes-blue); }
+@media (max-width: 760px) { .board:not(.board--drag) { background: var(--stripes-blue); } }
+.ps-form-pay { margin: -26px 0 30px; font-size: 14px; color: var(--caramelo); }

@@ -109,7 +109,6 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                 <p className="ps-per">{p.per}</p>
                 {p.perk && <p className="ps-perk">{p.perk}</p>}
                 <p className="ps-desc">{p.desc}</p>
-                {p.payNote && p.checkoutUrl.includes('mpago.li') && <p className="ps-paynote">{p.payNote}</p>}
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
                   {planId === p.id ? 'Escolhido ✓' : 'Escolher'}
                 </button>
@@ -128,6 +127,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
             <img className="ps-carta" src="/assets/drawn/carta.png" alt="" aria-hidden="true" />
             <h2 id="entrega-h">Para onde mandamos a sua revista?</h2>
             <p className="ps-form-plan">Plano <strong>{plan.name}</strong> · {plan.price} {plan.per}</p>
+            {plan.payNote && plan.checkoutUrl.includes('mpago.li') && <p className="ps-form-pay">Pagamento: {plan.payNote.charAt(0).toLowerCase() + plan.payNote.slice(1)}.</p>}
             <div className="pf-grid">
               <label className="pf-full">Nome completo<input required autoComplete="name" value={f.nome} onChange={set('nome')} /></label>
               <label>E-mail<input required type="email" autoComplete="email" value={f.email} onChange={set('email')} /></label>

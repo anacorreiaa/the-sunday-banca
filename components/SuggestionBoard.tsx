@@ -1,7 +1,7 @@
 'use client';
 
 import Celebrate from './games/Celebrate';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useEditions } from './Editions';
 import muralPhotos from '@/lib/mural.json';
 
@@ -25,6 +25,8 @@ const pos = (s: Spot): React.CSSProperties => ({
 });
 
 /** Lets the visitor pick up any item on the desktop board and move it around (positions stay in %). */
+let lastDragMoved = false;
+
 function useDraggable() {
   const top = useRef(20);
   return (e: React.PointerEvent<HTMLUListElement>) => {
@@ -39,10 +41,12 @@ function useDraggable() {
     const x0 = parseFloat(li.style.getPropertyValue('--x')) || 0;
     const y0 = parseFloat(li.style.getPropertyValue('--y')) || 0;
     const sx = e.clientX, sy = e.clientY;
+    lastDragMoved = false;
     li.style.setProperty('--z', String(++top.current));
     li.classList.add('is-dragging');
     li.setPointerCapture(e.pointerId);
     const move = (ev: PointerEvent) => {
+      if (Math.abs(ev.clientX - sx) + Math.abs(ev.clientY - sy) > 5) lastDragMoved = true;
       const x = Math.min(97, Math.max(-5, x0 + ((ev.clientX - sx) / box.width) * 100));
       const y = Math.min(97, Math.max(-3, y0 + ((ev.clientY - sy) / box.height) * 100));
       li.style.setProperty('--x', `${x}%`);
@@ -58,6 +62,31 @@ function useDraggable() {
     li.addEventListener('pointerup', up);
     li.addEventListener('pointercancel', up);
   };
+}
+
+/** Click (or tap) a picture on the board to see it big. A drag on the desktop does not count as a click. */
+function useZoom() {
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    if (!src) return;
+    const esc = (e: KeyboardEvent) => { if (e.key === 'Escape') setSrc(null); };
+    window.addEventListener('keydown', esc);
+    return () => window.removeEventListener('keydown', esc);
+  }, [src]);
+  const onClick = (e: React.MouseEvent) => {
+    if (lastDragMoved) { lastDragMoved = false; return; }
+    const li = (e.target as HTMLElement).closest('li.mood, li.print, li.sticker-loose');
+    const img = li?.querySelector('img');
+    if (img) setSrc(img.currentSrc || img.src);
+  };
+  const box = src ? (
+    <div className="zoom" role="dialog" aria-modal="true" aria-label="Foto ampliada" onClick={() => setSrc(null)}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" />
+      <button type="button" className="zoom-close" aria-label="Fechar">×</button>
+    </div>
+  ) : null;
+  return { onClick, box };
 }
 
 const PIN_COLORS = ['#8E2B2B', '#4E5D68', '#CFAD64', '#6E6B3F', '#FAF8F3', '#7D8E95'];
@@ -276,12 +305,14 @@ function BoardB({ copy, enabled }: { copy: Copy; enabled: boolean }) {
 
 function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
   const drag = useDraggable();
+  const zoom = useZoom();
   const scrollRef = useRef<HTMLDivElement>(null);
   return (
     <section className="board board--b board--drag" id="sugestoes" aria-labelledby="board-heading">
+      {zoom.box}
       <div className="board-scroll" ref={scrollRef}>
       <div className="board-cork">
-        <ul className="collage" onPointerDown={drag}>
+        <ul className="collage" onPointerDown={drag} onClick={zoom.onClick}>
           <li className="bi board-title board-title--big" style={pos({ x: 30.5, y: 2.5, w: 31, r: -1, z: 6 })}>
             <span className="tape tape--l" aria-hidden="true" />
             <span className="tape tape--r" aria-hidden="true" />
