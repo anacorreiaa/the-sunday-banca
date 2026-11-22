@@ -80,7 +80,6 @@ export default async function Assinatura() {
                     <span className="ps-kit-recipe-t">Surpresa do mês</span>
                     <span className="ps-kit-lines" />
                   </span>
-                  <img className="ps-kit-recipe-d" src={`${D}berries.webp`} alt="" />
                 </div>
                 <h3>Surpresa do mês</h3>
                 <p>Um mimo diferente a cada edição. Em dezembro, uma receita de Natal.</p>
@@ -92,6 +91,8 @@ export default async function Assinatura() {
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
 
         <section className="ps-faq" aria-labelledby="faq-h">
+          <img className="deco deco--l" src={`${D}puzzles.webp`} alt="" aria-hidden="true" />
+          <img className="deco deco--r" src={`${D}cup-blue.webp`} alt="" aria-hidden="true" />
           <p className="ps-eyebrow">Perguntas frequentes</p>
           <h2 id="faq-h" className="ps-h2">Antes de assinar</h2>
           {FAQ.map(([q, a]) => (
@@ -107,6 +108,8 @@ export default async function Assinatura() {
           <Newsstand popularIds={popularIds} locale={publication.locale} eyebrow="A coleção" title="Uma coleção para guardar" intro="Cada mês, uma nova edição. Histórias diferentes, capas para colecionar e assuntos que merecem voltar à conversa. Toque numa capa para ler." controls={false} />
         </div>
         <section className="ps-close">
+          <img className="deco deco--l" src={`${D}pajama.webp`} alt="" aria-hidden="true" />
+          <img className="deco deco--r" src={`${D}toaster.webp`} alt="" aria-hidden="true" />
           <p className="ps-close-h">Sente-se, a mesa está posta.</p>
           <a className="ps-cta" href="#planos">Quero a minha <span aria-hidden="true">↑</span></a>
         </section>

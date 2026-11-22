@@ -34,6 +34,8 @@ export default async function Sobre() {
           <p className="ps-about-tag">The things they never taught us.</p>
         </section>
         <div className="gingham-zone about-mag">
+          <img className="deco deco--l" src="/assets/drawn/magazines.webp" alt="" aria-hidden="true" />
+          <img className="deco deco--r" src="/assets/drawn/vase.webp" alt="" aria-hidden="true" />
           {editions.length > 0 && <FlipMagazine />}
         </div>
       </main>
