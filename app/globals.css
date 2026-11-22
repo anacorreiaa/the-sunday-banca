@@ -1574,3 +1574,17 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-intro-h { font-style: italic; font-weight: 400; }
 .ps-kit-main .ps-kit-art--mag img[src*="edicao-01"] { aspect-ratio: auto; object-fit: contain; }
 @media (max-width: 760px) { .ps-feature-tag { font-size: 10.5px; letter-spacing: .18em; } }
+
+/* The featured cover looks like a real magazine: spine fold, gloss, stacked page edges, soft shadow */
+.ps-feature-tag { white-space: nowrap; letter-spacing: .2em; font-size: 11px; }
+.ps-realmag { position: relative; display: inline-block; transform: rotate(-4deg); border-radius: 2px 5px 5px 2px;
+  box-shadow: 1px 1px 0 #f6f2ea, 2px 2px 0 #ddd4c4, 3px 3px 0 #f6f2ea, 4px 4px 0 #d6ccbb, 5px 5px 0 #f1ebe0, 6px 6px 0 #cfc4b2,
+    0 34px 40px -20px rgba(40, 25, 15, .6), 0 10px 16px -8px rgba(40, 25, 15, .35); }
+.ps-kit-main .ps-kit-art--mag .ps-realmag img { display: block; height: 380px; width: auto; aspect-ratio: auto; object-fit: contain; transform: none; box-shadow: none; border-radius: inherit; }
+.ps-realmag::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.30) 0, rgba(0,0,0,.10) 1.2%, rgba(255,255,255,.45) 2.4%, rgba(255,255,255,0) 5%, rgba(0,0,0,.07) 6%, rgba(0,0,0,0) 10%),
+    linear-gradient(118deg, rgba(255,255,255,0) 30%, rgba(255,255,255,.28) 46%, rgba(255,255,255,0) 62%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.06)); }
+.ps-realmag::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
+@media (max-width: 760px) { .ps-kit-main .ps-kit-art--mag .ps-realmag img { height: 280px; } .ps-feature-tag { font-size: 10px; letter-spacing: .14em; } }
