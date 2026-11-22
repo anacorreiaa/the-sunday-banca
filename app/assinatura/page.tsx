@@ -25,7 +25,7 @@ const FAQ: [string, string][] = [
   ['Quanto custa o frete?', 'No plano mensal, o frete é fixo: R$ 10 por mês, então você paga R$ 79,90 por mês no total. Nos planos semestral e anual, o frete já está incluso.'],
   ['Como posso pagar?', 'O pagamento é feito pelo Mercado Pago. O mensal é cobrado no cartão todo mês. O semestral e o anual são pagos uma vez só: à vista no Pix ou parcelados no cartão (os juros do parcelamento ficam por conta de quem parcela).'],
   ['A assinatura renova sozinha?', 'O mensal renova todo mês até você cancelar. O semestral e o anual não renovam sozinhos: quando acabarem, você escolhe se quer continuar.'],
-  ['Como cancelo?', 'O mensal pode ser cancelado quando você quiser, sem multa. E em qualquer plano você pode desistir em até 7 dias depois da compra e recebe o valor de volta. É só escrever para thesundaymagazineac@gmail.com.'],
+  ['Como cancelo?', 'O mensal pode ser cancelado quando você quiser, sem multa. É só escrever para thesundaymagazineac@gmail.com.'],
   ['Mudei de endereço. E agora?', 'Escreva para thesundaymagazineac@gmail.com com o endereço novo antes do envio da próxima edição.'],
 ];
 
@@ -58,7 +58,7 @@ export default async function Assinatura() {
               {DEC_COVER && <p className="ps-feature-tag">Em destaque · Edição Nº 01 · Dezembro 2026</p>}
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="" /></div>
               <h3>{DEC_COVER ? 'A edição de Natal' : 'A revista'}</h3>
-              <p>A revista chega na sua casa todo mês com conteúdos exclusivos, para ler sem tela, e colecionar.</p>
+              <p>Chega na sua casa todo mês com conteúdos exclusivos, para ler sem tela, e colecionar.</p>
             </div>
             <ul className="ps-kit-extras">
               <li>
