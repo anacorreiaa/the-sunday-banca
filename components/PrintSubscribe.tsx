@@ -3,7 +3,7 @@
 // Plans for the printed magazine, then the delivery details, then Mercado Pago's own payment page.
 import { useEffect, useState } from 'react';
 
-type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string; payNote?: string; renews?: boolean };
+type Plan = { id: string; name: string; price: string; per: string; desc: string; checkoutUrl: string; featured?: boolean; amount: number; cycles: number; billing: string; freeShipping?: boolean; perk?: string; total?: string; payNote?: string; renews?: boolean };
 
 const brl = (n: number) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
@@ -107,6 +107,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                 <h3>{p.name}</h3>
                 <p className="ps-price">{p.price}</p>
                 <p className="ps-per">{p.per}</p>
+                {p.total && <p className="ps-total">{p.total}</p>}
                 {p.perk && <p className="ps-perk">{p.perk}</p>}
                 <p className="ps-desc">{p.desc}</p>
                 <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
@@ -116,6 +117,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
             </article>
           ))}
         </div>
+        <p className="ps-plans-note">Semestral e anual: pagamento único, à vista no Pix ou parcelado no cartão (com juros), frete incluso e sem renovação automática. Mensal: renova todo mês e você cancela quando quiser.</p>
       </section>
 
       </div>

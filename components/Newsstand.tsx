@@ -7,7 +7,7 @@ import { orderByPopularity } from '@/lib/archive-core.mjs';
 import Cover from './Cover';
 import { useEditions } from './Editions';
 
-type Props = { popularIds: string[]; locale: string };
+type Props = { popularIds: string[]; locale: string; eyebrow?: string; title?: string; intro?: string; controls?: boolean };
 type Sort = 'new' | 'popular';
 const ALL = '__all__';
 
@@ -35,7 +35,7 @@ function spot(i: number, id: string) {
   return { x: base.x + dx, y: base.y + dy, r: base.r + dr, z: 1000 - i };
 }
 
-export default function Newsstand({ popularIds, locale }: Props) {
+export default function Newsstand({ popularIds, locale, eyebrow = 'A banca', title = 'Todas as edições', intro, controls = true }: Props) {
   const { editions, byId, open: openEdition, label } = useEditions();
   const articles = useMemo<Article[]>(() => editions.map((e) => e.article), [editions]);
   const [filter, setFilter] = useState<string>(ALL);
@@ -96,9 +96,10 @@ export default function Newsstand({ popularIds, locale }: Props) {
     <section className="archive archive--table" id="edicoes" aria-labelledby="archive-heading">
       <div className="table-head">
         <div className="table-card">
-          <p className="eyebrow">A banca</p>
-          <h2 id="archive-heading">Todas as edições</h2>
-          <div className="controls">
+          <p className="eyebrow">{eyebrow}</p>
+          <h2 id="archive-heading">{title}</h2>
+          {intro && <p className="table-intro">{intro}</p>}
+          {controls && <div className="controls">
             <div className="filters" role="group" aria-label="Filtrar por tema">
               <button type="button" className="chip" aria-pressed={filter === ALL} onClick={() => setFilter(ALL)}>
                 Todas <span className="count">{articles.length}</span>
@@ -116,7 +117,7 @@ export default function Newsstand({ popularIds, locale }: Props) {
                 <option value="popular">Mais populares</option>
               </select>
             </label>
-          </div>
+          </div>}
         </div>
       </div>
 

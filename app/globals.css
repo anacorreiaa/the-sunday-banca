@@ -1433,16 +1433,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .flip-book-wrap { max-width: min(820px, calc((100svh - 280px) * 1.42)); }
 @media (max-width: 760px) { .flip-book-wrap { max-width: 100%; } }
 
-/* ——— Plan tags on the home page in azul maré ——— */
-.ps-home-plans .ps-tag-paper, .ps-home-plans .ps-tag.is-featured .ps-tag-paper { background: var(--azul-mare); color: #fbf7ee; }
-.ps-home-plans .ps-tag h3, .ps-home-plans .ps-price, .ps-home-plans .ps-desc { color: #fbf7ee; }
-.ps-home-plans .ps-per { color: rgba(251, 247, 238, .78); }
-.ps-home-plans .ps-perk { color: #f3dfa6; }
-.ps-home-plans .ps-pick { border-color: #fbf7ee; color: #fbf7ee; }
-.ps-home-plans .ps-pick:hover { background: #fbf7ee; color: var(--azul-mare); }
-.ps-home-plans .ps-tag-hole { background: #f1e8d8; box-shadow: inset 0 2px 3px rgba(0,0,0,.35); }
-.ps-home-plans .ps-stamp { color: #f3dfa6; border-color: rgba(243, 223, 166, .9); outline-color: rgba(243, 223, 166, .7); }
-
 /* ——— One small square post-it on phones ——— */
 @media (max-width: 760px) {
   .notes-mobile ul { justify-items: center; }
@@ -1499,15 +1489,63 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-page .ps-cover .table-card { background: transparent; box-shadow: none; padding: 0; }
 
 
-/* Plan tags in azul maré on the magazine page too */
-.ps-page .ps-tag-paper, .ps-page .ps-tag.is-featured .ps-tag-paper { background: var(--azul-mare); color: #fbf7ee; }
-.ps-page .ps-tag.is-picked .ps-tag-paper { background: var(--ardosia); }
-.ps-page .ps-tag h3, .ps-page .ps-price, .ps-page .ps-desc { color: #fbf7ee; }
-.ps-page .ps-per { color: rgba(251, 247, 238, .78); }
-.ps-page .ps-perk { color: #f3dfa6; }
-.ps-page .ps-pick { border-color: #fbf7ee; color: #fbf7ee; }
-.ps-page .ps-pick:hover, .ps-page .ps-pick[aria-pressed="true"] { background: #fbf7ee; color: var(--azul-mare); }
-.ps-page .ps-tag-hole { background: #f1e8d8; box-shadow: inset 0 2px 3px rgba(0,0,0,.35); }
-.ps-page .ps-stamp { color: #f3dfa6; border-color: rgba(243, 223, 166, .9); outline-color: rgba(243, 223, 166, .7); }
-/* The "melhor preço" stamp keeps the tag's blue behind it, so the words show on phones */
-.ps-home-plans .ps-stamp, .ps-page .ps-stamp { background: var(--azul-mare); }
+
+/* ——— Plan tags in sálvia with dark ink (home and magazine page) ——— */
+:root { --salvia: #A3A983; }
+.ps-home-plans .ps-tag-paper, .ps-home-plans .ps-tag.is-featured .ps-tag-paper,
+.ps-page .ps-tag-paper, .ps-page .ps-tag.is-featured .ps-tag-paper { background: var(--salvia); color: var(--expresso); }
+.ps-page .ps-tag.is-picked .ps-tag-paper { background: #8f9670; }
+.ps-home-plans .ps-tag h3, .ps-home-plans .ps-price, .ps-home-plans .ps-desc,
+.ps-page .ps-tag h3, .ps-page .ps-price, .ps-page .ps-desc { color: var(--expresso); }
+.ps-home-plans .ps-per, .ps-page .ps-per { color: rgba(59, 42, 32, .7); }
+.ps-home-plans .ps-perk, .ps-page .ps-perk { color: var(--cereja); }
+.ps-home-plans .ps-pick, .ps-page .ps-pick { border-color: var(--expresso); color: var(--expresso); }
+.ps-home-plans .ps-pick:hover, .ps-page .ps-pick:hover, .ps-page .ps-pick[aria-pressed="true"] { background: var(--expresso); color: #fbf7ee; }
+.ps-home-plans .ps-tag-hole, .ps-page .ps-tag-hole { background: #f1e8d8; box-shadow: inset 0 2px 3px rgba(0,0,0,.35); }
+.ps-home-plans .ps-stamp, .ps-page .ps-stamp { background: var(--salvia); color: rgba(142, 43, 43, .9); border-color: rgba(142, 43, 43, .8); outline-color: rgba(142, 43, 43, .6); }
+
+/* ——— Magazine page story: intro, kit (magazine first), about, plans, collection, close ——— */
+.ps-intro { max-width: 760px; margin: 0 auto; padding: clamp(70px, 9vw, 120px) 24px 10px; text-align: center; }
+.ps-intro-h { margin: 0 0 18px; font-family: var(--serif); font-weight: 500; font-size: clamp(36px, 5vw, 60px); line-height: 1.05; color: var(--expresso); }
+.ps-intro-lead { margin: 0 auto 30px; max-width: 34em; font-size: 17px; line-height: 1.6; color: var(--muted); }
+.ps-page .ps-kit--lead { padding-top: 70px; }
+.ps-kit-hero { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1.25fr 1fr; gap: 50px; align-items: center; }
+.ps-kit-main .ps-kit-art--mag { height: 400px; }
+.ps-kit-main .ps-kit-art--mag img { height: 380px; }
+.ps-kit-main h3, .ps-kit-extras h3 { margin: 18px 0 6px; font-family: 'Caveat', cursive; font-weight: 500; font-size: 40px; line-height: 1; }
+.ps-kit-main p, .ps-kit-extras p { margin: 0 auto; max-width: 20em; font-size: 15px; line-height: 1.55; color: var(--muted); }
+.ps-kit-extras { list-style: none; margin: 0; padding: 0; display: grid; gap: 34px; }
+.ps-kit-extras h3 { font-size: 28px; margin-top: 10px; }
+.ps-kit-extras p { font-size: 14px; }
+.ps-kit-art--small { height: 170px; transform: scale(.78); }
+.ps-about { max-width: 680px; margin: 0 auto; padding: 30px 24px 90px; text-align: center; }
+.ps-about p { margin: 0 0 14px; font-size: 17px; line-height: 1.7; color: var(--ink); }
+.ps-about .ps-h2 { margin-bottom: 24px; }
+.ps-about .ps-about-tag { margin-top: 22px; font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--caramelo); }
+.ps-total { margin: 4px 0 0; font-size: 12.5px; font-weight: 500; letter-spacing: .02em; color: var(--expresso); }
+.ps-plans-note { max-width: 680px; margin: 40px auto 0; font-size: 14px; line-height: 1.6; color: var(--expresso); text-align: center; background: rgba(250, 248, 243, .9); padding: 14px 20px; }
+.table-intro { margin: -6px auto 0; max-width: 34em; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.ps-close { padding: 50px 24px 90px; text-align: center; }
+.ps-close-h { margin: 0 0 24px; font-family: var(--serif); font-style: italic; font-size: clamp(28px, 3.4vw, 40px); color: var(--expresso); }
+.ps-sticky { display: none; }
+@media (max-width: 760px) {
+  .ps-intro { padding-top: 56px; }
+  .ps-intro-lead { font-size: 15.5px; }
+  .ps-kit-hero { grid-template-columns: 1fr; gap: 26px; }
+  .ps-kit-main .ps-kit-art--mag { height: 300px; }
+  .ps-kit-main .ps-kit-art--mag img { height: 280px; }
+  .ps-kit-extras { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ps-kit-extras h3 { font-size: 22px; }
+  .ps-kit-extras p { font-size: 12.5px; }
+  .ps-kit-art--small { height: 130px; transform: scale(.62); }
+  .ps-about { padding-bottom: 60px; }
+  .ps-about p { font-size: 15.5px; }
+  .ps-total { font-size: 9.5px; letter-spacing: 0; }
+  .ps-plans-note { font-size: 12.5px; margin-top: 26px; }
+  .ps-sticky { display: flex; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 40; justify-content: space-between; align-items: center; gap: 10px;
+    padding: 14px 18px; background: var(--cereja); color: var(--branco-casa); text-decoration: none; box-shadow: 0 10px 24px -8px rgba(60, 20, 15, .6);
+    transform: translateY(140%); transition: transform .3s ease; }
+  .ps-sticky.is-on { transform: none; }
+  .ps-sticky span { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; }
+  .ps-sticky b { font-weight: 400; font-size: 12.5px; opacity: .9; }
+}

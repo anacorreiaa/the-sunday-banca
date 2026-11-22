@@ -1,7 +1,7 @@
 // The plans on the home page, right after the magazine. Each tag opens the subscription page with that plan chosen.
 import publication from '@/lib/publication.json';
 
-type Plan = { id: string; name: string; price: string; per: string; desc: string; featured?: boolean; perk?: string };
+type Plan = { id: string; name: string; price: string; per: string; desc: string; featured?: boolean; perk?: string; total?: string };
 
 export default function PlansPreview() {
   const plans = publication.printPlans as Plan[];
@@ -20,6 +20,7 @@ export default function PlansPreview() {
                   <h3>{p.name}</h3>
                   <p className="ps-price">{p.price}</p>
                   <p className="ps-per">{p.per}</p>
+                  {p.total && <p className="ps-total">{p.total}</p>}
                   {p.perk && <p className="ps-perk">{p.perk}</p>}
                   <p className="ps-desc">{p.desc}</p>
                   <a className="ps-pick" href={`/assinatura?plano=${p.id}#planos`}>Escolher</a>
