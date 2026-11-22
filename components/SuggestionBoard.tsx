@@ -76,7 +76,7 @@ const NOTE_SPOTS: Spot[] = [
   { x: 57, y: 37, w: 16.5, r: 2, z: 3 },
   { x: 80, y: 33, w: 16.5, r: -1.5, z: 3 },
 ];
-const NOTE_COLORS = ['#F3E3A1', '#EBD5C8', '#DCE3C6'];
+const NOTE_COLORS = ['#CFDBE0', '#CFD8C2', '#E6D9A8']; // azul névoa, sálvia, ouro velho claro
 
 const STICKERS: { src: string; s: Spot }[] = [
   { src: 'cup-blue', s: { x: 17.5, y: 6, w: 10, r: 0, z: 2 } },

@@ -1372,3 +1372,12 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-home-plans .ps-eyebrow--light { color: var(--caramelo); text-shadow: none; }
 .ps-home-plans .ps-home-more a { color: var(--expresso); text-shadow: none; }
 .ps-home-plans .ps-tag { filter: drop-shadow(0 14px 14px rgba(60, 40, 25, .28)); }
+/* Home plans: eyebrow as strong as the title, tags lighter than the wallpaper */
+.ps-home-plans .ps-eyebrow--light { color: var(--expresso); }
+.ps-home-plans .ps-tag-paper { background: var(--branco-casa); }
+/* Recipe card: more writing lines on the phone */
+@media (max-width: 860px) {
+  .ps-kit-recipe { height: 78px; }
+  .ps-kit-lines { background: repeating-linear-gradient(transparent 0 7px, rgba(78, 93, 104, .3) 7px 8px); }
+}
+.ps-home-plans .ps-tag.is-featured .ps-tag-paper { background: var(--branco-casa); }

@@ -28,7 +28,6 @@ export default function SiteFooter() {
           <ul>
             <li><a href={publication.substackUrl}>Newsletter no Substack</a></li>
             <li><a href={publication.printMagazine.url}>Quero a revista física</a></li>
-            <li><a href={publication.subscribeUrl}>Assinar grátis</a></li>
           </ul>
         </div>
       </div>
