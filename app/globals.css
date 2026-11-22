@@ -1470,3 +1470,32 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .mp-cover--photo .mp-cover-foot { font-size: 3.6cqw; letter-spacing: .12em; }
 }
 @media (min-width: 761px) { .flip-book-wrap { max-width: min(720px, calc((100svh - 340px) * 1.3)); } }
+
+/* ——— Round 4: gingham to the end, prettier send link, magazine page without wood ——— */
+.gingham-zone::before {
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 34vh);
+          mask-image: linear-gradient(to bottom, transparent 0, #000 34vh); }
+.gingham-zone .board { background: transparent; }
+.gingham-zone .board::before, .gingham-zone .board::after { display: none; }
+.gingham-zone .ps-home-plans .ps-plans { padding-bottom: 40px; }
+
+/* Write straight on the board's post-its, phones included */
+.board--drag .collage .postit--write { pointer-events: auto; }
+
+/* "enviar" as a small handwritten link instead of a dark box */
+.postit-foot { align-items: center; }
+.postit-foot button, .postit--flat .postit-foot button {
+  min-height: 0; padding: 0 0 1px; background: none; border: 0; border-bottom: 1px solid currentColor; border-radius: 0;
+  color: var(--expresso); font-family: 'Caveat', cursive; font-size: 1.5cqw; letter-spacing: 0; text-transform: none; line-height: 1.1; }
+.postit-foot button:hover { color: var(--cereja); }
+.postit-foot button:disabled { opacity: .6; }
+
+/* Magazine page: gingham all the way down, no wood */
+.ps-page { background: var(--gingham), var(--gingham-base); }
+.ps-page .ps-table, .ps-page .ps-cover, .ps-page .ps-cover .table-head { background: transparent; }
+.ps-page .ps-kit { padding-top: clamp(60px, 7vw, 100px); }
+.ps-page .ps-h2--light { color: var(--expresso); text-shadow: none; }
+.ps-page .ps-cover .table-card { background: transparent; box-shadow: none; padding: 0; }
+.ps-page .table-stage {
+  -webkit-mask-image: radial-gradient(ellipse 58% 60% at 50% 50%, #000 70%, transparent 100%);
+          mask-image: radial-gradient(ellipse 58% 60% at 50% 50%, #000 70%, transparent 100%); }

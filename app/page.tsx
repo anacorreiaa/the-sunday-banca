@@ -35,9 +35,8 @@ export default async function Home() {
         <div className="gingham-zone">
           {editions.length > 0 && <FlipMagazine />}
           <PlansPreview />
+          <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
         </div>
-
-        <SuggestionBoard copy={publication.suggestions} enabled={formEnabled} variant={(process.env.BOARD_VARIANT as 'a' | 'b' | 'c') || 'c'} />
 
         {/* The Sunday Talks (components/Room.tsx) comes back when the podcast launches. */}
       </main>

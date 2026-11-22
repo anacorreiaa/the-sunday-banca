@@ -353,21 +353,6 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
         </ul>
       </div>
       </div>
-      {/* On phones the whole board fits the screen, so the notes are too small to write on: the same three notes, full size, below it. */}
-      <div className="notes-mobile">
-        <div className="notes-mobile-head">
-          <span className="board-eyebrow">Mural de ideias</span>
-          <p className="notes-mobile-title">{copy.heading}</p>
-          <p className="notes-mobile-h">Escreva no post-it ↓</p>
-        </div>
-        <ul>
-          {/* One note is enough on a phone: the curious one. */}
-          {(() => {
-            const i = Math.max(0, copy.prompts.findIndex((p) => p.includes('curiosa')));
-            return <WriteNote prompt={copy.prompts[i]} index={i} enabled={enabled} copy={copy} spot={NOTE_SPOTS_C[0]} flat />;
-          })()}
-        </ul>
-      </div>
     </section>
   );
 }

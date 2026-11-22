@@ -26,13 +26,7 @@ export default async function Assinatura() {
   return (
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="print" />
-      <main className="ps">
-        {/* The page opens on the coffee table with every edition on it; the same floor runs on under the plans. */}
-        <div className="ps-cover">
-          <Newsstand popularIds={popularIds} locale={publication.locale} />
-        </div>
-
-        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed}>
+      <main className="ps ps-page">
         {/* What comes in the box */}
         <section className="ps-kit" aria-labelledby="kit">
           <p className="ps-eyebrow">Na edição de Natal</p>
@@ -66,7 +60,12 @@ export default async function Assinatura() {
             </li>
           </ul>
         </section>
-        </PrintSubscribe>
+        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
+
+        {/* Every edition on the coffee table, at the end of the page. */}
+        <div className="ps-cover">
+          <Newsstand popularIds={popularIds} locale={publication.locale} />
+        </div>
       </main>
       <SiteFooter />
     </EditionsProvider>
