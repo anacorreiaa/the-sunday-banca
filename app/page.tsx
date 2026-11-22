@@ -1,7 +1,7 @@
 import publication from '@/lib/publication.json';
 import photoIds from '@/data/photos.json';
 import excerpts from '@/data/excerpts.json';
-import Hero from '@/components/Hero';
+import PrintHero from '@/components/PrintHero';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import CupDive from '@/components/CupDive';
@@ -20,6 +20,10 @@ export default async function Home() {
   const { articles, popularIds } = await loadArchive();
   const photos = new Set<string>(photoIds);
   const editions = articles.map((article) => ({ article, meta: editionMeta(article, photos, excerpts as Record<string, string[]>) }));
+  const fan = [...editions]
+    .sort((a, b) => b.article.date.localeCompare(a.article.date))
+    .filter((e) => e.meta.photo)
+    .slice(0, 6);
   const formEnabled = !process.env.PREVIEW_EXPORT && isConfigured();
 
   return (
@@ -27,7 +31,7 @@ export default async function Home() {
       <a className="skip" href="#edicoes">Pular para as edições</a>
       <SiteNav />
       <main>
-        <Hero />
+        <div className="ps home-hero"><PrintHero fan={fan} hint /></div>
         <CupDive />
         {editions.length > 0 && <FlipMagazine />}
         <PlansPreview />

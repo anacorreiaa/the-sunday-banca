@@ -1403,3 +1403,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
 /* The magazine slides up over the end of the cup dive, so there is no empty screen in between */
 #quem-somos.flip { position: relative; z-index: 2; margin-top: -42vh; padding-top: clamp(36px, 5vw, 70px); }
+
+/* Print hero at the top of the home page */
+.home-hero .ps-hero { min-height: calc(100svh - 58px); box-sizing: border-box; padding-top: 100px; padding-bottom: 50px; }
+.ps-hero-hint { position: absolute; left: 0; right: 0; bottom: 10px; margin: 0; }
+@media (max-width: 860px) { .home-hero .ps-hero { min-height: 0; padding-bottom: 46px; } }

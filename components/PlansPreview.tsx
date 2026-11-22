@@ -6,7 +6,7 @@ type Plan = { id: string; name: string; price: string; per: string; desc: string
 export default function PlansPreview() {
   const plans = publication.printPlans as Plan[];
   return (
-    <section className="ps ps-home-plans" aria-labelledby="planos-home">
+    <section className="ps ps-home-plans" id="planos" aria-labelledby="planos-home">
       <div className="ps-table">
         <section className="ps-plans">
           <p className="ps-eyebrow ps-eyebrow--light">A revista impressa</p>
