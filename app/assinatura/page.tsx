@@ -44,6 +44,8 @@ export default async function Assinatura() {
       <main className="ps ps-page">
         {/* Opening: what The Sunday is, then what arrives at home */}
         <section className="ps-intro" aria-labelledby="ps-intro-h">
+          <img className="deco deco--l" src={`${D}berries.webp`} alt="" aria-hidden="true" />
+          <img className="deco deco--r" src={`${D}boat.webp`} alt="" aria-hidden="true" />
           <p className="ps-eyebrow">The Sunday Magazine</p>
           <h1 id="ps-intro-h" className="ps-intro-h">Uma boa leitura também pode chegar pelo correio.</h1>
           <p className="ps-intro-lead">Uma revista mensal para mulheres curiosas. Histórias, descobertas e pequenas surpresas para levar a vida além da rotina.</p>

@@ -25,6 +25,8 @@ export default async function Sobre() {
       <SiteNav home={false} current="about" />
       <main className="ps about-page">
         <section className="ps-about" aria-labelledby="ps-about-h">
+          <img className="deco deco--l" src="/assets/drawn/cards.webp" alt="" aria-hidden="true" />
+          <img className="deco deco--r" src="/assets/drawn/cup-tea.webp" alt="" aria-hidden="true" />
           <p className="ps-eyebrow">Um pouco sobre nós</p>
           <h1 id="ps-about-h" className="ps-h2">Para quem gosta de saber um pouco de tudo.</h1>
           <p>A história por trás de um costume. Uma descoberta científica que muda nossa maneira de pensar. Um lugar que merece ser conhecido. Uma pergunta que nunca tínhamos pensado em fazer.</p>

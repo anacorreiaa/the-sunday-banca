@@ -1588,3 +1588,19 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
     linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.06)); }
 .ps-realmag::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); }
 @media (max-width: 760px) { .ps-kit-main .ps-kit-art--mag .ps-realmag img { height: 280px; } .ps-feature-tag { font-size: 10px; letter-spacing: .14em; } }
+
+/* Little drawings around the opening text of the magazine and about pages */
+.ps-intro, .ps-about { position: relative; }
+.deco { position: absolute; pointer-events: none; height: auto; }
+.ps-intro .deco--l { width: 130px; left: -170px; top: 150px; transform: rotate(-6deg); }
+.ps-intro .deco--r { width: 120px; right: -160px; top: 60px; transform: rotate(4deg); }
+.ps-about .deco--l { width: 140px; left: -190px; top: 120px; transform: rotate(-8deg); }
+.ps-about .deco--r { width: 120px; right: -170px; top: 200px; transform: rotate(5deg); }
+@media (max-width: 1100px) { .ps-intro .deco--l, .ps-about .deco--l { left: -40px; } .ps-intro .deco--r, .ps-about .deco--r { right: -40px; } }
+@media (max-width: 760px) {
+  .deco { opacity: .95; }
+  .ps-intro .deco--l { width: 62px; left: 6px; top: 22px; }
+  .ps-intro .deco--r { width: 58px; right: 8px; top: 14px; }
+  .ps-about .deco--l { width: 64px; left: 6px; top: 30px; }
+  .ps-about .deco--r { width: 56px; right: 8px; top: 24px; }
+}
