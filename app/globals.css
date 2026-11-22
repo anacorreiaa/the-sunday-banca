@@ -1366,3 +1366,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-home-more { margin: 44px 0 0; text-align: center; }
 .ps-home-more a { color: #fff7e8; font-size: 14px; letter-spacing: .06em; text-shadow: 0 1px 3px rgba(0,0,0,.5); }
 @media (max-width: 860px) { .ps-home-plans .ps-plans { padding-top: 50px; padding-bottom: 40px; } .ps-home-plans .ps-h2 { margin-bottom: 44px; } .ps-home-more { margin-top: 28px; } }
+/* Home plans sit on the sprigs wallpaper, like the magazine above */
+.ps-home-plans .ps-table { background: var(--wallpaper); }
+.ps-home-plans .ps-h2--light { color: var(--expresso); text-shadow: none; }
+.ps-home-plans .ps-eyebrow--light { color: var(--caramelo); text-shadow: none; }
+.ps-home-plans .ps-home-more a { color: var(--expresso); text-shadow: none; }
+.ps-home-plans .ps-tag { filter: drop-shadow(0 14px 14px rgba(60, 40, 25, .28)); }
