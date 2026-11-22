@@ -25,16 +25,27 @@ function trimTo(paras: string[], max: number) {
 }
 
 /**
- * Shrinks each page's content (never below 62%) until nothing is cut off at the bottom.
+ * Shrinks each page's content until nothing is cut off at the bottom.
+ * Uses transform: scale (works the same in Safari and Chrome): the content is laid out
+ * on a bigger sheet (page size ÷ scale) and then scaled down to the page.
  * Pages that are not on screen are measured in an invisible copy of the same size.
  */
+const FIT_PROPS = ['width', 'height', 'transform', 'transform-origin', 'zoom'];
+function applyFit(el: HTMLElement, fit: number, H: number) {
+  if (fit >= 1) { FIT_PROPS.forEach((k) => el.style.removeProperty(k)); return; }
+  el.style.removeProperty('zoom');
+  el.style.setProperty('width', `${100 / fit}%`);
+  el.style.setProperty('height', `${H / fit}px`);
+  el.style.setProperty('transform', `scale(${fit})`);
+  el.style.setProperty('transform-origin', '0 0');
+}
 function fitPages(root: HTMLElement | null) {
   if (!root) return;
   const pages = [...root.querySelectorAll<HTMLElement>('.mag-page')];
   const shown = pages.find((p) => p.offsetWidth > 0 && p.offsetHeight > 0);
   if (!shown) return;
   const W = shown.offsetWidth, H = shown.offsetHeight;
-  const MIN_FIT = W < 260 ? 0.4 : 0.62;
+  const MIN_FIT = W < 260 ? 0.3 : 0.55;
   const probe = document.createElement('div');
   probe.style.cssText = `position:fixed;left:-9999px;top:0;width:${W}px;height:${H}px;visibility:hidden;pointer-events:none;`;
   document.body.appendChild(probe);
@@ -43,25 +54,18 @@ function fitPages(root: HTMLElement | null) {
     if (!inner) continue;
     const copy = page.cloneNode(true) as HTMLElement;
     copy.removeAttribute('style');
-    copy.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;';
+    copy.style.cssText = 'position:absolute;inset:0;display:block;width:100%;height:100%;overflow:hidden;';
     probe.replaceChildren(copy);
     const el = copy.querySelector<HTMLElement>('.mp-inner')!;
-    el.style.removeProperty('zoom');
-    el.style.removeProperty('height');
+    applyFit(el, 1, H);
     let fit = 1;
-    for (let k = 0; k < 8; k++) {
-      if (el.scrollHeight - el.clientHeight <= 1 || fit <= MIN_FIT) break;
-      fit = Math.max(MIN_FIT, fit * Math.min(0.97, el.clientHeight / el.scrollHeight));
-      el.style.setProperty('zoom', String(fit));
-      el.style.setProperty('height', `${H / fit}px`);
+    for (let k = 0; k < 14; k++) {
+      const over = el.scrollHeight - el.clientHeight;
+      if (over <= 1 || fit <= MIN_FIT) break;
+      fit = Math.max(MIN_FIT, fit * Math.min(0.96, el.clientHeight / el.scrollHeight));
+      applyFit(el, fit, H);
     }
-    if (fit < 1) {
-      inner.style.setProperty('zoom', String(fit));
-      inner.style.setProperty('height', `${H / fit}px`);
-    } else {
-      inner.style.removeProperty('zoom');
-      inner.style.removeProperty('height');
-    }
+    applyFit(inner, fit, H);
   }
   probe.remove();
 }
