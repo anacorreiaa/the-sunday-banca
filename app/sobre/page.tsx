@@ -24,16 +24,60 @@ export default async function Sobre() {
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="about" />
       <main className="ps about-page">
-        <section className="ps-about" aria-labelledby="ps-about-h">
-          {['cards', 'magazines', 'cup-tea', 'vase'].map((d, i) => (
-            <img key={d} className={`deco deco--${i + 1}`} src={`/assets/drawn/${d}.webp`} alt="" aria-hidden="true" />
-          ))}
-          <p className="ps-eyebrow">Um pouco sobre nós</p>
-          <h1 id="ps-about-h" className="ps-h2">Para quem gosta de saber um pouco de tudo.</h1>
-          <p>A história por trás de um costume. Uma descoberta científica que muda nossa maneira de pensar. Um lugar que merece ser conhecido. Uma pergunta que nunca tínhamos pensado em fazer.</p>
-          <p>A The Sunday reúne histórias e ideias para mulheres que continuam curiosas sobre o mundo.</p>
-          <p className="ps-about-tag">The things they never taught us.</p>
+        <section className="store-hero rv-hero ab-hero" aria-labelledby="ab-h">
+          <picture>
+            <source media="(max-width: 760px)" srcSet="/assets/revista-topo-m.webp" />
+            <img src="/assets/revista-topo.webp" alt="Café da manhã na cama com chá e um livro aberto" fetchPriority="high" />
+          </picture>
+          <div className="store-hero-text">
+            <p className="store-kick">Um pouco sobre nós</p>
+            <h1 id="ab-h">Para quem gosta de saber um pouco de tudo.</h1>
+            <p>Histórias e ideias para mulheres que continuam curiosas sobre o mundo.</p>
+          </div>
         </section>
+
+        <section className="ab-write" aria-labelledby="ab-w">
+          <p className="ps-eyebrow">O que a gente escreve</p>
+          <h2 id="ab-w" className="ab-h2">Uma pergunta boa por semana.</h2>
+          <p className="ab-lead">Toda edição parte de uma curiosidade do dia a dia, daquelas que a gente nunca parou para pensar. A gente pesquisa a história, a ciência e o comportamento por trás dela e conta tudo de um jeito leve, para ler com calma, no domingo, com um café do lado.</p>
+
+          <div className="ab-formats">
+            <article className="ab-format">
+              <h3>As histórias de domingo</h3>
+              <p>Textos que pegam um costume, um hábito ou uma situação comum e contam de onde aquilo veio e por que a gente age assim.</p>
+              <p className="ab-ex">Ex.: “Quando começamos a viajar por prazer?” e “A desconhecida à mesa”, sobre por que é tão difícil puxar conversa com quem não conhecemos.</p>
+            </article>
+            <article className="ab-format">
+              <h3>The Sunday Tips</h3>
+              <p>Pequenos guias práticos, para usar na vida real: aquilo que todo mundo finge que sabe, explicado sem cerimônia.</p>
+              <p className="ab-ex">Ex.: para que serve cada talher à mesa (e a história por trás deles) e como olhar um quadro no museu e enxergar mais do que uma pintura.</p>
+            </article>
+            <article className="ab-format">
+              <h3>The Sunday Curiosities</h3>
+              <p>O que a ciência e os números dizem sobre coisas que fazem parte da nossa rotina.</p>
+              <p className="ab-ex">Ex.: por que estamos tão obcecadas em medir o próprio sono, e o que esses números realmente revelam sobre as nossas noites.</p>
+            </article>
+          </div>
+
+          <h3 className="ab-th">Os temas que mais aparecem</h3>
+          <ul className="ab-topics">
+            {['História dos costumes', 'Comportamento e relações', 'Ciência do dia a dia', 'Arte e museus', 'Viagens', 'Mesa e etiqueta', 'Bem-estar', 'Cultura'].map((t) => <li key={t}>{t}</li>)}
+          </ul>
+
+          <div className="ab-two">
+            <div>
+              <h3>Como a gente escreve</h3>
+              <p>Sem jargão e sem pressa. Textos curtos o bastante para caber num domingo e cuidadosos o bastante para você sair sabendo algo novo, e com vontade de contar para alguém.</p>
+            </div>
+            <div>
+              <h3>Na newsletter e na revista</h3>
+              <p>A newsletter chega todo domingo no seu e-mail. A revista impressa chega na sua casa com conteúdos exclusivos, jogos e uma surpresa por edição, para ler sem tela e colecionar.</p>
+            </div>
+          </div>
+
+          <p className="ps-about-tag ab-tag">The things they never taught us.</p>
+        </section>
+
         <div className="gingham-zone about-mag">
           {editions.length > 0 && <FlipMagazine />}
         </div>
