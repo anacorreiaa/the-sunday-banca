@@ -97,26 +97,27 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
     <>
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
-        <p className="presale-note">Pré-venda de Natal até 1º de dezembro<span className="presale-more"> · entrega até a 2ª semana de dezembro</span></p>
-        <h2 id="planos-h" className="ps-h2 ps-h2--light">Escolha o seu plano</h2>
-        <div className="ps-tags">
-          {plans.map((p, i) => (
-            <article key={p.id} className={`ps-tag ps-tag--${i}${p.featured ? ' is-featured' : ''}${planId === p.id ? ' is-picked' : ''}`}>
-              <div className="ps-tag-paper">
-                <span className="ps-tag-hole" aria-hidden="true" />
-                {p.featured && <span className="ps-stamp" aria-label="Melhor preço">melhor<br />preço</span>}
-                <h3>{p.name}</h3>
-                <p className="ps-price">{p.price}</p>
-                <p className="ps-per">{p.per}</p>
-                {p.total && <p className="ps-total">{p.total}</p>}
-                {p.perk && <p className="ps-perk">{p.perk}</p>}
-                <p className="ps-desc">{p.desc}</p>
-                <button type="button" className="ps-pick" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>
-                  {planId === p.id ? 'Escolhido ✓' : 'Escolher'}
+        <h2 id="planos-h" className="rv-h2">Escolha o seu plano</h2>
+        <div className="store-row rv-row">
+          {[...plans].sort((x, y) => (y.cycles || 0) - (x.cycles || 0)).map((p) => {
+            const off = p.billing === 'monthly' ? 0 : Math.floor((1 - p.amount / 69.9) * 100);
+            return (
+              <article key={p.id} className={`store-card${planId === p.id ? ' is-picked' : ''}`}>
+                <button type="button" className="store-card-im" onClick={() => pick(p.id)} tabIndex={-1} aria-hidden="true">
+                  <img src={`/assets/plans/${p.id}.webp`} alt="" loading="lazy" />
+                  {off > 0 && <span className="store-badge">-{off}%</span>}
+                  {p.billing !== 'monthly' && <span className="store-tag">Frete grátis</span>}
                 </button>
-              </div>
-            </article>
-          ))}
+                <div className="store-card-b">
+                  <p className="store-card-k">{p.cycles === 12 ? '12 edições · melhor preço' : p.cycles === 6 ? '6 edições' : 'Todo mês'}</p>
+                  <h3>{p.name}</h3>
+                  <p className="store-price"><b>{p.price}</b>{off > 0 && <s>R$ 69,90</s>}<em>{p.billing === 'monthly' ? '/edição + frete' : '/edição'}</em></p>
+                  <p className="rv-note">{p.total || 'cancele quando quiser'}</p>
+                  <button type="button" className="store-add" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>{planId === p.id ? 'Escolhido ✓' : 'Assinar'}</button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 

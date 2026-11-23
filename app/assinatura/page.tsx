@@ -42,58 +42,30 @@ export default async function Assinatura() {
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="print" />
       <main className="ps ps-page">
-        {/* Opening: what The Sunday is, then what arrives at home */}
-        <section className="ps-intro" aria-labelledby="ps-intro-h">
-          {['vase', 'puzzles', 'pajama', 'boat', 'toaster', 'cup-blue'].map((d, i) => (
-            <img key={d} className={`deco deco--${i + 1}`} src={`${D}${d}.webp`} alt="" aria-hidden="true" />
-          ))}
-          <p className="ps-eyebrow">The Sunday Magazine</p>
-          <h1 id="ps-intro-h" className="ps-intro-h">Uma boa leitura também pode chegar pelo correio.</h1>
-          <p className="ps-intro-lead">Uma revista mensal para mulheres curiosas. Histórias, descobertas e pequenas surpresas para levar a vida além da rotina.</p>
-          <a className="ps-cta" href="#planos">Ver os planos <span aria-hidden="true">↓</span></a>
-        </section>
-
-        <section className="ps-kit ps-kit--lead" aria-labelledby="kit">
-          <p className="ps-eyebrow">A experiência The Sunday</p>
-          <h2 id="kit" className="ps-h2">O que chega na sua casa</h2>
-          <div className="ps-kit-hero">
-            <div className="ps-kit-main">
-              {DEC_COVER && <p className="ps-feature-tag">Em destaque · Dezembro 2026</p>}
-              <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><span className="ps-realmag"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="" /></span></div>
-              <h3>{DEC_COVER ? 'A edição de Natal' : 'A revista'}</h3>
-              <p>Chega na sua casa com conteúdos exclusivos, para ler e colecionar.</p>
-            </div>
-            <ul className="ps-kit-extras">
-              <li>
-                <div className="ps-kit-art ps-kit-art--small" aria-hidden="true">
-                  <span className="ps-kit-page ps-kit-page--sudoku">
-                    {[0, 1, 2, 3].map((g) => (
-                      <span key={g} className="ps-kit-grid">{Array.from({ length: 16 }, (_, i) => <i key={i}>{(i * 7 + g * 3) % 5 === 0 ? ((i + g) % 9) + 1 : ''}</i>)}</span>
-                    ))}
-                  </span>
-                </div>
-                <h3>Jogos</h3>
-                <p>Sudoku, caça-palavras e outros passatempos dentro da revista.</p>
-              </li>
-              <li>
-                <div className="ps-kit-art ps-kit-art--small ps-recipe-art" aria-hidden="true">
-                  <span className="ps-recipe-card">
-                    <span className="ps-recipe-check" />
-                    <span className="ps-recipe-t">Receita</span>
-                    <span className="ps-recipe-sub">para a sua mesa</span>
-                    <span className="ps-recipe-lines" />
-                  </span>
-                  <img className="ps-recipe-bowl" src={`${D}berries.webp`} alt="" />
-                </div>
-                <h3>Surpresa do mês</h3>
-                <p>Um mimo diferente a cada edição. Esta vai ser a sua receita de Natal.</p>
-              </li>
-            </ul>
+        {/* Opening photo, like the home page */}
+        <section className="store-hero rv-hero" aria-labelledby="rv-h">
+          <picture>
+            <source media="(max-width: 760px)" srcSet="/assets/revista-topo-m.webp" />
+            <img src="/assets/revista-topo.webp" alt="Café da manhã na cama com chá e um livro aberto" fetchPriority="high" />
+          </picture>
+          <div className="store-hero-text">
+            <p className="store-kick">A revista impressa</p>
+            <h1 id="rv-h">Receba a <span className="rv-name">The Sunday</span><br />na sua casa.</h1>
+            <p>Uma revista por mês, para ler sem tela e colecionar. Pré-venda até 1º de dezembro.</p>
+            <a className="store-btn" href="#planos">Ver os planos <span aria-hidden="true">↓</span></a>
           </div>
         </section>
 
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
 
+        <section className="rv-inside" aria-labelledby="kit">
+          <h2 id="kit">O que chega na sua casa</h2>
+          <div className="rv-tiles">
+            <article className="rv-tile"><div className="rv-tile-im rv-tile-im--cover"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="Capa da edição de Natal" /></div><div className="rv-tile-b"><h3>A revista</h3><p>Chega na sua casa com conteúdos exclusivos, para ler e colecionar.</p></div></article>
+            <article className="rv-tile"><div className="rv-tile-im"><img src="/assets/kit-jogos.webp" alt="Sudoku e café" loading="lazy" /></div><div className="rv-tile-b"><h3>Jogos</h3><p>Sudoku, caça-palavras e outros passatempos dentro da revista.</p></div></article>
+            <article className="rv-tile"><div className="rv-tile-im"><img src="/assets/kit-surpresa.webp" alt="Biscoitos de Natal decorados" loading="lazy" /></div><div className="rv-tile-b"><h3>Surpresa do mês</h3><p>Um mimo diferente a cada edição. Esta vai ser a sua receita de Natal.</p></div></article>
+          </div>
+        </section>
         <section className="ps-faq" aria-labelledby="faq-h">
           <p className="ps-eyebrow">Perguntas frequentes</p>
           <h2 id="faq-h" className="ps-h2">Antes de assinar</h2>
