@@ -39,23 +39,32 @@ export default async function Sobre() {
         <section className="ab-write" aria-labelledby="ab-w">
           <p className="ps-eyebrow">O que a gente escreve</p>
           <h2 id="ab-w" className="ab-h2">Uma pergunta boa por semana.</h2>
-          <p className="ab-lead">Toda edição parte de uma curiosidade do dia a dia, daquelas que a gente nunca parou para pensar. A gente pesquisa a história, a ciência e o comportamento por trás dela e conta tudo de um jeito leve, para ler com calma, no domingo, com um café do lado.</p>
+          <p className="ab-lead">Toda edição parte de uma curiosidade do dia a dia, daquelas que a gente nunca parou para pensar. A gente pesquisa a história, a ciência e o comportamento por trás dela e conta tudo de um jeito leve.</p>
 
           <div className="ab-formats">
             <article className="ab-format">
               <h3>As histórias de domingo</h3>
               <p>Textos que pegam um costume, um hábito ou uma situação comum e contam de onde aquilo veio e por que a gente age assim.</p>
-              <p className="ab-ex">Ex.: “Quando começamos a viajar por prazer?” e “A desconhecida à mesa”, sobre por que é tão difícil puxar conversa com quem não conhecemos.</p>
+              <ul className="ab-links">
+                <li><a href="https://thesundaymagazine.substack.com/p/quando-comecamos-a-viajar-por-prazer" target="_blank" rel="noopener">Quando começamos a viajar por prazer? <span aria-hidden="true">→</span></a></li>
+                <li><a href="https://thesundaymagazine.substack.com/p/a-desconhecida-a-mesa" target="_blank" rel="noopener">A desconhecida à mesa <span aria-hidden="true">→</span></a></li>
+                <li><a href="https://thesundaymagazine.substack.com/p/quem-nos-ensinou-a-parar-de-perguntar" target="_blank" rel="noopener">Quem nos ensinou a parar de perguntar? <span aria-hidden="true">→</span></a></li>
+              </ul>
             </article>
             <article className="ab-format">
               <h3>The Sunday Tips</h3>
               <p>Pequenos guias práticos, para usar na vida real: aquilo que todo mundo finge que sabe, explicado sem cerimônia.</p>
-              <p className="ab-ex">Ex.: para que serve cada talher à mesa (e a história por trás deles) e como olhar um quadro no museu e enxergar mais do que uma pintura.</p>
+              <ul className="ab-links">
+                <li><a href="https://thesundaymagazine.substack.com/p/um-guia-para-entender-os-talheres" target="_blank" rel="noopener">Um guia para entender os talheres à mesa <span aria-hidden="true">→</span></a></li>
+                <li><a href="https://thesundaymagazine.substack.com/p/como-olhar-para-um-quadro-e-enxergar" target="_blank" rel="noopener">Como olhar para um quadro e enxergar mais do que uma pintura? <span aria-hidden="true">→</span></a></li>
+              </ul>
             </article>
             <article className="ab-format">
               <h3>The Sunday Curiosities</h3>
               <p>O que a ciência e os números dizem sobre coisas que fazem parte da nossa rotina.</p>
-              <p className="ab-ex">Ex.: por que estamos tão obcecadas em medir o próprio sono, e o que esses números realmente revelam sobre as nossas noites.</p>
+              <ul className="ab-links">
+                <li><a href="https://thesundaymagazine.substack.com/p/por-que-estamos-tao-obcecados-em" target="_blank" rel="noopener">Por que estamos tão obcecados em medir o próprio sono? <span aria-hidden="true">→</span></a></li>
+              </ul>
             </article>
           </div>
 
