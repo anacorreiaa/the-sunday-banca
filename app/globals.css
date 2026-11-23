@@ -1769,3 +1769,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .store-price em { font-size: 10px; width: 100%; }
   .store-add { font-size: 10px; letter-spacing: .1em; padding: 10px 6px; }
 }
+/* Title font: Cormorant italic, with "Natal" in Pinyon Script */
+.store-hero h1, .store-plans-head h2 { font-style: italic; font-weight: 500; }
+.store-nat { font-family: 'Pinyon Script', cursive; font-style: normal; font-weight: 400; font-size: 1.25em; line-height: .8; }

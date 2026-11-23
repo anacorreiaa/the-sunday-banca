@@ -10,7 +10,7 @@ export default function StoreHero() {
       </picture>
       <div className="store-hero-text">
         <p className="store-kick">Edição Nº 01 · Dezembro</p>
-        <h1>A edição de<br />Natal chegou.</h1>
+        <h1>A edição de<br /><span className="store-nat">Natal</span> chegou.</h1>
         <p>Pré-venda até 1º de dezembro.</p>
         <a className="store-btn" href="#assinaturas">Garantir a minha <span aria-hidden="true">→</span></a>
       </div>
