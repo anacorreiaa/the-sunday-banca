@@ -1669,3 +1669,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-intro .deco--3 { width: 36px; left: 12px; top: 14px; bottom: auto; transform: rotate(-6deg); }
   .ps-intro .deco--6 { width: 62px; right: 8px; top: 26px; bottom: auto; }
 }
+
+.board-tip { position: relative; z-index: 1; margin: 14px 0 0; text-align: center; font-family: var(--sans); font-size: 13px; letter-spacing: .02em; color: var(--muted); }
+@media (max-width: 760px) { .board-tip { font-size: 12px; margin-top: 10px; } }

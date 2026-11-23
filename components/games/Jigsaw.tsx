@@ -102,14 +102,19 @@ export default function Jigsaw() {
     const { cols, rows } = SIZES[size];
     const wide = W > 760;
     const ratio = img.naturalHeight / img.naturalWidth;
-    const bw = wide ? Math.min(W * 0.42, Math.max(300, Math.min(440, window.innerHeight - 430)) / ratio) : W - 24;
+    // Phones: board and loose pieces share one screen, so there is no scrolling up and down while playing.
+    const navh = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--navh')) || 120;
+    const avail = Math.max(420, window.innerHeight - navh - 70);
+    const bw = wide
+      ? Math.min(W * 0.42, Math.max(300, Math.min(440, window.innerHeight - 430)) / ratio)
+      : Math.min(W - 24, (avail * 0.56) / ratio);
     const bh = bw * ratio;
     const pw = bw / cols, ph = bh / rows;
     const t = Math.min(pw, ph) * 0.32;
-    const bx = wide ? 24 : 12;
-    const by = 24;
-    const trayH = wide ? 0 : Math.ceil((cols * rows) / Math.max(1, Math.floor((W - 24) / (pw * 0.98)))) * ph * 1.02 + 30;
-    const areaH = wide ? bh + 48 : bh + 48 + trayH;
+    const bx = wide ? 24 : (W - bw) / 2;
+    const by = wide ? 24 : 14;
+    const trayH = wide ? 0 : Math.max(ph * 1.4, avail - bh - by - 22);
+    const areaH = wide ? bh + 48 : by + bh + 22 + trayH;
     return { W, bw, bh, bx, by, pw, ph, t, areaH, wide };
   }, [img, size]);
 
@@ -126,7 +131,7 @@ export default function Jigsaw() {
     // Loose pieces: to the right of the board on wide screens, below it on phones.
     const trayX0 = wide ? bx + bw + 40 : 12;
     const trayX1 = wide ? W - pw - 12 : W - pw - 12;
-    const trayY0 = wide ? 16 : by + bh + 34;
+    const trayY0 = wide ? 16 : by + bh + 22;
     const trayY1 = wide ? areaH - ph - 16 : areaH - ph - 16;
     const order = Array.from({ length: cols * rows }, (_, i) => i).sort(() => Math.random() - 0.5);
     order.forEach((idx, k) => {
@@ -143,11 +148,11 @@ export default function Jigsaw() {
       const per = Math.max(1, Math.floor(tw / (pw * 0.98)));
       const lines = Math.ceil(n / per);
       const stepX = (tw - pw) / Math.max(1, per - 1);
-      const stepY = wide ? Math.min(ph * 1.02, (th - ph) / Math.max(1, lines - 1)) : ph * 1.02;
+      const stepY = Math.min(ph * 1.02, (th - ph) / Math.max(1, lines - 1));
       let x = trayX0 + (k % per) * stepX + (Math.random() - 0.5) * pw * 0.18;
       let y = trayY0 + Math.floor(k / per) * stepY + (Math.random() - 0.5) * ph * 0.18;
       x = Math.max(8, Math.min(x, W - pw - 8));
-      y = Math.max(8, y);
+      y = Math.max(8, Math.min(y, areaH - ph - 6));
       list.push({ r, c, x, y, z: k + 1, done: false, path: piecePath(pw, ph, t, dirs), canvas: null });
     });
     pieces.current = list;

@@ -353,6 +353,7 @@ function BoardC({ copy, enabled }: { copy: Copy; enabled: boolean }) {
         </ul>
       </div>
       </div>
+      <p className="board-tip">Clique no post-it e escreva sua sugestão :)</p>
     </section>
   );
 }

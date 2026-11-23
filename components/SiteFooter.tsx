@@ -19,6 +19,8 @@ export default function SiteFooter() {
           <ul>
             {c.email && <li><a href={`mailto:${c.email}`}>{c.email}</a></li>}
             {c.phone && <li><a href={`https://wa.me/${phoneDigits}`} target="_blank" rel="noopener">{c.phone} <span className="site-footer-small">(WhatsApp)</span></a></li>}
+            <li><a href="https://wa.me/5581992300380" target="_blank" rel="noopener">WhatsApp (81) 99230-0380</a></li>
+            <li><a href="https://wa.me/5581996025055" target="_blank" rel="noopener">WhatsApp (81) 99602-5055</a></li>
             {ig && <li><a href={c.instagramUrl || `https://instagram.com/${ig}`} target="_blank" rel="noopener">@{ig}</a></li>}
             {!c.email && !c.phone && !ig && <li className="site-footer-small">Contatos em breve.</li>}
           </ul>
