@@ -42,20 +42,6 @@ export default async function Assinatura() {
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="print" />
       <main className="ps ps-page">
-        {/* Opening photo, like the home page */}
-        <section className="store-hero rv-hero" aria-labelledby="rv-h">
-          <picture>
-            <source media="(max-width: 760px)" srcSet="/assets/revista-topo-m.webp" />
-            <img src="/assets/revista-topo.webp" alt="Café da manhã na cama com chá e um livro aberto" fetchPriority="high" />
-          </picture>
-          <div className="store-hero-text">
-            <p className="store-kick">A revista impressa</p>
-            <h1 id="rv-h">Receba a <span className="rv-name">The Sunday</span><br />na sua casa.</h1>
-            <p>Uma revista por mês, para ler sem tela e colecionar. Pré-venda até 1º de dezembro.</p>
-            <a className="store-btn" href="#planos">Ver os planos <span aria-hidden="true">↓</span></a>
-          </div>
-        </section>
-
         <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
 
         <section className="rv-inside" aria-labelledby="kit">

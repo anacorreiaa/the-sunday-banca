@@ -97,7 +97,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
     <>
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
-        <h2 id="planos-h" className="rv-h2">Escolha o seu plano</h2>
+        <h1 id="planos-h" className="rv-h2">Escolha o seu plano</h1>
         <div className="store-row rv-row">
           {[...plans].sort((x, y) => (y.cycles || 0) - (x.cycles || 0)).map((p) => {
             const off = p.billing === 'monthly' ? 0 : Math.floor((1 - p.amount / 69.9) * 100);
