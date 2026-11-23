@@ -1,7 +1,7 @@
 'use client';
 
 import publication from '@/lib/publication.json';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gamesHref, homeHref, newsHref } from '@/lib/links';
 
 // The Christmas pre-sale bar disappears by itself after 1 December (São Paulo time).
@@ -13,6 +13,7 @@ type NavItem = { label: string; href?: string; filter?: string; page?: string };
 export default function SiteNav({ home = true, current }: { home?: boolean; current?: 'games' | 'news' | 'print' | 'about' }) {
   const items = (publication as unknown as { nav: NavItem[] }).nav;
   const navRef = useRef<HTMLElement>(null);
+  const [open, setOpen] = useState(false);
   // Publishes the menu's height (with the pre-sale bar) so other parts can stay clear of it.
   useEffect(() => {
     const el = navRef.current; if (!el) return;
@@ -33,14 +34,14 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
     <nav className="sitenav" aria-label="Menu principal" ref={navRef}>
       {PRESALE_OPEN && (
         <a className="presale-bar" href="/assinatura#planos">
-          <span className="presale-dot" aria-hidden="true" />
-          <span><b>Pré-venda de Natal</b> até 1º de dezembro<span className="presale-more"> · Já garanta a sua edição de Natal</span></span>
-          <span className="presale-go" aria-hidden="true">→</span>
+          <span>Pré-venda de Natal até 01/12<span className="presale-more"> ✦ Frete grátis no semestral e no anual</span></span>
         </a>
       )}
       <div className="sitenav-inner">
-        <a className="sitenav-brand" href={home ? '#topo' : homeHref}>The Sunday</a>
-        <ul className="sitenav-links">
+        <button type="button" className="sitenav-burger" aria-label="Abrir menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">{open ? <path d="M5 5l14 14M19 5L5 19" /> : <path d="M3 7h18M3 12h18M3 17h12" />}</svg>
+        </button>
+        <ul className={`sitenav-links${open ? ' is-open' : ''}`}>
           {items.map((it) => {
             const external = it.href?.startsWith('http');
             const href = it.page === 'games'
@@ -55,7 +56,7 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
                 <a
                   className={(it.page && it.page === current) || (current === 'print' && it.href === '/assinatura') || (current === 'about' && it.href === '/sobre') ? 'is-current' : undefined}
                   href={href}
-                  onClick={(e) => go(e, it)}
+                  onClick={(e) => { setOpen(false); go(e, it); }}
                   {...(external ? { target: '_blank', rel: 'noopener' } : {})}
                 >
                   {it.label}
@@ -64,7 +65,15 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
             );
           })}
         </ul>
-        <a className="sitenav-subscribe" href="/minha-assinatura">Minha assinatura</a>
+        <a className="sitenav-brand" href={home ? '#topo' : homeHref}>The Sunday</a>
+        <div className="sitenav-icons">
+          <a href="/minha-assinatura" aria-label="Minha assinatura" title="Minha assinatura">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" /></svg>
+          </a>
+          <a href="/assinatura#planos" aria-label="Assinar" title="Assinar">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8h14l-1 13H6z" /><path d="M9 8a3 3 0 0 1 6 0" /></svg>
+          </a>
+        </div>
       </div>
     </nav>
   );
