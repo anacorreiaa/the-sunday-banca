@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 
-export const metadata: Metadata = { title: 'Minha assinatura · The Sunday Magazine', robots: { index: false, follow: false } };
+export const metadata: Metadata = { title: 'Minha assinatura', robots: { index: false, follow: false } };
 
 // Until subscriber accounts exist: where to manage the subscription today.
 export default function MinhaAssinatura() {

@@ -12,8 +12,9 @@ import { editionMeta } from '@/lib/editions';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Sobre nós · The Sunday Magazine',
-  description: 'Para quem gosta de saber um pouco de tudo. Conheça a The Sunday e folheie a revista.',
+  title: 'Sobre nós: o que a gente escreve',
+  description: 'Conheça a The Sunday: histórias dos costumes, comportamento, ciência do dia a dia, arte e viagens, para mulheres curiosas. Folheie a revista.',
+  alternates: { canonical: '/sobre' },
 };
 
 export default async function Sobre() {

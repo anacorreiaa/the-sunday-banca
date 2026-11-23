@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import publication from '@/lib/publication.json';
 import photoIds from '@/data/photos.json';
 import excerpts from '@/data/excerpts.json';
@@ -12,6 +13,8 @@ import { EditionsProvider } from '@/components/Editions';
 import { loadArchive } from '@/lib/substack';
 import { editionMeta } from '@/lib/editions';
 import { isConfigured } from '@/lib/recommend';
+
+export const metadata: Metadata = { alternates: { canonical: '/' } };
 
 export const revalidate = 3600;
 

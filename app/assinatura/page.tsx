@@ -30,8 +30,9 @@ const FAQ: [string, string][] = [
 ];
 
 export const metadata: Metadata = {
-  title: 'Assine a revista impressa · The Sunday Magazine',
-  description: 'A The Sunday impressa, todo mês na sua casa. Escolha o plano mensal, semestral ou anual.',
+  title: 'Assine a revista impressa',
+  description: 'Assine a The Sunday, revista impressa para mulheres curiosas, todo mês na sua casa. Planos mensal, semestral e anual. Pré-venda da edição de Natal.',
+  alternates: { canonical: '/assinatura' },
 };
 
 export default async function Assinatura() {

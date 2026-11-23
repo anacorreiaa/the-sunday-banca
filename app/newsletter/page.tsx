@@ -10,8 +10,9 @@ import { cleanSubtitle, editionMeta } from '@/lib/editions';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
-  title: 'Newsletter · The Sunday Magazine',
-  description: 'Todas as edições da newsletter The Sunday Magazine, da mais nova à primeira.',
+  title: 'Newsletter de domingo',
+  description: 'Todas as edições da newsletter The Sunday Magazine, da mais nova à primeira. Receba grátis todo domingo no seu e-mail.',
+  alternates: { canonical: '/newsletter' },
 };
 
 export default async function Newsletter() {

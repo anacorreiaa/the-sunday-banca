@@ -4,7 +4,8 @@ import SiteFooter from '@/components/SiteFooter';
 import GamesRoom from '@/components/GamesRoom';
 
 export const metadata: Metadata = {
-  title: 'Sala de Jogos · The Sunday',
+  title: 'Sala de Jogos',
+  alternates: { canonical: '/jogos' },
   description: 'Quebra-cabeça, Palavritas, sudoku e caça-palavras para um domingo sem pressa.',
 };
 

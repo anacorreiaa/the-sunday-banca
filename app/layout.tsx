@@ -5,14 +5,15 @@ import { Analytics } from '@vercel/analytics/next';
 
 import { siteUrl } from '@/lib/site';
 const launch = process.env.LAUNCH_READY === 'true';
-const title = `${publication.name} · A banca`;
-const description = `${publication.description} Todas as edições, numa banca de revistas.`;
+const title = 'The Sunday Magazine · Revista e newsletter para mulheres curiosas';
+const description = 'The Sunday é uma revista impressa e uma newsletter de domingo para mulheres curiosas: histórias, ciência do dia a dia, arte, viagens e os costumes por trás das coisas. Assine a revista ou receba a newsletter grátis.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title,
+  title: { default: title, template: '%s · The Sunday Magazine' },
   description,
-  alternates: { canonical: '/' },
+  applicationName: 'The Sunday Magazine',
+  keywords: ['The Sunday', 'The Sunday Magazine', 'revista', 'revista impressa', 'newsletter', 'mulheres curiosas', 'assinatura de revista'],
   robots: launch ? { index: true, follow: true } : { index: false, follow: false },
   openGraph: { title, description, url: '/', siteName: publication.name, locale: 'pt_BR', type: 'website' },
   twitter: { card: 'summary_large_image', title, description },
@@ -32,6 +33,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@graph': [
+              { '@type': 'Organization', '@id': `${siteUrl}/#org`, name: 'The Sunday Magazine', alternateName: ['The Sunday', 'The Sunday Revista'], url: siteUrl, logo: `${siteUrl}/icon.svg`, description, sameAs: [publication.substackUrl, publication.contact.instagramUrl] },
+              { '@type': 'WebSite', '@id': `${siteUrl}/#site`, name: 'The Sunday Magazine', alternateName: 'The Sunday', url: siteUrl, inLanguage: 'pt-BR', publisher: { '@id': `${siteUrl}/#org` } },
+            ],
+          }) }}
+        />
         {children}
         <Analytics />
       </body>

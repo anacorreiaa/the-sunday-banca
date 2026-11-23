@@ -4,7 +4,7 @@ import SiteFooter from '@/components/SiteFooter';
 import ThanksCelebrate from '@/components/ThanksCelebrate';
 
 export const metadata: Metadata = {
-  title: 'Obrigada! · The Sunday Magazine',
+  title: 'Obrigada!',
   robots: { index: false, follow: false },
 };
 
