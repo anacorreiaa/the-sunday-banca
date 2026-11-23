@@ -118,7 +118,6 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
             </article>
           ))}
         </div>
-        <p className="ps-plans-note">Semestral e anual: frete incluso, pagamento único à vista no Pix ou parcelado no cartão (com juros), sem renovação automática. Mensal: R$ 69,90 + R$ 10 de frete, renova todo mês e você cancela quando quiser.</p>
       </section>
 
       </div>

@@ -61,7 +61,7 @@ export default async function Assinatura() {
               {DEC_COVER && <p className="ps-feature-tag">Em destaque · Dezembro 2026</p>}
               <div className="ps-kit-art ps-kit-art--mag" aria-hidden="true"><span className="ps-realmag"><img src={DEC_COVER || '/assets/edicao-00-capa.webp'} alt="" /></span></div>
               <h3>{DEC_COVER ? 'A edição de Natal' : 'A revista'}</h3>
-              <p>Chega na sua casa todo mês com conteúdos exclusivos, para ler sem tela, e colecionar.</p>
+              <p>Chega na sua casa com conteúdos exclusivos, para ler e colecionar.</p>
             </div>
             <ul className="ps-kit-extras">
               <li>
