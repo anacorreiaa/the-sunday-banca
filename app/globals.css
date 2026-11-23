@@ -1663,3 +1663,9 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .ps-recipe-sub { font-size: 10px; }
   .ps-recipe-bowl { width: 64px; right: calc(50% - 76px); bottom: 6px; }
 }
+/* Revista, phones: only the pajamas and the coffee, both at the top */
+@media (max-width: 760px) {
+  .ps-intro .deco--1, .ps-intro .deco--4 { display: none; }
+  .ps-intro .deco--3 { width: 36px; left: 12px; top: 14px; bottom: auto; transform: rotate(-6deg); }
+  .ps-intro .deco--6 { width: 62px; right: 8px; top: 26px; bottom: auto; }
+}
