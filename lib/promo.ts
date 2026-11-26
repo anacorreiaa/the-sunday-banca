@@ -5,7 +5,7 @@ import publication from './publication.json';
 
 export const BLACK_FRIDAY = {
   until: '2026-12-01T03:00:00Z',
-  mensal: { price: 'R$ 59,90', amount: 59.9, was: 'R$ 69,90', checkoutUrl: '' },
+  mensal: { price: 'R$ 59,90', amount: 59.9, was: 'R$ 69,90', checkoutUrl: 'https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=516d332359844b30832d93147e4e789b' },
   gifts: ['Jogos', 'Surpresa do mês', 'Adesivos', 'Marcador de página'],
 };
 
