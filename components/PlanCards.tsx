@@ -1,14 +1,13 @@
 // The subscriptions as product cards, plus the free newsletter. Prices come from publication.json.
-import publication from '@/lib/publication.json';
 import { newsHref } from '@/lib/links';
+import { plansNow, type PromoPlan } from '@/lib/promo';
 
-type Plan = { id: string; name: string; price: string; amount: number; cycles: number; billing: string };
 const FULL = 69.9; // monthly price, the reference for the discounts
 const brl = (n: number) => `R$ ${n.toFixed(2).replace('.', ',')}`;
 const KICK: Record<string, string> = { anual: '12 edições · melhor preço', semestral: '6 edições', mensal: 'Todo mês' };
 
 export default function PlanCards() {
-  const plans = (publication.printPlans as Plan[]).slice().sort((a, b) => b.cycles - a.cycles);
+  const plans = (plansNow() as PromoPlan[]).slice().sort((a, b) => b.cycles - a.cycles);
   return (
     <section className="store-plans" id="assinaturas" aria-labelledby="assinaturas-h">
       <div className="store-plans-head">
@@ -24,6 +23,7 @@ export default function PlanCards() {
               <a className="store-card-im" href={`/assinatura?plano=${p.id}#planos`} tabIndex={-1} aria-hidden="true">
                 <img src={`/assets/plans/${p.id}.webp`} alt="" loading="lazy" />
                 {off > 0 && <span className="store-badge">-{off}%</span>}
+                {p.promo && <span className="store-badge store-badge--bf">{p.promo}</span>}
                 {p.billing !== 'monthly' && <span className="store-tag">Frete grátis</span>}
               </a>
               <div className="store-card-b">
@@ -32,8 +32,10 @@ export default function PlanCards() {
                 <p className="store-price">
                   <b>{p.price}</b>
                   {off > 0 && <s>{brl(FULL)}</s>}
+                  {p.was && <s>{p.was}</s>}
                   <em>{p.billing === 'monthly' ? '/edição + frete' : '/edição'}</em>
                 </p>
+                {p.gifts && <p className="store-gifts"><b>Black Friday:</b> vem com {p.gifts.join(', ').replace(/, ([^,]*)$/, ' e $1').toLowerCase()}</p>}
                 <a className="store-add" href={`/assinatura?plano=${p.id}#planos`}>Assinar</a>
               </div>
             </article>

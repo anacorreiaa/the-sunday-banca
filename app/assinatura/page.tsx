@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import publication from '@/lib/publication.json';
+import { plansNow } from '@/lib/promo';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
 import PrintSubscribe from '@/components/PrintSubscribe';
@@ -43,7 +44,7 @@ export default async function Assinatura() {
     <EditionsProvider editions={editions} tagLabels={publication.tagLabels}>
       <SiteNav home={false} current="print" />
       <main className="ps ps-page">
-        <PrintSubscribe plans={publication.printPlans} fixedFrete={publication.shipping.fixed} />
+        <PrintSubscribe plans={plansNow()} fixedFrete={publication.shipping.fixed} />
 
         <section className="rv-inside" aria-labelledby="kit">
           <h2 id="kit">O que chega na sua casa</h2>

@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import publication from '@/lib/publication.json';
+import { plansNow } from '@/lib/promo';
 import { notion } from '@/lib/recommend';
 import { quote } from '@/lib/frete';
 import { trustedOrigin } from '../recommend/route';
@@ -23,7 +24,7 @@ export async function POST(req: NextRequest) {
   try { b = await req.json(); } catch { return json(400, { ok: false }); }
   if (text(b.website)) return json(200, { ok: true }); // a bot filled the hidden field
 
-  const plan = publication.printPlans.find((p) => p.id === b.plan);
+  const plan = plansNow().find((p) => p.id === b.plan);
   const nome = text(b.nome, 120), email = text(b.email, 160), whatsapp = text(b.whatsapp, 30), cep = text(b.cep, 12);
   const rua = text(b.rua), numero = text(b.numero, 20), complemento = text(b.complemento, 80), bairro = text(b.bairro, 80), cidade = text(b.cidade, 80), uf = text(b.uf, 2);
   if (!plan || !nome || !/^\S+@\S+\.\S+$/.test(email) || !whatsapp || !rua || !numero || cep.replace(/\D/g, '').length !== 8) return json(400, { ok: false });
@@ -41,7 +42,7 @@ export async function POST(req: NextRequest) {
       properties: {
         Nome: { title: [{ type: 'text', text: { content: nome } }] },
         Plano: { select: { name: plan.name } },
-        Total: rt(total),
+        Total: rt(plan.promo ? `${total} (${plan.promo})` : total),
         'Quem entrega': { select: { name: q.from } },
         'E-mail': { email },
         WhatsApp: { phone_number: whatsapp },

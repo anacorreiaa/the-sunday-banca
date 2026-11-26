@@ -3,8 +3,10 @@
 import publication from '@/lib/publication.json';
 import { useEffect, useRef, useState } from 'react';
 import { gamesHref, homeHref, newsHref } from '@/lib/links';
+import { blackFridayOn, BLACK_FRIDAY } from '@/lib/promo';
 
 // The Christmas pre-sale bar disappears by itself after 1 December (São Paulo time).
+const BF_ON = blackFridayOn();
 const PRESALE_OPEN = Date.now() < Date.parse('2026-12-02T03:00:00Z');
 
 type NavItem = { label: string; href?: string; filter?: string; page?: string };
@@ -34,7 +36,9 @@ export default function SiteNav({ home = true, current }: { home?: boolean; curr
     <nav className="sitenav" aria-label="Menu principal" ref={navRef}>
       {PRESALE_OPEN && (
         <a className="presale-bar" href="/assinatura#planos">
-          <span>Pré-venda de Natal até 01/12<span className="presale-more"> ✦ Frete grátis no semestral e no anual</span></span>
+          {BF_ON
+            ? <span>Black Friday até 30/11: mensal por {BLACK_FRIDAY.mensal.price} + frete<span className="presale-more"> ✦ adesivos e marcador de brinde em todos os planos</span></span>
+            : <span>Pré-venda de Natal até 01/12<span className="presale-more"> ✦ Frete grátis no semestral e no anual</span></span>}
         </a>
       )}
       <div className="sitenav-inner">
