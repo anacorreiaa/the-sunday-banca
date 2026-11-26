@@ -19,8 +19,7 @@ export default function PlanCards() {
       {BF && (
         <div className="bf-banner" role="note">
           <span className="bf-banner-k">Black Friday · até 30/11</span>
-          <p className="bf-banner-t">Mensal de <s>R$ 69,90</s> <span>por <b>R$ 59,90</b> + frete</span></p>
-          <p className="bf-banner-s">E em todos os planos: adesivos e marcador de página de brinde, junto com os jogos e a surpresa do mês.</p>
+          <p className="bf-banner-t">O mensal sai de <s>R$ 69,90</s> <span>por <b>R$ 59,90</b> + frete</span></p>
         </div>
       )}
       <div className="store-row">
