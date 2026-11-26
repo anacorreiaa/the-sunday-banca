@@ -98,11 +98,18 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
     <div className="ps-table">
       <section className="ps-plans" id="planos" aria-labelledby="planos-h">
         <h1 id="planos-h" className="rv-h2">Escolha o seu plano</h1>
+        {plans.some((p) => p.promo) && (
+        <div className="bf-banner" role="note">
+          <span className="bf-banner-k">Black Friday · até 30/11</span>
+          <p className="bf-banner-t">Mensal de <s>R$ 69,90</s> <span>por <b>R$ 59,90</b> + frete</span></p>
+          <p className="bf-banner-s">E em todos os planos: adesivos e marcador de página de brinde, junto com os jogos e a surpresa do mês.</p>
+        </div>
+      )}
         <div className="store-row rv-row">
-          {[...plans].sort((x, y) => (y.cycles || 0) - (x.cycles || 0)).map((p) => {
+          {[...plans].sort((x, y) => (y.promo ? 1 : 0) - (x.promo ? 1 : 0) || (y.cycles || 0) - (x.cycles || 0)).map((p) => {
             const off = p.billing === 'monthly' ? 0 : Math.floor((1 - p.amount / 69.9) * 100);
             return (
-              <article key={p.id} className={`store-card${planId === p.id ? ' is-picked' : ''}`}>
+              <article key={p.id} className={`store-card${planId === p.id ? ' is-picked' : ''}${p.promo ? ' is-bf' : ''}`}>
                 <button type="button" className="store-card-im" onClick={() => pick(p.id)} tabIndex={-1} aria-hidden="true">
                   <img src={`/assets/plans/${p.id}.webp`} alt="" loading="lazy" />
                   {off > 0 && <span className="store-badge">-{off}%</span>}

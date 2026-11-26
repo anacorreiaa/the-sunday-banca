@@ -1,13 +1,14 @@
 // The subscriptions as product cards, plus the free newsletter. Prices come from publication.json.
 import { newsHref } from '@/lib/links';
-import { plansNow, type PromoPlan } from '@/lib/promo';
+import { plansNow, blackFridayOn, type PromoPlan } from '@/lib/promo';
 
 const FULL = 69.9; // monthly price, the reference for the discounts
 const brl = (n: number) => `R$ ${n.toFixed(2).replace('.', ',')}`;
 const KICK: Record<string, string> = { anual: '12 edições · melhor preço', semestral: '6 edições', mensal: 'Todo mês' };
 
 export default function PlanCards() {
-  const plans = (plansNow() as PromoPlan[]).slice().sort((a, b) => b.cycles - a.cycles);
+  const plans = (plansNow() as PromoPlan[]).slice().sort((a, b) => (b.promo ? 1 : 0) - (a.promo ? 1 : 0) || b.cycles - a.cycles);
+  const BF = blackFridayOn();
   return (
     <section className="store-plans" id="assinaturas" aria-labelledby="assinaturas-h">
       <div className="store-plans-head">
@@ -15,11 +16,18 @@ export default function PlanCards() {
         <a href="/assinatura">ver todas</a>
       </div>
       <p className="store-plans-sub">Uma revista impressa por mês, na sua casa.</p>
+      {BF && (
+        <div className="bf-banner" role="note">
+          <span className="bf-banner-k">Black Friday · até 30/11</span>
+          <p className="bf-banner-t">Mensal de <s>R$ 69,90</s> <span>por <b>R$ 59,90</b> + frete</span></p>
+          <p className="bf-banner-s">E em todos os planos: adesivos e marcador de página de brinde, junto com os jogos e a surpresa do mês.</p>
+        </div>
+      )}
       <div className="store-row">
         {plans.map((p) => {
           const off = p.billing === 'monthly' ? 0 : Math.floor((1 - p.amount / FULL) * 100);
           return (
-            <article key={p.id} className="store-card">
+            <article key={p.id} className={`store-card${p.promo ? ' is-bf' : ''}`}>
               <a className="store-card-im" href={`/assinatura?plano=${p.id}#planos`} tabIndex={-1} aria-hidden="true">
                 <img src={`/assets/plans/${p.id}.webp`} alt="" loading="lazy" />
                 {off > 0 && <span className="store-badge">-{off}%</span>}
