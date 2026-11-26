@@ -42,6 +42,7 @@ export default function PlanCards() {
                   {p.was && <s>{p.was}</s>}
                   <em>{p.billing === 'monthly' ? '/edição + frete' : '/edição'}</em>
                 </p>
+                {p.total && <p className="store-total">{p.total}</p>}
                 {p.gifts && <p className="store-gifts"><b>Black Friday:</b> vem com {p.gifts.join(', ').replace(/, ([^,]*)$/, ' e $1').toLowerCase()}</p>}
                 <a className="store-add" href={`/assinatura?plano=${p.id}#planos`}>Assinar</a>
               </div>

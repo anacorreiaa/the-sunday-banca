@@ -119,7 +119,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                   <p className="store-card-k">{p.cycles === 12 ? '12 edições · melhor preço' : p.cycles === 6 ? '6 edições' : 'Todo mês'}</p>
                   <h3>{p.name}</h3>
                   <p className="store-price"><b>{p.price}</b>{off > 0 && <s>R$ 69,90</s>}{p.was && <s>{p.was}</s>}<em>{p.billing === 'monthly' ? '/edição + frete' : '/edição'}</em></p>
-                  <p className="rv-note">{p.total || 'cancele quando quiser'}</p>
+                  <p className={p.total ? 'store-total' : 'rv-note'}>{p.total || 'cancele quando quiser'}</p>
                   {p.gifts && <p className="store-gifts"><b>Black Friday:</b> vem com {p.gifts.join(', ').replace(/, ([^,]*)$/, ' e $1').toLowerCase()}</p>}
                   <button type="button" className="store-add" onClick={() => pick(p.id)} aria-pressed={planId === p.id}>{planId === p.id ? 'Escolhido ✓' : 'Assinar'}</button>
                 </div>
