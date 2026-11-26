@@ -88,16 +88,16 @@
    "price": "R$ 59,90",
    "per": "por edição",
    "desc": "6 edições, uma por mês.",
-   "checkoutUrl": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=353c036abd284f87bdbc8b2567de7eb9",
+   "checkoutUrl": "https://www.mercadopago.com.br/checkout/v1/redirect?pref_id=529706565-83fa447a-5466-4d8b-8670-caf049e6eef1",
    "featured": false,
    "amount": 59.9,
    "cycles": 6,
    "billing": "once",
    "freeShipping": true,
    "perk": "Frete incluso",
-   "renews": true,
-   "payNote": "R$ 359,40 por semestre no cartão de crédito, renova automaticamente",
-   "total": "R$ 359,40 por semestre no cartão"
+   "renews": false,
+   "payNote": "À vista no Pix ou em até 6x no cartão",
+   "total": "R$ 359,40 em até 6x"
   },
   {
    "id": "anual",
@@ -105,16 +105,16 @@
    "price": "R$ 49,90",
    "per": "por edição",
    "desc": "12 edições, uma por mês.",
-   "checkoutUrl": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=9fb0bc09ca1546209150641202b35fd1",
+   "checkoutUrl": "https://www.mercadopago.com.br/payment-link/v1/redirect?link-id=946d83c4-2451-4959-846f-cbadc2add84f&source=link",
    "featured": true,
    "amount": 49.9,
    "cycles": 12,
    "billing": "once",
    "freeShipping": true,
    "perk": "Frete incluso",
-   "payNote": "R$ 598,80 por ano no cartão de crédito, renova automaticamente",
-   "renews": true,
-   "total": "R$ 598,80 por ano no cartão"
+   "payNote": "À vista no Pix ou em até 12x no cartão",
+   "renews": false,
+   "total": "R$ 598,80 em até 12x"
   }
  ],
  "shipping": {
