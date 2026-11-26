@@ -101,7 +101,6 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
         {plans.some((p) => p.promo) && (
         <div className="bf-banner" role="note">
           <span className="bf-banner-k">Black Friday · até 30/11</span>
-          <p className="bf-banner-t">O mensal sai de <s>R$ 69,90</s> <span>por <b>R$ 59,90</b> + frete</span></p>
         </div>
       )}
         <div className="store-row rv-row">
