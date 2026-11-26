@@ -88,16 +88,16 @@
    "price": "R$ 59,90",
    "per": "por edição",
    "desc": "6 edições, uma por mês.",
-   "checkoutUrl": "https://wa.me/5581992300380?text=Oi%21%20Acabei%20de%20preencher%20meus%20dados%20no%20site%20e%20quero%20assinar%20o%20plano%20semestral%20da%20The%20Sunday%20%28R%24%20359%2C40%20em%20at%C3%A9%206x%29.%20Pode%20me%20mandar%20o%20link%20de%20pagamento%3F",
+   "checkoutUrl": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=353c036abd284f87bdbc8b2567de7eb9",
    "featured": false,
    "amount": 59.9,
    "cycles": 6,
    "billing": "once",
    "freeShipping": true,
    "perk": "Frete incluso",
-   "renews": false,
-   "payNote": "À vista no Pix ou em até 6x no cartão",
-   "total": "R$ 359,40 em até 6x"
+   "renews": true,
+   "payNote": "R$ 359,40 por semestre no cartão de crédito, renova automaticamente",
+   "total": "R$ 359,40 por semestre no cartão"
   },
   {
    "id": "anual",
@@ -105,16 +105,16 @@
    "price": "R$ 49,90",
    "per": "por edição",
    "desc": "12 edições, uma por mês.",
-   "checkoutUrl": "https://wa.me/5581992300380?text=Oi%21%20Acabei%20de%20preencher%20meus%20dados%20no%20site%20e%20quero%20assinar%20o%20plano%20anual%20da%20The%20Sunday%20%28R%24%20598%2C80%20em%20at%C3%A9%2012x%29.%20Pode%20me%20mandar%20o%20link%20de%20pagamento%3F",
+   "checkoutUrl": "https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=9fb0bc09ca1546209150641202b35fd1",
    "featured": true,
    "amount": 49.9,
    "cycles": 12,
    "billing": "once",
    "freeShipping": true,
    "perk": "Frete incluso",
-   "payNote": "À vista no Pix ou em até 12x no cartão",
-   "renews": false,
-   "total": "R$ 598,80 em até 12x"
+   "payNote": "R$ 598,80 por ano no cartão de crédito, renova automaticamente",
+   "renews": true,
+   "total": "R$ 598,80 por ano no cartão"
   }
  ],
  "shipping": {

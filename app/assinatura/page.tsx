@@ -24,8 +24,8 @@ const FAQ: [string, string][] = [
   ['Quando recebo a minha primeira revista?', 'A pré-venda da edição de Natal vai até 1º de dezembro. No dia 1º mandamos imprimir, e a revista chega na sua casa até a segunda semana de dezembro. A partir daí, chega uma revista nova todo mês.'],
   ['Onde vocês entregam?', 'Por enquanto, só na Grande São Paulo. Você confere se o seu CEP está na área de entrega antes de pagar.'],
   ['Quanto custa o frete?', 'No plano mensal, o frete é calculado com base no seu CEP e adicionado ao valor da assinatura por mês no total. Nos planos semestral e anual, o frete é por nossa conta :)'],
-  ['Como posso pagar?', 'O pagamento é feito pelo Mercado Pago. O mensal é cobrado no cartão todo mês. O semestral e o anual são pagos uma vez só: à vista no Pix ou parcelados no cartão.'],
-  ['A assinatura renova sozinha?', 'O mensal renova todo mês até você cancelar. O semestral e o anual não renovam sozinhos: quando acabarem, você escolhe se quer continuar.'],
+  ['Como posso pagar?', 'O pagamento é feito pelo Mercado Pago, no cartão de crédito. O mensal é cobrado todo mês, o semestral a cada 6 meses (R$ 359,40) e o anual uma vez por ano (R$ 598,80). Prefere pagar no Pix? Fale com a gente no WhatsApp.'],
+  ['A assinatura renova sozinha?', 'Sim. O mensal renova todo mês, o semestral a cada 6 meses e o anual a cada ano, até você cancelar. Dá para cancelar quando quiser, sem custo.'],
   ['Como cancelo?', 'O mensal pode ser cancelado quando você quiser, sem multa. É só escrever para thesundaymagazineac@gmail.com.'],
   ['Mudei de endereço. E agora?', 'Escreva para thesundaymagazineac@gmail.com com o endereço novo antes do envio da próxima edição.'],
 ];
