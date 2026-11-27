@@ -1908,3 +1908,8 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-pay-wait { margin: 18px 0 !important; }
 #mp-brick { margin-top: 14px; }
 @media (max-width: 760px) { .ps-mp { padding: 10px; } .ps-pay-card { padding: 26px 14px 18px; } }
+
+.ps-pix { text-align: center; margin-top: 14px; }
+.ps-pix p { margin: 0 0 14px; font-size: 15px; line-height: 1.5; }
+.ps-pix img { display: block; margin: 0 auto 14px; width: 220px; height: 220px; image-rendering: pixelated; }
+.ps-pix-copy { display: block; width: 100%; margin: 0 0 12px; padding: 13px; border: 1px solid var(--ink); border-radius: 999px; background: none; font: inherit; font-weight: 600; cursor: pointer; }

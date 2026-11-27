@@ -41,6 +41,8 @@ export default function PayOnSite({ publicKey, plan, total, email, order, buyer,
 }) {
   const [step, setStep] = useState<'loading' | 'form' | 'pix' | 'error'>('loading');
   const [msg, setMsg] = useState('');
+  const [pix, setPix] = useState<{ code: string; image: string } | null>(null);
+  const [copied, setCopied] = useState(false);
   const brick = useRef<{ unmount: () => void } | null>(null);
   const buyerRef = useRef(buyer);
   buyerRef.current = buyer;
@@ -67,22 +69,23 @@ export default function PayOnSite({ publicKey, plan, total, email, order, buyer,
           callbacks: {
             onReady: () => { if (!gone) setStep('form'); },
             onError: () => {},
-            onSubmit: ({ formData }: { formData: Record<string, unknown> }) => new Promise<void>(async (resolve, reject) => {
+            onSubmit: ({ selectedPaymentMethod, formData }: { selectedPaymentMethod?: string; formData: Record<string, unknown> }) => new Promise<void>(async (resolve, reject) => {
               try {
                 setMsg('');
                 const r = await fetch('/api/pagamento', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ plan: plan.id, email, order, buyer: buyerRef.current, deviceId: window.MP_DEVICE_SESSION_ID || '', formData }),
+                  body: JSON.stringify({ plan: plan.id, email, order, buyer: buyerRef.current, deviceId: window.MP_DEVICE_SESSION_ID || '', formData: { ...formData, payment_type_id: selectedPaymentMethod || formData.payment_type_id } }),
                 });
                 const j = await r.json().catch(() => ({}));
                 if (!j.ok) { reject(); setMsg(why(String(j.detail || ''))); setStep('error'); return; }
                 resolve();
                 if (j.status === 'approved' || j.status === 'authorized' || j.status === 'in_process') { onDone(); return; }
-                if (j.status === 'pending' && formData.payment_method_id === 'pix') {
-                  brick.current?.unmount();
+                if (j.status === 'pending' && j.pix?.code) {
+                  try { brick.current?.unmount(); } catch {}
+                  brick.current = null;
+                  setPix({ code: j.pix.code, image: j.pix.image });
                   setStep('pix');
-                  brick.current = await bricks.create('statusScreen', 'mp-brick', { initialization: { paymentId: String(j.id) }, callbacks: { onReady: () => {}, onError: () => {} } });
                   return;
                 }
                 setMsg(why(String(j.detail || '')));
@@ -106,8 +109,17 @@ export default function PayOnSite({ publicKey, plan, total, email, order, buyer,
         <p className="ps-mp-small">Plano {plan.name} · pagamento seguro processado pelo Mercado Pago</p>
         {step === 'loading' && <p className="ps-pay-wait">Carregando…</p>}
         {step === 'error' && msg && <p className="ps-err" role="alert">{msg}</p>}
-        <div id="mp-brick" />
-        {step === 'pix' && <button type="button" className="ps-pay" onClick={onDone}>Já paguei o Pix</button>}
+        {step !== 'pix' && <div id="mp-brick" />}
+        {step === 'pix' && pix && (
+          <div className="ps-pix">
+            <p>Abra o app do seu banco, escolha <b>Pix</b> e leia o QR code, ou use o Pix copia e cola.</p>
+            {pix.image && <img src={`data:image/png;base64,${pix.image}`} alt="QR code do Pix" width={220} height={220} />}
+            <button type="button" className="ps-pix-copy" onClick={() => { navigator.clipboard?.writeText(pix.code).then(() => setCopied(true)).catch(() => {}); }}>
+              {copied ? 'Código copiado ✓' : 'Copiar código Pix'}
+            </button>
+            <button type="button" className="ps-pay" onClick={onDone}>Já paguei o Pix</button>
+          </div>
+        )}
       </div>
     </div>
   );

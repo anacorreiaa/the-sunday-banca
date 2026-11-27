@@ -2,7 +2,6 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { randomUUID } from 'crypto';
 import { plansNow } from '@/lib/promo';
 import { markPaid, isOrderId } from '@/lib/orders';
-import { siteUrl } from '@/lib/site';
 import { trustedOrigin } from '../recommend/route';
 
 export const runtime = 'nodejs';
@@ -18,7 +17,7 @@ const planIdOf = (url: string) => { try { return new URL(url).searchParams.get('
 /**
  * Charges the order on our own page. The price always comes from our plans, never from the browser.
  * Monthly: card subscription on the plan's Mercado Pago subscription plan.
- * Six and twelve months: one payment, card (up to 12x) or Pix.
+ * Six and twelve months: one order, card (up to 12x) or Pix.
  * Everything we know about the buyer goes with it, because that is what Mercado Pago's fraud check uses.
  */
 export async function POST(req: NextRequest) {
@@ -59,33 +58,55 @@ export async function POST(req: NextRequest) {
       return json(200, { ok: true, kind: 'subscription', status, id: j.id });
     }
 
-    const amount = Math.round(plan.amount * plan.cycles * 100) / 100;
+    // Six and twelve months: one order (Mercado Pago "Orders" API), card up to 12x or Pix.
+    const amount = (Math.round(plan.amount * plan.cycles * 100) / 100).toFixed(2);
     const title = `The Sunday Magazine · Assinatura ${plan.name.toLowerCase()}`;
-    const address = { zip_code: zip, street_name: s(by.rua), street_number: s(by.numero, 20) };
+    const ident = (payerIn.identification as Record<string, unknown>) || {};
+    const address = { zip_code: zip, street_name: s(by.rua), street_number: s(by.numero, 20), neighborhood: s(by.bairro, 80), city: s(by.cidade, 80), state: s(by.uf, 2).toUpperCase(), complement: s(by.complemento, 80) || undefined };
+    const pix = fd.payment_method_id === 'pix';
+    if (!pix && !fd.token) return json(400, { ok: false });
     const body: Record<string, unknown> = {
-      transaction_amount: amount,
+      type: 'online',
+      processing_mode: 'automatic',
+      total_amount: amount,
+      external_reference: order || `site-${Date.now()}`,
       description: title,
-      payment_method_id: fd.payment_method_id,
-      payer: { ...payerIn, email, first_name: firstName || undefined, last_name: lastName || undefined },
-      statement_descriptor: 'THE SUNDAY',
-      external_reference: order || undefined,
-      notification_url: `${siteUrl}/api/pagamento/aviso`,
-      additional_info: {
-        items: [{ id: plan.id, title, description: `${plan.cycles} edições da revista impressa`, category_id: 'others', quantity: 1, unit_price: amount }],
-        payer: { first_name: firstName || '', last_name: lastName, phone: phone ? { area_code: phone.slice(0, 2), number: phone.slice(2) } : undefined, address },
-        shipments: { receiver_address: { ...address, city_name: s(by.cidade), state_name: s(by.uf, 2) } },
+      payer: {
+        email,
+        first_name: firstName || undefined,
+        last_name: lastName || undefined,
+        identification: ident.number ? { type: s(ident.type, 10) || 'CPF', number: s(ident.number, 20).replace(/\D/g, '') } : undefined,
+        phone: phone ? { area_code: phone.slice(0, 2), number: phone.slice(2) } : undefined,
+        address,
+      },
+      shipment: { address },
+      items: [{ title, description: `${plan.cycles} edições da revista impressa`, category_id: 'others', quantity: 1, unit_price: amount, external_code: plan.id }],
+      transactions: {
+        payments: [{
+          amount,
+          payment_method: pix
+            ? { id: 'pix', type: 'bank_transfer' }
+            : { id: s(fd.payment_method_id, 30), type: s(fd.payment_type_id, 30) || 'credit_card', token: s(fd.token, 64), installments: Math.min(12, Math.max(1, Number(fd.installments) || 1)) },
+        }],
       },
     };
-    if (fd.payment_method_id !== 'pix') {
-      if (!fd.token) return json(400, { ok: false });
-      Object.assign(body, { token: fd.token, installments: Math.min(12, Math.max(1, Number(fd.installments) || 1)), issuer_id: fd.issuer_id });
+    const r = await fetch(`${MP}/v1/orders`, { method: 'POST', headers, body: JSON.stringify(body) });
+    const raw = await r.text();
+    let j: Record<string, any> = {};
+    try { j = JSON.parse(raw); } catch {}
+    const pay = j?.transactions?.payments?.[0] || {};
+    const reason = (raw.match(/(cc_rejected_[a-z_]+|rejected_[a-z_]+|high_risk|insufficient_amount)/) || [''])[0];
+    if (!r.ok || pay.status === 'failed' || pay.status === 'rejected') return json(402, { ok: false, status: 'rejected', detail: reason || String(pay.status_detail || '') });
+    const detail = String(j.status_detail || pay.status_detail || '');
+    if (j.status === 'processed' && detail === 'accredited') {
+      await markPaid(order).catch(() => false);
+      return json(200, { ok: true, kind: 'order', status: 'approved', id: j.id });
     }
-    const r = await fetch(`${MP}/v1/payments`, { method: 'POST', headers, body: JSON.stringify(body) });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok) return json(402, { ok: false, status: 'rejected', detail: String(j?.cause?.[0]?.code || j?.message || '') });
-    if (j.status === 'rejected') return json(200, { ok: false, status: 'rejected', detail: String(j.status_detail || ''), id: j.id });
-    if (j.status === 'approved') await markPaid(order).catch(() => false);
-    return json(200, { ok: true, kind: 'payment', status: String(j.status), detail: String(j.status_detail || ''), id: j.id });
+    if (pix) {
+      const pm = pay.payment_method || {};
+      return json(200, { ok: true, kind: 'order', status: 'pending', id: j.id, pix: { code: String(pm.qr_code || ''), image: String(pm.qr_code_base64 || ''), url: String(pm.ticket_url || '') } });
+    }
+    return json(200, { ok: true, kind: 'order', status: 'in_process', detail, id: j.id });
   } catch {
     return json(502, { ok: false });
   }
