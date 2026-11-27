@@ -49,17 +49,21 @@ const tags = (list: string[]) => `<p style="margin:4px 0 0;line-height:2.4">${li
 const rows = (r: [string, string][]) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 0;border-top:1px solid #efe6da">${r.map(([k, v]) => `<tr><td style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${MUTED}">${k}</td><td align="right" style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${INK}">${v}</td></tr>`).join('')}</table>`;
 
 /** "Thank you for subscribing", sent once, when the order is first marked paid. */
-export async function sendPaidEmail(o: { nome: string; email: string; plano: string; total: string }) {
+export async function sendPaidEmail(o: { nome: string; email: string; plano: string; total: string }, firstEdition?: string) {
   const first = esc((o.nome || '').trim().split(/\s+/)[0] || '');
   const name = first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : '';
-  const month = esc(publication.nextEdition.month);
+  // The month of HER first magazine (e.g. someone who signs up in February gets "fevereiro").
+  const month = esc(firstEdition ? new Date(`${firstEdition.slice(0, 10)}T12:00:00Z`).toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' }) : publication.nextEdition.month);
   const html = shell(`
 ${kicker('Assinatura confirmada ✦')}
 ${title(`${name ? `${name}, que alegria` : 'Que alegria'} ter você na nossa mesa!`)}
 ${para(`Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b style="color:${CHERRY}">${month}</b> chega na sua casa em breve.`)}
 ${rows([['Plano', esc(o.plano)], ['Total', `<b>${esc(o.total)}</b>`]])}
 ${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}
-<p style="margin:18px 0 0;text-align:center;font-family:${SERIF};font-style:italic;font-size:17px;color:${MUTED}">Com carinho, Ana & Amanda</p>`, true);
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;border-top:1px solid #efe6da"><tr><td align="center" style="padding:22px 0 0">
+<img src="${IMG}/ana-amanda.jpg" width="190" alt="Ana e Amanda" style="display:block;width:190px;height:auto;border:0;border-radius:14px">
+<p style="margin:14px 0 2px;font-family:${SANS};font-size:14px;line-height:1.6;color:#5e4f42">Obrigada por fazer parte disso com a gente. Qualquer coisa, é só responder este e-mail que somos nós que lemos.</p>
+<p style="margin:6px 0 0;font-family:${SERIF};font-style:italic;font-size:20px;color:${INK}">Com carinho, Ana & Amanda</p></td></tr></table>`, true);
   return send(o.email, 'Sua assinatura da The Sunday está confirmada ✦', html);
 }
 

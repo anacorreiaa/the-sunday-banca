@@ -89,7 +89,7 @@ export async function markPaid(orderId: unknown, mpId?: unknown) {
     'Primeira edição': date(first),
     'Recebe até': date(before.recebeAte || addMonths(first, cyclesOf(before.plano) - 1)),
   } }));
-  if (ok) await sendPaidEmail(before).catch(() => false);
+  if (ok) await sendPaidEmail(before, first).catch(() => false);
   return ok;
 }
 
