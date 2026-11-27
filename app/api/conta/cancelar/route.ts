@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   let id = '';
   try { id = String((await req.json())?.order || ''); } catch {}
   const o = await getOrder(id);
-  if (!o || o.email.toLowerCase() !== email || o.plano !== 'Mensal' || o.status === 'Cancelado') return json(400, { ok: false });
+  if (!o || o.email.toLowerCase() !== email || o.plano !== 'Mensal' || o.status === 'Cancelada') return json(400, { ok: false });
   const token = process.env.MP_ACCESS_TOKEN;
   if (!token) return json(409, { ok: false, reason: 'manual' });
   const auth = { Authorization: `Bearer ${token}` };

@@ -14,15 +14,21 @@ export const dynamic = 'force-dynamic';
 const WA = 'https://wa.me/5581992300380';
 const since = (iso: string) => (iso ? new Date(iso).toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Sao_Paulo' }) : '');
 const editions = (plano: string) => (plano === 'Anual' ? '12 edições' : plano === 'Semestral' ? '6 edições' : 'Uma revista por mês');
-const steps = (status: string) => [
-  { label: 'Pagamento aprovado', done: status === 'Pago' || status === 'Enviado' },
-  { label: `Preparando a edição de ${publication.nextEdition.name}`, done: status === 'Enviado' },
-  { label: status === 'Enviado' ? 'Revista enviada' : `Chega na sua casa em ${publication.nextEdition.when}`, done: status === 'Enviado' },
-];
+const monthName = (iso: string) => (iso ? new Date(`${iso}T12:00:00Z`).toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' }) : '');
+const steps = (o: Order) => {
+  const ed = o.ultima && o.ultima >= (o.recebeAte || '') ? o.ultima : o.recebeAte && o.recebeAte < new Date().toISOString().slice(0, 10) ? o.recebeAte : (o.primeira > new Date().toISOString().slice(0, 10) ? o.primeira : new Date().toISOString().slice(0, 7) + '-01');
+  const sent = !!o.ultima && o.ultima.slice(0, 7) >= ed.slice(0, 7);
+  return [
+    { label: 'Pagamento aprovado', done: true },
+    { label: `Preparando a edição de ${monthName(ed)}`, done: sent },
+    { label: sent ? `Edição de ${monthName(ed)} enviada` : 'Chega na sua casa em breve', done: sent },
+  ];
+};
 
 function OrderCard({ o }: { o: Order }) {
   const id = o.plano.toLowerCase();
-  const cancelled = o.status === 'Cancelado';
+  const cancelled = o.status === 'Cancelada';
+  const stillGets = cancelled && o.recebeAte && o.recebeAte.slice(0, 7) >= new Date().toISOString().slice(0, 7);
   const waiting = o.status === 'Aguardando pagamento';
   return (
     <article className="ac-card">
@@ -35,11 +41,12 @@ function OrderCard({ o }: { o: Order }) {
           <p className="ac-muted">Desde {since(o.created)}</p>
         </div>
       </div>
-      {!cancelled && !waiting && (
+      {(!cancelled || stillGets) && !waiting && (
         <ol className="ac-steps">
-          {steps(o.status).map((s) => <li key={s.label} className={s.done ? 'is-done' : ''}><span>{s.done ? '✓' : ''}</span>{s.label}</li>)}
+          {steps(o).map((s) => <li key={s.label} className={s.done ? 'is-done' : ''}><span>{s.done ? '✓' : ''}</span>{s.label}</li>)}
         </ol>
       )}
+      {stillGets && <p className="ac-note">Você cancelou, mas ainda recebe a edição de {monthName(o.recebeAte)}, que já está paga.</p>}
       {waiting && <p className="ac-note">Ainda não recebemos o pagamento deste pedido. Se você já pagou, ele atualiza sozinho em alguns minutos.</p>}
       {!cancelled && (
         <div className="ac-box">

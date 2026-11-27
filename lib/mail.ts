@@ -33,7 +33,7 @@ export async function sendPaidEmail(o: { nome: string; email: string; plano: str
   const html = shell(`
 <p style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8e2b2b;font-weight:bold;margin:0 0 10px">Assinatura confirmada</p>
 <h1 style="font-family:Georgia,serif;font-style:italic;font-weight:normal;font-size:28px;line-height:1.15;margin:0 0 14px">${first ? `${first}, que alegria` : 'Que alegria'} ter você na nossa mesa.</h1>
-<p style="font-size:15px;line-height:1.6;margin:0 0 18px">Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b>${esc(next.name)}</b> chega na sua casa em ${esc(next.when)}, com jogos, a surpresa do mês e conteúdos exclusivos para ler sem tela.</p>
+<p style="font-size:15px;line-height:1.6;margin:0 0 18px">Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b>${esc(next.month)}</b> chega na sua casa em breve, com jogos, a surpresa do mês e conteúdos exclusivos para ler sem tela.</p>
 <table style="width:100%;font-size:14px;border-top:1px solid #eee;padding-top:12px">
 <tr><td style="color:#8a7a6a;padding:4px 0">Plano</td><td style="text-align:right">${esc(o.plano)}</td></tr>
 <tr><td style="color:#8a7a6a;padding:4px 0">Total</td><td style="text-align:right"><b>${esc(o.total)}</b></td></tr></table>

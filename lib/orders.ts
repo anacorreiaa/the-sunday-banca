@@ -1,5 +1,6 @@
 // Orders in Notion ("Pedidos da revista impressa"): reading them, marking them paid or cancelled.
 import { sendPaidEmail } from './mail';
+import publication from './publication.json';
 
 const NOTION_VERSION = '2025-09-03';
 export const ORDERS = '41f4e3cc-c201-81fe-98ac-000b8bb3dbaf';
@@ -10,6 +11,7 @@ export const isOrderId = (v: unknown): v is string => typeof v === 'string' && U
 export type Order = {
   id: string; nome: string; email: string; plano: string; status: string; total: string;
   endereco: string; cep: string; whatsapp: string; mpId: string; created: string;
+  primeira: string; recebeAte: string; ultima: string;
 };
 
 const api = async (path: string, method: string, body?: unknown) => {
@@ -31,8 +33,23 @@ const toOrder = (pg: any): Order => {
     id: pg.id, nome: plain(pr.Nome), email: pr['E-mail']?.email || '', plano: pr.Plano?.select?.name || '',
     status: pr.Status?.status?.name || '', total: plain(pr.Total), endereco: plain(pr['Endereço']), cep: plain(pr.CEP),
     whatsapp: pr.WhatsApp?.phone_number || '', mpId: plain(pr['ID Mercado Pago']), created: pg.created_time || '',
+    primeira: pr['Primeira edição']?.date?.start || '', recebeAte: pr['Recebe até']?.date?.start || '', ultima: pr['Última enviada']?.date?.start || '',
   };
 };
+
+/** First day of the month, n months after the given YYYY-MM-DD. */
+export const addMonths = (iso: string, n: number) => {
+  const [y, m] = iso.split('-').map(Number);
+  const d = new Date(Date.UTC(y, m - 1 + n, 1));
+  return d.toISOString().slice(0, 10);
+};
+const cyclesOf = (plano: string) => (plano === 'Anual' ? 12 : plano === 'Semestral' ? 6 : 1);
+/** The edition a new subscriber gets first: the upcoming one, or this month's if it is later. */
+export const currentEdition = () => {
+  const now = new Date().toISOString().slice(0, 7) + '-01';
+  return publication.nextEdition.date > now ? publication.nextEdition.date : now;
+};
+const date = (iso: string) => ({ date: { start: iso } });
 
 export async function getOrder(id: string) {
   if (!isOrderId(id)) return null;
@@ -65,14 +82,19 @@ export async function markPaid(orderId: unknown, mpId?: unknown) {
   const before = await getOrder(orderId);
   if (!before) return false;
   if (mpId && !before.mpId) await setMpId(orderId, mpId);
-  if (before.status === 'Pago' || before.status === 'Enviado') return true;
-  const ok = !!(await api(`pages/${orderId}`, 'PATCH', { properties: { Status: { status: { name: 'Pago' } } } }));
+  if (before.status === 'Ativa' || before.status === 'Cancelada') return true;
+  const first = before.primeira || currentEdition();
+  const ok = !!(await api(`pages/${orderId}`, 'PATCH', { properties: {
+    Status: { status: { name: 'Ativa' } },
+    'Primeira edição': date(first),
+    'Recebe até': date(before.recebeAte || addMonths(first, cyclesOf(before.plano) - 1)),
+  } }));
   if (ok) await sendPaidEmail(before).catch(() => false);
   return ok;
 }
 
 export async function markCancelled(orderId: string) {
-  return !!(await api(`pages/${orderId}`, 'PATCH', { properties: { Status: { status: { name: 'Cancelado' } } } }));
+  return !!(await api(`pages/${orderId}`, 'PATCH', { properties: { Status: { status: { name: 'Cancelada' } } } }));
 }
 
 /**
@@ -83,4 +105,19 @@ export async function markPaidByEmail(email: unknown, mpId?: unknown) {
   if (typeof email !== 'string' || !/^\S+@\S+\.\S+$/.test(email)) return false;
   const waiting = (await ordersByEmail(email)).find((o) => o.status === 'Aguardando pagamento');
   return waiting ? markPaid(waiting.id, mpId) : false;
+}
+
+/** The order that holds this Mercado Pago subscription. */
+export async function orderByMpId(mpId: string) {
+  const j = await api(`data_sources/${ORDERS}/query`, 'POST', { filter: { property: 'ID Mercado Pago', rich_text: { equals: mpId } }, page_size: 1 });
+  const pg = j?.results?.[0];
+  return pg ? toOrder(pg) : null;
+}
+
+/** A monthly renewal was paid: she gets one more edition. */
+export async function extendOneMonth(o: Order) {
+  if (o.plano !== 'Mensal' || !o.recebeAte) return false;
+  const next = addMonths(o.recebeAte, 1);
+  const target = next > currentEdition() ? next : currentEdition();
+  return !!(await api(`pages/${o.id}`, 'PATCH', { properties: { 'Recebe até': date(target) } }));
 }

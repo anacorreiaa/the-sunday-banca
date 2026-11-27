@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { markPaid, markPaidByEmail, isOrderId } from '@/lib/orders';
+import { markPaid, markPaidByEmail, isOrderId, orderByMpId, extendOneMonth } from '@/lib/orders';
 
 const settle = async (ref: unknown, email: unknown, mpId?: unknown) => (isOrderId(ref) ? markPaid(ref, mpId) : markPaidByEmail(email, mpId));
 
@@ -34,6 +34,16 @@ export async function POST(req: NextRequest) {
       const r = await fetch(`${MP}/v1/payments/${id}`, auth);
       const p = await r.json().catch(() => ({}));
       if (p?.status === 'approved') await settle(p.external_reference, p?.payer?.email, p.id);
+    } else if (type === 'subscription_authorized_payment') {
+      // A monthly charge of a subscription. The first one is the sign-up itself; later ones add a month.
+      const r = await fetch(`${MP}/authorized_payments/${id}`, auth);
+      const a = await r.json().catch(() => ({}));
+      const paid = a?.status === 'processed' && (!a?.payment?.status || a.payment.status === 'approved');
+      if (paid && a?.preapproval_id) {
+        const o = await orderByMpId(String(a.preapproval_id));
+        const age = o ? Date.now() - Date.parse(o.created) : 0;
+        if (o && o.status !== 'Aguardando pagamento' && age > 20 * 24 * 3600 * 1000) await extendOneMonth(o);
+      }
     } else if (type === 'subscription_preapproval') {
       const r = await fetch(`${MP}/preapproval/${id}`, auth);
       const p = await r.json().catch(() => ({}));

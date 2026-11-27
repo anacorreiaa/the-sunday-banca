@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
 import SiteNav from '@/components/SiteNav';
 import SiteFooter from '@/components/SiteFooter';
-import ThanksCelebrate from '@/components/ThanksCelebrate';
+import publication from '@/lib/publication.json';
+import { newsHref } from '@/lib/links';
 
-export const metadata: Metadata = {
-  title: 'Obrigada!',
-  robots: { index: false, follow: false },
-};
+export const metadata: Metadata = { title: 'Obrigada!', robots: { index: false, follow: false } };
 
 export default async function Obrigada({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const q = await searchParams;
@@ -14,20 +12,28 @@ export default async function Obrigada({ searchParams }: { searchParams: Promise
   return (
     <>
       <SiteNav home={false} />
-      <main className="ps ps-thanks">
-        <div className="ps-table ps-thanks-table">
-          <div className="ps-envelope ps-thanks-card">
-            {test && <p className="ps-mp-badge">Teste · nada foi cobrado</p>}
-            <h1>Que alegria ter você na nossa mesa.</h1>
-            <p className="ps-thanks-plan">
-              {q.plano ? <>Plano <strong>{q.plano}</strong>{q.total ? <> · {q.total}</> : null}</> : 'Sua assinatura foi recebida.'}
-            </p>
-            <p className="ps-next-ed">A próxima edição é a de <strong>Natal</strong>, em dezembro, e ela vai direto para a sua casa.</p>
-            <p className="ps-thanks-small">Qualquer dúvida, fale com a gente pelo Instagram <a href="https://www.instagram.com/thesunday.ac/">@thesunday.ac</a> ou pelo e-mail <a href="mailto:thesundaymagazineac@gmail.com">thesundaymagazineac@gmail.com</a>.</p>
-            <a className="ps-cta" href="/">Voltar para a The Sunday</a>
-          </div>
+      <main className="tx-page">
+        <div className="tx-photo" aria-hidden="true">
+          <picture>
+            <source media="(max-width: 760px)" srcSet="/assets/topo-natal-m.webp" />
+            <img src="/assets/topo-natal.webp" alt="" />
+          </picture>
         </div>
-        <ThanksCelebrate />
+        <div className="tx-card">
+          {test && <p className="ps-mp-badge">Teste · nada foi cobrado</p>}
+          <p className="tx-k">Pedido confirmado ✓</p>
+          <h1>Que alegria ter você na nossa mesa.</h1>
+          <p className="tx-sub">A edição de <b>{publication.nextEdition.month}</b> chega na sua casa em breve. Enviamos os detalhes para o seu e-mail.</p>
+          {(q.plano || q.total) && (
+            <dl className="tx-lines">
+              {q.plano && <div><dt>Plano</dt><dd>{q.plano}</dd></div>}
+              {q.total && <div><dt>Total</dt><dd><b>{q.total}</b></dd></div>}
+            </dl>
+          )}
+          <a className="tx-b1" href="/">Voltar para a The Sunday</a>
+          <a className="tx-b2" href={newsHref}>Ler a newsletter</a>
+          <p className="tx-foot">Para acompanhar a entrega e ver a sua assinatura, toque no ícone de perfil <span aria-hidden="true">👤</span> lá em cima e entre na <a href="/minha-assinatura">área da assinante</a>.</p>
+        </div>
       </main>
       <SiteFooter />
     </>
