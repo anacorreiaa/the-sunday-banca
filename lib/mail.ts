@@ -55,16 +55,16 @@ export async function sendPaidEmail(o: { nome: string; email: string; plano: str
   // The month of HER first magazine (e.g. someone who signs up in February gets "fevereiro").
   const month = esc(firstEdition ? new Date(`${firstEdition.slice(0, 10)}T12:00:00Z`).toLocaleDateString('pt-BR', { month: 'long', timeZone: 'UTC' }) : publication.nextEdition.month);
   const html = shell(`
-${kicker('Assinatura confirmada ✦')}
+${kicker('Assinatura confirmada 🗞️☕️')}
 ${title(`${name ? `${name}, que alegria` : 'Que alegria'} ter você na nossa mesa!`)}
 ${para(`Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b style="color:${CHERRY}">${month}</b> chega na sua casa em breve.`)}
 ${rows([['Plano', esc(o.plano)], ['Total', `<b>${esc(o.total)}</b>`]])}
 ${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;border-top:1px solid #efe6da"><tr><td align="center" style="padding:22px 0 0">
 <img src="${IMG}/ana-amanda.jpg" width="190" alt="Ana e Amanda" style="display:block;width:190px;height:auto;border:0;border-radius:14px">
-<p style="margin:14px 0 2px;font-family:${SANS};font-size:14px;line-height:1.6;color:#5e4f42">Obrigada por fazer parte disso com a gente. Qualquer coisa, é só responder este e-mail que somos nós que lemos.</p>
+<p style="margin:14px 0 2px;font-family:${SANS};font-size:14px;line-height:1.6;color:#5e4f42">Obrigada por fazer parte disso com a gente. Qualquer coisa, é só responder este e-mail que a gente te retorna.</p>
 <p style="margin:6px 0 0;font-family:${SERIF};font-style:italic;font-size:20px;color:${INK}">Com carinho, Ana & Amanda</p></td></tr></table>`, true);
-  return send(o.email, 'Sua assinatura da The Sunday está confirmada ✦', html);
+  return send(o.email, 'Sua assinatura da The Sunday está confirmada 🗞️☕️', html);
 }
 
 /** The sign-in link for the subscriber area. */
