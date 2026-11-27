@@ -51,7 +51,7 @@ function OrderCard({ o }: { o: Order }) {
       {!cancelled && (
         <div className="ac-box">
           <p className="ac-k">O que vem na sua revista</p>
-          <ul className="ac-list">{['Conteúdos exclusivos', 'Jogos', 'A surpresa do mês', 'Adesivos', 'Marcador de página'].map((t) => <li key={t}>{t}</li>)}</ul>
+          <ul className="ac-list">{['Conteúdos exclusivos', 'Jogos', 'A surpresa do mês', 'Sticker pack', 'Marcador de página'].map((t) => <li key={t}>{t}</li>)}</ul>
         </div>
       )}
       <div className="ac-box">
