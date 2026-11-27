@@ -43,6 +43,7 @@ export default function PayOnSite({ inline, publicKey, plan, total, email, order
   const [msg, setMsg] = useState('');
   const [pix, setPix] = useState<{ code: string; image: string } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [broken, setBroken] = useState(false);
   const brick = useRef<{ unmount: () => void } | null>(null);
   const buyerRef = useRef(buyer);
   buyerRef.current = buyer;
@@ -78,7 +79,7 @@ export default function PayOnSite({ inline, publicKey, plan, total, email, order
                   body: JSON.stringify({ plan: plan.id, email, order, buyer: buyerRef.current, deviceId: window.MP_DEVICE_SESSION_ID || '', formData: { ...formData, payment_type_id: selectedPaymentMethod || formData.payment_type_id } }),
                 });
                 const j = await r.json().catch(() => ({}));
-                if (!j.ok) { reject(); setMsg(why(String(j.detail || ''))); setStep('error'); return; }
+                if (!j.ok) { reject(); if (r.status >= 500 || r.status === 400 || r.status === 403) { setBroken(true); setMsg('Não conseguimos abrir o pagamento aqui agora.'); } else setMsg(why(String(j.detail || ''))); setStep('error'); return; }
                 resolve();
                 if (j.status === 'approved' || j.status === 'authorized' || j.status === 'in_process') { onDone(); return; }
                 if (j.status === 'pending' && j.pix?.code) {
@@ -105,6 +106,7 @@ export default function PayOnSite({ inline, publicKey, plan, total, email, order
     <>
         {step === 'loading' && <p className="ps-pay-wait">Carregando…</p>}
         {step === 'error' && msg && <p className="ps-err" role="alert">{msg}</p>}
+        {broken && <button type="button" className="ps-pay" onClick={onFallback}>Pagar pela página do Mercado Pago →</button>}
         {step !== 'pix' && <div id="mp-brick" />}
         {step === 'pix' && pix && (
           <div className="ps-pix">
