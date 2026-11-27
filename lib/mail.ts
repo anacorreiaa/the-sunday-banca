@@ -1,6 +1,7 @@
 // E-mails to subscribers, sent with Resend. Without RESEND_API_KEY nothing is sent (and nothing breaks).
 import publication from './publication.json';
 import { siteUrl } from './site';
+import { LOGO_PNG, ANA_AMANDA_JPG } from './emailAssets';
 
 const FROM = 'The Sunday <ola@thesunday.com.br>';
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
@@ -11,7 +12,10 @@ async function send(to: string, subject: string, html: string) {
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: FROM, to: [to], reply_to: publication.contact.email, subject, html }),
+    body: JSON.stringify({ from: FROM, to: [to], reply_to: publication.contact.email, subject, html, attachments: [
+      { filename: 'the-sunday.png', content: LOGO_PNG, content_id: 'logo', content_type: 'image/png' },
+      ...(html.includes('cid:ana-amanda') ? [{ filename: 'ana-e-amanda.jpg', content: ANA_AMANDA_JPG, content_id: 'ana-amanda', content_type: 'image/jpeg' }] : []),
+    ] }),
     signal: AbortSignal.timeout(8000),
   });
   return r.ok;
@@ -29,9 +33,9 @@ const shell = (body: string, photo = false) => `<!doctype html><html lang="pt-BR
 <body style="margin:0;padding:0;background:${CREAM};color:${INK};font-family:${SANS};-webkit-font-smoothing:antialiased">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM}"><tr><td align="center" style="padding:28px 14px 36px">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:540px">
-<tr><td align="center" style="padding:0 0 18px"><a href="${siteUrl}"><img src="${IMG}/logo.png" width="190" alt="The Sunday" style="display:block;width:190px;height:auto;border:0"></a></td></tr>
+<tr><td align="center" style="padding:0 0 18px"><a href="${siteUrl}"><img src="cid:logo" width="190" alt="The Sunday" style="display:block;width:190px;height:auto;border:0;font-family:Georgia,serif;font-style:italic;font-size:30px;color:#3b2a20;text-align:center"></a></td></tr>
 <tr><td style="background:#ffffff;border-radius:18px;overflow:hidden">
-${photo ? `<img src="${IMG}/topo.jpg" width="540" alt="" style="display:block;width:100%;height:auto;border:0;border-radius:18px 18px 0 0">` : ''}
+${photo ? `<img src="${IMG}/topo.jpg" width="540" alt="" height="216" style="display:block;width:100%;height:auto;border:0;border-radius:18px 18px 0 0">` : ''}
 <div style="padding:30px 26px 30px">${body}</div></td></tr>
 <tr><td align="center" style="padding:24px 10px 0;font-family:${SANS};font-size:12px;line-height:1.7;color:${MUTED}">
 <a href="${publication.contact.instagramUrl}" style="color:${INK};text-decoration:none;font-weight:600">Instagram</a> &nbsp;·&nbsp;
@@ -61,7 +65,7 @@ ${para(`Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. 
 ${rows([['Plano', esc(o.plano)], ['Total', `<b>${esc(o.total)}</b>`]])}
 ${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:26px 0 0;border-top:1px solid #efe6da"><tr><td align="center" style="padding:22px 0 0">
-<img src="${IMG}/ana-amanda.jpg" width="190" alt="Ana e Amanda" style="display:block;width:190px;height:auto;border:0;border-radius:14px">
+<img src="cid:ana-amanda" width="190" alt="Ana e Amanda" style="display:block;width:190px;height:auto;border:0;border-radius:14px">
 <p style="margin:14px 0 2px;font-family:${SANS};font-size:14px;line-height:1.6;color:#5e4f42">Obrigada por fazer parte disso com a gente. Qualquer coisa, é só responder este e-mail que a gente te retorna.</p>
 <p style="margin:6px 0 0;font-family:${SERIF};font-style:italic;font-size:20px;color:${INK}">Com carinho, Ana & Amanda</p></td></tr></table>`, true);
   return send(o.email, 'Sua assinatura da The Sunday está confirmada 🗞️☕️', html);
