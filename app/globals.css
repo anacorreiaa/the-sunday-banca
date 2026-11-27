@@ -1952,3 +1952,21 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
   .co-plan { grid-template-columns: 72px 1fr; } .co-plan img { width: 72px; height: 72px; }
 }
 .co-plan .co-badge { width: auto; height: auto; border-radius: 999px; padding: 6px 11px; font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; line-height: 1; white-space: nowrap; background: #1f1a17; color: #fff; }
+/* ——— Form fields: clean, readable, phone first ——— */
+.pf-grid { gap: 16px 18px; }
+.pf-grid label { gap: 6px; font-size: 11px; letter-spacing: .14em; font-weight: 600; }
+.pf-grid input, .pf-grid select {
+  min-height: 48px; padding: 10px 14px; border: 1px solid rgba(59, 42, 32, .22); border-radius: 12px;
+  background: #fffdf9; font-family: 'DM Sans', system-ui, sans-serif; font-size: 16px; letter-spacing: 0; text-transform: none; color: var(--ink);
+}
+.pf-grid input::placeholder { font-family: 'DM Sans', system-ui, sans-serif; font-style: normal; font-size: 15px; color: rgba(59, 42, 32, .38); }
+.pf-grid input:focus, .pf-grid select:focus { border-color: var(--cereja); box-shadow: 0 0 0 3px rgba(142, 43, 43, .12); }
+.pf-opt { text-transform: none; letter-spacing: 0; font-weight: 400; }
+@media (max-width: 760px) {
+  .pf-grid { grid-template-columns: minmax(0, 1fr) 96px; gap: 14px 12px; }
+  .pf-grid > label, .pf-grid > .pf-full, .pf-grid > div, .pf-grid > p { grid-column: 1 / -1; }
+  .pf-grid > label:has(+ label select) { grid-column: 1; }
+  .pf-grid > label:has(select) { grid-column: 2; }
+  .pf-grid label { font-size: 10.5px; }
+  .co-step h2 { font-size: 21px; }
+}
