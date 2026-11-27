@@ -22,7 +22,7 @@ export default async function Obrigada({ searchParams }: { searchParams: Promise
         <div className="tx-card">
           {test && <p className="ps-mp-badge">Teste · nada foi cobrado</p>}
           <p className="tx-k">Pedido confirmado ✓</p>
-          <h1>Que alegria ter você na nossa mesa.</h1>
+          <h1>Que alegria ter você na nossa mesa!</h1>
           <p className="tx-sub">A edição de <b>{publication.nextEdition.month}</b> chega na sua casa em breve. Enviamos os detalhes para o seu e-mail.</p>
           {(q.plano || q.total) && (
             <dl className="tx-lines">
