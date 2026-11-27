@@ -71,6 +71,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
   // Paying on our own page: on only when both Mercado Pago keys are set in Vercel. Otherwise the plan's link, as before.
   const [mp, setMp] = useState<{ enabled: boolean; publicKey: string }>({ enabled: false, publicKey: '' });
   const [paying, setPaying] = useState(false);
+  const [order, setOrder] = useState('');
   useEffect(() => {
     fetch('/api/pagamento/config').then((r) => r.json()).then((j) => { if (j?.enabled && j.publicKey) setMp({ enabled: true, publicKey: j.publicKey }); }).catch(() => {});
   }, []);
@@ -96,7 +97,7 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
       });
       const j = await res.json().catch(() => ({}));
       if (!res.ok || !j.ok) throw new Error();
-      if (mp.enabled) { setPaying(true); return; }
+      if (mp.enabled) { setOrder(String(j.order || '')); setPaying(true); return; }
       window.location.href = plan.checkoutUrl;
     } catch {
       setState('error');
@@ -217,6 +218,8 @@ export default function PrintSubscribe({ plans, fixedFrete, children }: { plans:
                 plan={plan}
                 total={Math.round((plan.billing === 'monthly' ? plan.amount + fixedFrete : plan.amount * plan.cycles) * 100) / 100}
                 email={f.email}
+                order={order}
+                buyer={f}
                 onDone={toThanks}
                 onFallback={toLink}
                 onClose={closePay}

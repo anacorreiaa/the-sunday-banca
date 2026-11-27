@@ -36,8 +36,9 @@ export async function POST(req: NextRequest) {
   const total = plan.billing === 'monthly' ? `${brl(plan.amount + frete)} por mês` : brl(plan.amount * plan.cycles);
   const endereco = `${rua}, ${numero}${complemento ? ` (${complemento})` : ''} · ${bairro} · ${cidade}/${uf}`;
 
+  let order = '';
   try {
-    await notion('pages', {
+    const page = await notion('pages', {
       parent: { type: 'data_source_id', data_source_id: ORDERS },
       properties: {
         Nome: { title: [{ type: 'text', text: { content: nome } }] },
@@ -50,8 +51,9 @@ export async function POST(req: NextRequest) {
         CEP: rt(cep),
       },
     });
+    order = String(page?.id || '');
   } catch {
     return json(502, { ok: false });
   }
-  return json(200, { ok: true });
+  return json(200, { ok: true, order });
 }
