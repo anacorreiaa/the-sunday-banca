@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { COOKIE, readToken } from '@/lib/session';
-import { getOrder, markCancelled } from '@/lib/orders';
+import { getOrder, markCancelled, setMpId } from '@/lib/orders';
 import { trustedOrigin } from '../../recommend/route';
 
 export const runtime = 'nodejs';
@@ -17,10 +17,24 @@ export async function POST(req: NextRequest) {
   const o = await getOrder(id);
   if (!o || o.email.toLowerCase() !== email || o.plano !== 'Mensal' || o.status === 'Cancelado') return json(400, { ok: false });
   const token = process.env.MP_ACCESS_TOKEN;
-  if (!token || !o.mpId) return json(409, { ok: false, reason: 'manual' });
-  const r = await fetch(`https://api.mercadopago.com/preapproval/${encodeURIComponent(o.mpId)}`, {
+  if (!token) return json(409, { ok: false, reason: 'manual' });
+  const auth = { Authorization: `Bearer ${token}` };
+  // Older orders don't have the subscription number saved: look it up by the order, then by her e-mail.
+  let mpId = /^[0-9a-f]{20,40}$/i.test(o.mpId) ? o.mpId : '';
+  if (!mpId) {
+    for (const q of [`external_reference=${encodeURIComponent(o.id)}`, `payer_email=${encodeURIComponent(email)}&status=authorized`]) {
+      const s = await fetch(`https://api.mercadopago.com/preapproval/search?${q}`, { headers: auth, cache: 'no-store' }).then((r) => r.json()).catch(() => ({}));
+      const hit = ((s?.results || []) as Array<{ id: string; status: string; date_created?: string }>)
+        .filter((x) => x.status === 'authorized' || x.status === 'pending')
+        .sort((a, b) => String(b.date_created || '').localeCompare(String(a.date_created || '')))[0];
+      if (hit?.id) { mpId = hit.id; break; }
+    }
+    if (!mpId) return json(409, { ok: false, reason: 'manual' });
+    await setMpId(o.id, mpId).catch(() => false);
+  }
+  const r = await fetch(`https://api.mercadopago.com/preapproval/${encodeURIComponent(mpId)}`, {
     method: 'PUT',
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    headers: { ...auth, 'Content-Type': 'application/json' },
     body: JSON.stringify({ status: 'cancelled' }),
   });
   if (!r.ok) return json(409, { ok: false, reason: 'manual' });
