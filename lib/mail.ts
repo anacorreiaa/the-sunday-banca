@@ -44,6 +44,7 @@ const kicker = (t: string) => `<p style="margin:0 0 10px;font-family:${SANS};fon
 const title = (t: string) => `<h1 style="margin:0 0 14px;font-family:${SERIF};font-style:italic;font-weight:500;font-size:32px;line-height:1.1;color:${INK}">${t}</h1>`;
 const para = (t: string) => `<p style="margin:0 0 16px;font-family:${SANS};font-size:15px;line-height:1.65;color:#5e4f42">${t}</p>`;
 const btn = (href: string, label: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 0"><tr><td align="center" style="border-radius:999px;background:#1f1a17"><a href="${href}" style="display:block;padding:15px 22px;font-family:${SANS};font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#ffffff;text-decoration:none">${label}</a></td></tr></table>`;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const tags = (list: string[]) => `<p style="margin:4px 0 0;line-height:2.4">${list.map((t) => `<span style="display:inline-block;margin:0 4px 0 0;padding:5px 12px;border-radius:999px;background:${SAGE};font-family:${SANS};font-size:12px;color:#2b2418;line-height:1.4">${t}</span>`).join('')}</p>`;
 const rows = (r: [string, string][]) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 0;border-top:1px solid #efe6da">${r.map(([k, v]) => `<tr><td style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${MUTED}">${k}</td><td align="right" style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${INK}">${v}</td></tr>`).join('')}</table>`;
 
@@ -56,8 +57,6 @@ export async function sendPaidEmail(o: { nome: string; email: string; plano: str
 ${kicker('Assinatura confirmada ✦')}
 ${title(`${name ? `${name}, que alegria` : 'Que alegria'} ter você na nossa mesa!`)}
 ${para(`Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b style="color:${CHERRY}">${month}</b> chega na sua casa em breve.`)}
-<p style="margin:18px 0 4px;font-family:${SANS};font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:${MUTED}">O que vem na sua revista</p>
-${tags(['Conteúdos exclusivos', 'Jogos', 'Surpresa do mês', 'Adesivos', 'Marcador'])}
 ${rows([['Plano', esc(o.plano)], ['Total', `<b>${esc(o.total)}</b>`]])}
 ${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}
 <p style="margin:18px 0 0;text-align:center;font-family:${SERIF};font-style:italic;font-size:17px;color:${MUTED}">Com carinho, Ana & Amanda</p>`, true);
