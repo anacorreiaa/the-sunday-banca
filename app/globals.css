@@ -1978,3 +1978,38 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .ps-carta { display: none !important; }
 @media (max-width: 760px) { .ps-envelope { padding: 24px 18px !important; } }
 .ps-selo, .ps-carimbo { display: none !important; }
+
+/* ——— Subscriber area ——— */
+.ac-page { max-width: 640px; margin: 0 auto; padding: clamp(28px, 4vw, 52px) 18px 80px; }
+.ac-h1 { margin: 0 0 18px; font-family: var(--serif); font-style: italic; font-weight: 500; font-size: clamp(34px, 5vw, 46px); color: var(--ink); }
+.ac-k { margin: 0 0 6px; font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #8e2b2b; }
+.ac-hello { margin: 0 0 16px; font-size: 16px; }
+.ac-muted { color: var(--muted); font-size: 14px; margin: 0; }
+.ac-card { background: #fff; border-radius: 18px; padding: 22px 20px; box-shadow: 0 14px 34px -22px rgba(60, 35, 20, .35); margin-bottom: 16px; }
+.ac-card h2 { margin: 0 0 6px; font-family: var(--serif); font-size: 24px; font-weight: 600; color: var(--ink); }
+.ac-card > p { font-size: 15px; line-height: 1.6; margin: 0 0 14px; }
+.ac-center { text-align: center; }
+.ac-check { width: 54px; height: 54px; border-radius: 50%; background: #A3A983; display: grid; place-items: center; margin: 0 auto 14px; font-size: 24px; }
+.ac-grid { grid-template-columns: 1fr !important; }
+.ac-plan { display: grid; grid-template-columns: 76px 1fr; gap: 14px; align-items: center; }
+.ac-plan img { width: 76px; height: 76px; border-radius: 12px; object-fit: cover; background: #efe6d8; }
+.ac-steps { list-style: none; margin: 18px 0 0; padding: 16px 0 0; border-top: 1px solid rgba(60, 35, 20, .12); display: grid; gap: 12px; font-size: 15px; }
+.ac-steps li { display: flex; align-items: center; gap: 12px; color: var(--muted); }
+.ac-steps li span { width: 24px; height: 24px; flex: none; border-radius: 50%; border: 1.5px solid #cbbfae; display: grid; place-items: center; font-size: 12px; }
+.ac-steps li.is-done { color: var(--ink); font-weight: 600; }
+.ac-steps li.is-done span { background: #A3A983; border-color: #A3A983; }
+.ac-box { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(60, 35, 20, .12); font-size: 15px; line-height: 1.55; }
+.ac-box p { margin: 0 0 8px; }
+.ac-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 0; padding: 0; }
+.ac-tags li { padding: 7px 12px; border-radius: 999px; background: #A3A983; font-size: 13px; }
+.ac-link { border: 0; background: none; padding: 0; font: inherit; font-size: 14px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.ac-cancel .ac-link { color: var(--muted); }
+.ac-note { font-size: 14px; color: var(--muted); margin: 14px 0 0; }
+.ac-confirm p { margin: 0 0 12px; font-size: 14.5px; }
+.ac-row { display: flex; gap: 10px; }
+.ac-ghost, .ac-danger { flex: 1; padding: 12px; border-radius: 999px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.ac-ghost { border: 1px solid var(--ink); background: none; color: var(--ink); }
+.ac-danger { border: 0; background: #8e2b2b; color: #fff; }
+.ac-help { margin-top: 22px; font-size: 14px; color: var(--muted); display: grid; gap: 10px; }
+.ac-help p { margin: 0; }
+.ac-btn { display: block; text-align: center; text-decoration: none; }

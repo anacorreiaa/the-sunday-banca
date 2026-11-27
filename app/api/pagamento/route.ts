@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { randomUUID } from 'crypto';
 import { plansNow } from '@/lib/promo';
-import { markPaid, isOrderId } from '@/lib/orders';
+import { markPaid, isOrderId, setMpId } from '@/lib/orders';
 import { trustedOrigin } from '../recommend/route';
 
 export const runtime = 'nodejs';
@@ -54,7 +54,8 @@ export async function POST(req: NextRequest) {
       const j = await r.json().catch(() => ({}));
       if (!r.ok) return json(402, { ok: false, status: 'rejected', detail: String(j?.cause?.[0]?.code || j?.message || '') });
       const status = j.status === 'authorized' ? 'approved' : String(j.status || 'pending');
-      if (status === 'approved') await markPaid(order).catch(() => false);
+      if (status === 'approved') await markPaid(order, j.id).catch(() => false);
+      else await setMpId(order, j.id).catch(() => false);
       return json(200, { ok: true, kind: 'subscription', status, id: j.id });
     }
 
@@ -98,8 +99,9 @@ export async function POST(req: NextRequest) {
     const reason = (raw.match(/(cc_rejected_[a-z_]+|rejected_[a-z_]+|high_risk|insufficient_amount)/) || [''])[0];
     if (!r.ok || pay.status === 'failed' || pay.status === 'rejected') return json(402, { ok: false, status: 'rejected', detail: reason || String(pay.status_detail || '') });
     const detail = String(j.status_detail || pay.status_detail || '');
+    await setMpId(order, j.id).catch(() => false);
     if (j.status === 'processed' && detail === 'accredited') {
-      await markPaid(order).catch(() => false);
+      await markPaid(order, j.id).catch(() => false);
       return json(200, { ok: true, kind: 'order', status: 'approved', id: j.id });
     }
     if (pix) {

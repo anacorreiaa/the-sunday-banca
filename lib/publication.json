@@ -137,5 +137,9 @@
    }
   ],
   "fixed": 10
+ },
+ "nextEdition": {
+  "name": "Natal",
+  "when": "dezembro"
  }
 }
