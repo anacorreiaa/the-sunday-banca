@@ -17,7 +17,6 @@ export default async function Obrigada({ searchParams }: { searchParams: Promise
       <main className="ps ps-thanks">
         <div className="ps-table ps-thanks-table">
           <div className="ps-envelope ps-thanks-card">
-            <img className="ps-carta" src="/assets/drawn/carta.png" alt="" aria-hidden="true" />
             {test && <p className="ps-mp-badge">Teste · nada foi cobrado</p>}
             <h1>Que alegria ter você na nossa mesa.</h1>
             <p className="ps-thanks-plan">
