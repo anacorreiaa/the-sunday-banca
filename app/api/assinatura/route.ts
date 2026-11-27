@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   if (text(b.website)) return json(200, { ok: true }); // a bot filled the hidden field
 
   const plan = plansNow().find((p) => p.id === b.plan);
-  const nome = text(b.nome, 120), email = text(b.email, 160), whatsapp = text(b.whatsapp, 30), cep = text(b.cep, 12);
+  const nome = text(b.nome, 120), email = text(b.email, 160).toLowerCase(), whatsapp = text(b.whatsapp, 30), cep = text(b.cep, 12);
   const rua = text(b.rua), numero = text(b.numero, 20), complemento = text(b.complemento, 80), bairro = text(b.bairro, 80), cidade = text(b.cidade, 80), uf = text(b.uf, 2);
   if (!plan || !nome || !/^\S+@\S+\.\S+$/.test(email) || !whatsapp || !rua || !numero || cep.replace(/\D/g, '').length !== 8) return json(400, { ok: false });
 

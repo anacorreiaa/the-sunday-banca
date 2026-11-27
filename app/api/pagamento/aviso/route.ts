@@ -1,5 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { markPaid } from '@/lib/orders';
+import { markPaid, markPaidByEmail, isOrderId } from '@/lib/orders';
+
+const settle = async (ref: unknown, email: unknown) => (isOrderId(ref) ? markPaid(ref) : markPaidByEmail(email));
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -27,15 +29,15 @@ export async function POST(req: NextRequest) {
     if (type === 'order') {
       const r = await fetch(`${MP}/v1/orders/${id}`, auth);
       const o = await r.json().catch(() => ({}));
-      if (o?.status === 'processed' && o?.status_detail === 'accredited') await markPaid(o.external_reference);
+      if (o?.status === 'processed' && o?.status_detail === 'accredited') await settle(o.external_reference, o?.payer?.email);
     } else if (type === 'payment') {
       const r = await fetch(`${MP}/v1/payments/${id}`, auth);
       const p = await r.json().catch(() => ({}));
-      if (p?.status === 'approved') await markPaid(p.external_reference);
+      if (p?.status === 'approved') await settle(p.external_reference, p?.payer?.email);
     } else if (type === 'subscription_preapproval') {
       const r = await fetch(`${MP}/preapproval/${id}`, auth);
       const p = await r.json().catch(() => ({}));
-      if (p?.status === 'authorized') await markPaid(p.external_reference);
+      if (p?.status === 'authorized') await settle(p.external_reference, p?.payer_email);
     }
   } catch {}
   return ok();
