@@ -26,7 +26,7 @@ export default function PlanCards() {
           const off = p.billing === 'monthly' ? 0 : Math.floor((1 - p.amount / FULL) * 100);
           return (
             <article key={p.id} className={`store-card${p.promo ? ' is-bf' : ''}`}>
-              <a className="store-card-im" href={`/assinatura?plano=${p.id}#planos`} tabIndex={-1} aria-hidden="true">
+              <a className="store-card-im" href={`/checkout?plano=${p.id}`} tabIndex={-1} aria-hidden="true">
                 <img src={`/assets/plans/${p.id}.webp`} alt="" loading="lazy" />
                 {off > 0 && <span className="store-badge">-{off}%</span>}
                 {p.promo && <span className="store-badge store-badge--bf">{p.promo}</span>}
@@ -43,7 +43,7 @@ export default function PlanCards() {
                 </p>
                 {p.total && <p className="store-total">{p.total}</p>}
                 {p.gifts && <p className="store-gifts"><b>Black Friday:</b> vem com {p.gifts.join(', ').replace(/, ([^,]*)$/, ' e $1').toLowerCase()}</p>}
-                <a className="store-add" href={`/assinatura?plano=${p.id}#planos`}>Assinar</a>
+                <a className="store-add" href={`/checkout?plano=${p.id}`}>Assinar</a>
               </div>
             </article>
           );

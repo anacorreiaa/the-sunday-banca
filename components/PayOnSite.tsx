@@ -35,8 +35,8 @@ const why = (detail: string) => {
   return 'O pagamento não foi aprovado. Confira os dados do cartão ou tente outro cartão.';
 };
 
-export default function PayOnSite({ publicKey, plan, total, email, order, buyer, onDone, onFallback, onClose }: {
-  publicKey: string; plan: Plan; total: number; email: string; order: string; buyer: Buyer;
+export default function PayOnSite({ inline, publicKey, plan, total, email, order, buyer, onDone, onFallback, onClose }: {
+  inline?: boolean; publicKey: string; plan: Plan; total: number; email: string; order: string; buyer: Buyer;
   onDone: () => void; onFallback: () => void; onClose: () => void;
 }) {
   const [step, setStep] = useState<'loading' | 'form' | 'pix' | 'error'>('loading');
@@ -101,12 +101,8 @@ export default function PayOnSite({ publicKey, plan, total, email, order, buyer,
     return () => { gone = true; try { brick.current?.unmount(); } catch {} };
   }, [publicKey, plan, total, email, order, onDone, onFallback]);
 
-  return (
-    <div className="ps-mp" role="dialog" aria-modal="true" aria-labelledby="mp-pay-h">
-      <div className="ps-mp-card ps-pay-card">
-        <button type="button" className="ps-pay-x" onClick={onClose} aria-label="Fechar">×</button>
-        <h3 id="mp-pay-h">Pagamento</h3>
-        <p className="ps-mp-small">Plano {plan.name} · pagamento seguro processado pelo Mercado Pago</p>
+  const inner = (
+    <>
         {step === 'loading' && <p className="ps-pay-wait">Carregando…</p>}
         {step === 'error' && msg && <p className="ps-err" role="alert">{msg}</p>}
         {step !== 'pix' && <div id="mp-brick" />}
@@ -120,6 +116,16 @@ export default function PayOnSite({ publicKey, plan, total, email, order, buyer,
             <button type="button" className="ps-pay" onClick={onDone}>Já paguei o Pix</button>
           </div>
         )}
+    </>
+  );
+  if (inline) return <div className="co-pay">{inner}</div>;
+  return (
+    <div className="ps-mp" role="dialog" aria-modal="true" aria-labelledby="mp-pay-h">
+      <div className="ps-mp-card ps-pay-card">
+        <button type="button" className="ps-pay-x" onClick={onClose} aria-label="Fechar">×</button>
+        <h3 id="mp-pay-h">Pagamento</h3>
+        <p className="ps-mp-small">Plano {plan.name} · pagamento seguro processado pelo Mercado Pago</p>
+        {inner}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ export default function PlansPreview() {
                   {p.total && <p className="ps-total">{p.total}</p>}
                   {p.perk && <p className="ps-perk">{p.perk}</p>}
                   <p className="ps-desc">{p.desc}</p>
-                  <a className="ps-pick" href={`/assinatura?plano=${p.id}#planos`}>Escolher</a>
+                  <a className="ps-pick" href={`/checkout?plano=${p.id}`}>Escolher</a>
                 </div>
               </article>
             ))}
