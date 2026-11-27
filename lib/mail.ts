@@ -2,7 +2,7 @@
 import publication from './publication.json';
 import { siteUrl } from './site';
 
-const FROM = 'The Sunday Magazine <ola@thesunday.com.br>';
+const FROM = 'The Sunday <ola@thesunday.com.br>';
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
 
 async function send(to: string, subject: string, html: string) {
@@ -17,36 +17,60 @@ async function send(to: string, subject: string, html: string) {
   return r.ok;
 }
 
-const shell = (body: string) => `<!doctype html><html><body style="margin:0;background:#f6f0e6;font-family:Helvetica,Arial,sans-serif;color:#2b2418">
-<div style="max-width:520px;margin:0 auto;padding:32px 20px">
-<p style="text-align:center;font-family:Georgia,serif;font-style:italic;font-size:30px;margin:0 0 24px">The Sunday</p>
-<div style="background:#fff;border-radius:16px;padding:28px 24px">${body}</div>
-<p style="text-align:center;font-size:12px;color:#8a7a6a;margin:20px 0 0">The Sunday Magazine · <a href="${siteUrl}" style="color:#8a7a6a">thesunday.com.br</a><br>Dúvidas? É só responder este e-mail.</p>
-</div></body></html>`;
+const IMG = `${siteUrl}/assets/email`;
+const SERIF = "'Cormorant Garamond',Georgia,'Times New Roman',serif";
+const SANS = "'DM Sans',Helvetica,Arial,sans-serif";
+const CREAM = '#f6efe4', INK = '#3b2a20', CHERRY = '#8e2b2b', MUTED = '#8a7a6a', SAGE = '#A3A983';
 
-const btn = (href: string, label: string) => `<p style="text-align:center;margin:24px 0 0"><a href="${href}" style="display:inline-block;background:#1f1a17;color:#fff;text-decoration:none;padding:14px 26px;border-radius:999px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:bold">${label}</a></p>`;
+/** The frame of every e-mail: script logo, an optional photo, the white card, and the footer. */
+const shell = (body: string, photo = false) => `<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light"><meta name="supported-color-schemes" content="light">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet"></head>
+<body style="margin:0;padding:0;background:${CREAM};color:${INK};font-family:${SANS};-webkit-font-smoothing:antialiased">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${CREAM}"><tr><td align="center" style="padding:28px 14px 36px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:540px">
+<tr><td align="center" style="padding:0 0 18px"><a href="${siteUrl}"><img src="${IMG}/logo.png" width="190" alt="The Sunday" style="display:block;width:190px;height:auto;border:0"></a></td></tr>
+<tr><td style="background:#ffffff;border-radius:18px;overflow:hidden">
+${photo ? `<img src="${IMG}/topo.jpg" width="540" alt="" style="display:block;width:100%;height:auto;border:0;border-radius:18px 18px 0 0">` : ''}
+<div style="padding:30px 26px 30px">${body}</div></td></tr>
+<tr><td align="center" style="padding:24px 10px 0;font-family:${SANS};font-size:12px;line-height:1.7;color:${MUTED}">
+<a href="${publication.contact.instagramUrl}" style="color:${INK};text-decoration:none;font-weight:600">Instagram</a> &nbsp;·&nbsp;
+<a href="https://wa.me/5581992300380" style="color:${INK};text-decoration:none;font-weight:600">WhatsApp</a> &nbsp;·&nbsp;
+<a href="${siteUrl}/newsletter" style="color:${INK};text-decoration:none;font-weight:600">Newsletter</a><br>
+The Sunday Magazine · histórias para mulheres curiosas<br>Dúvidas? É só responder este e-mail.</td></tr>
+</table></td></tr></table></body></html>`;
+
+const kicker = (t: string) => `<p style="margin:0 0 10px;font-family:${SANS};font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:${CHERRY}">${t}</p>`;
+const title = (t: string) => `<h1 style="margin:0 0 14px;font-family:${SERIF};font-style:italic;font-weight:500;font-size:32px;line-height:1.1;color:${INK}">${t}</h1>`;
+const para = (t: string) => `<p style="margin:0 0 16px;font-family:${SANS};font-size:15px;line-height:1.65;color:#5e4f42">${t}</p>`;
+const btn = (href: string, label: string) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 0"><tr><td align="center" style="border-radius:999px;background:#1f1a17"><a href="${href}" style="display:block;padding:15px 22px;font-family:${SANS};font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#ffffff;text-decoration:none">${label}</a></td></tr></table>`;
+const tags = (list: string[]) => `<p style="margin:4px 0 0;line-height:2.4">${list.map((t) => `<span style="display:inline-block;margin:0 4px 0 0;padding:5px 12px;border-radius:999px;background:${SAGE};font-family:${SANS};font-size:12px;color:#2b2418;line-height:1.4">${t}</span>`).join('')}</p>`;
+const rows = (r: [string, string][]) => `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 0;border-top:1px solid #efe6da">${r.map(([k, v]) => `<tr><td style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${MUTED}">${k}</td><td align="right" style="padding:11px 0 0;font-family:${SANS};font-size:14px;color:${INK}">${v}</td></tr>`).join('')}</table>`;
 
 /** "Thank you for subscribing", sent once, when the order is first marked paid. */
 export async function sendPaidEmail(o: { nome: string; email: string; plano: string; total: string }) {
   const first = esc((o.nome || '').trim().split(/\s+/)[0] || '');
-  const next = publication.nextEdition;
+  const name = first ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase() : '';
+  const month = esc(publication.nextEdition.month);
   const html = shell(`
-<p style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8e2b2b;font-weight:bold;margin:0 0 10px">Assinatura confirmada</p>
-<h1 style="font-family:Georgia,serif;font-style:italic;font-weight:normal;font-size:28px;line-height:1.15;margin:0 0 14px">${first ? `${first}, que alegria` : 'Que alegria'} ter você na nossa mesa!</h1>
-<p style="font-size:15px;line-height:1.6;margin:0 0 18px">Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b>${esc(next.month)}</b> chega na sua casa em breve, com jogos, a surpresa do mês e conteúdos exclusivos para ler sem tela.</p>
-<table style="width:100%;font-size:14px;border-top:1px solid #eee;padding-top:12px">
-<tr><td style="color:#8a7a6a;padding:4px 0">Plano</td><td style="text-align:right">${esc(o.plano)}</td></tr>
-<tr><td style="color:#8a7a6a;padding:4px 0">Total</td><td style="text-align:right"><b>${esc(o.total)}</b></td></tr></table>
-${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}`);
+${kicker('Assinatura confirmada ✦')}
+${title(`${name ? `${name}, que alegria` : 'Que alegria'} ter você na nossa mesa!`)}
+${para(`Recebemos o seu pagamento e a sua assinatura da The Sunday está feita. A edição de <b style="color:${CHERRY}">${month}</b> chega na sua casa em breve.`)}
+<p style="margin:18px 0 4px;font-family:${SANS};font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:${MUTED}">O que vem na sua revista</p>
+${tags(['Conteúdos exclusivos', 'Jogos', 'Surpresa do mês', 'Adesivos', 'Marcador'])}
+${rows([['Plano', esc(o.plano)], ['Total', `<b>${esc(o.total)}</b>`]])}
+${btn(`${siteUrl}/minha-assinatura`, 'Ver minha assinatura')}
+<p style="margin:18px 0 0;text-align:center;font-family:${SERIF};font-style:italic;font-size:17px;color:${MUTED}">Com carinho, Ana & Amanda</p>`, true);
   return send(o.email, 'Sua assinatura da The Sunday está confirmada ✦', html);
 }
 
 /** The sign-in link for the subscriber area. */
 export async function sendLoginEmail(email: string, link: string) {
   const html = shell(`
-<h1 style="font-family:Georgia,serif;font-style:italic;font-weight:normal;font-size:26px;margin:0 0 12px">Seu acesso à sua assinatura</h1>
-<p style="font-size:15px;line-height:1.6;margin:0">Toque no botão para ver o seu plano, o status da sua revista e o seu endereço de entrega. O link vale por 1 hora.</p>
+${kicker('Área da assinante')}
+${title('Seu acesso à sua assinatura')}
+${para('Toque no botão para ver o seu plano, quando chega a sua revista e o seu endereço de entrega. O link vale por 1 hora.')}
 ${btn(link, 'Entrar na minha assinatura')}
-<p style="font-size:12px;color:#8a7a6a;margin:18px 0 0">Se não foi você que pediu, pode ignorar este e-mail.</p>`);
+<p style="margin:18px 0 0;font-family:${SANS};font-size:12px;line-height:1.6;color:${MUTED}">Se não foi você que pediu, pode ignorar este e-mail.</p>`);
   return send(email, 'Seu link de acesso · The Sunday', html);
 }
