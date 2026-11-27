@@ -2032,3 +2032,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 .tx-foot { margin: 18px 0 0; font-size: 13px; line-height: 1.55; color: #8a7a6a; text-align: center; }
 .tx-foot a { color: var(--ink); }
 @media (max-width: 760px) { .tx-card { margin: -60px 16px 0; padding: 24px 18px 20px; } }
+
+.ac-list { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 6px; font-size: 15px; color: var(--ink); }
+.ac-list li { position: relative; padding-left: 18px; }
+.ac-list li::before { content: '✦'; position: absolute; left: 0; top: 1px; font-size: 11px; color: #9a6c45; }
