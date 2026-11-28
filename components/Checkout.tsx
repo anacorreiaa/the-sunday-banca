@@ -194,6 +194,7 @@ export default function Checkout({ plan, fixedFrete }: { plan: Plan; fixedFrete:
               onClose={closePay}
             />
           )}
+          {plan.billing === 'monthly' && <p className="co-note">No cartão, a assinatura renova sozinha todo mês. No Pix, você paga este mês e a gente te avisa quando for a hora do próximo.</p>}
           <p className="co-safe">🔒 Pagamento seguro processado pelo Mercado Pago. Os dados do cartão não passam pelo nosso site.</p>
         </div>
       </section>

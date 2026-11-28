@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto';
 import { plansNow } from '@/lib/promo';
 import { markPaid, isOrderId, setMpId } from '@/lib/orders';
 import { trustedOrigin } from '../recommend/route';
+import publication from '@/lib/publication.json';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -44,7 +45,8 @@ export async function POST(req: NextRequest) {
   if (deviceId) headers['X-meli-session-id'] = deviceId;
 
   try {
-    if (plan.billing === 'monthly') {
+    const monthlyPix = plan.billing === 'monthly' && fd.payment_method_id === 'pix';
+    if (plan.billing === 'monthly' && !monthlyPix) {
       const preapproval_plan_id = planIdOf(plan.checkoutUrl);
       if (!preapproval_plan_id || !fd.token) return json(400, { ok: false });
       const r = await fetch(`${MP}/preapproval`, {
@@ -60,8 +62,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Six and twelve months: one order (Mercado Pago "Orders" API), card up to 12x or Pix.
-    const amount = (Math.round(plan.amount * plan.cycles * 100) / 100).toFixed(2);
-    const title = `The Sunday Magazine · Assinatura ${plan.name.toLowerCase()}`;
+    // Monthly by Pix pays one month (magazine + shipping); the others pay all their editions at once.
+    const amount = (Math.round((monthlyPix ? plan.amount + publication.shipping.fixed : plan.amount * plan.cycles) * 100) / 100).toFixed(2);
+    const title = monthlyPix ? 'The Sunday Magazine · Assinatura mensal (1 mês no Pix)' : `The Sunday Magazine · Assinatura ${plan.name.toLowerCase()}`;
     const ident = (payerIn.identification as Record<string, unknown>) || {};
     const address = { zip_code: zip, street_name: s(by.rua), street_number: s(by.numero, 20), neighborhood: s(by.bairro, 80), city: s(by.cidade, 80), state: s(by.uf, 2).toUpperCase(), complement: s(by.complemento, 80) || undefined };
     const pix = fd.payment_method_id === 'pix';
@@ -81,7 +84,7 @@ export async function POST(req: NextRequest) {
         address,
       },
       shipment: { address },
-      items: [{ title, description: `${plan.cycles} edições da revista impressa`, category_id: 'others', quantity: 1, unit_price: amount, external_code: plan.id }],
+      items: [{ title, description: monthlyPix ? '1 edição da revista impressa' : `${plan.cycles} edições da revista impressa`, category_id: 'others', quantity: 1, unit_price: amount, external_code: plan.id }],
       transactions: {
         payments: [{
           amount,

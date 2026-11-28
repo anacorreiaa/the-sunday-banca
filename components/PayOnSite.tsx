@@ -27,7 +27,7 @@ const loadScript = (src: string, attrs: Record<string, string> = {}) => new Prom
 
 // Plain-language reasons for the refusals people actually hit.
 const why = (detail: string) => {
-  if (/high_risk|blacklist|other_reason/.test(detail)) return 'O Mercado Pago não aprovou este cartão por segurança. Tente outro cartão, ou pague no Pix se o seu plano permitir.';
+  if (/high_risk|blacklist|other_reason/.test(detail)) return 'O Mercado Pago não aprovou este cartão por segurança. Escolha Pix acima para pagar agora, ou tente outro cartão.';
   if (/insufficient_amount/.test(detail)) return 'O cartão não tem limite para este valor. Tente outro cartão ou menos parcelas.';
   if (/call_for_authorize/.test(detail)) return 'O seu banco pediu para você autorizar a compra. Libere no app do banco e tente de novo.';
   if (/bad_filled/.test(detail)) return 'Algum dado do cartão está errado. Confira número, validade e código de segurança.';
@@ -63,7 +63,7 @@ export default function PayOnSite({ inline, publicKey, plan, total, email, order
           initialization: { amount: total, payer: { email, firstName: first || '', lastName: rest.join(' ') } },
           customization: {
             paymentMethods: monthly
-              ? { creditCard: 'all', maxInstallments: 1 }
+              ? { creditCard: 'all', bankTransfer: ['pix'], maxInstallments: 1 }
               : { creditCard: 'all', bankTransfer: ['pix'], maxInstallments: 12 },
             visual: { style: { theme: 'default', customVariables: { baseColor: '#8e2b2b', borderRadiusFull: '2px', borderRadiusLarge: '2px', borderRadiusMedium: '2px', borderRadiusSmall: '2px' } } },
           },
